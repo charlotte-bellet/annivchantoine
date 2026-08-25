@@ -1,6 +1,6 @@
 <title>Anniv Charlotte &amp; Antoine</title>
 <div id="app"></div>
-<script type="application/json" id="state">{"guests":[{"id":"9989c605-c089-4cf7-a33d-c0702dc6fe36","name":"Charlotte B","camp":"charlotte","status":"peutetre"},{"id":"3d5a5d6a-7aa9-48cc-885b-52e671bfaa76","name":"Antoine B","camp":"antoine","status":"oui"}],"adminHash":"7201071f636b8d7a7999d358e018fe7ac891685d8ffe3f336e1e8541c09acd58","updated":"2026-08-25T14:39:54.305Z"}</script>
+<script type="application/json" id="state">{"guests":[{"id":"9989c605-c089-4cf7-a33d-c0702dc6fe36","name":"Charlotte B","camp":"charlotte","status":"oui"},{"id":"3d5a5d6a-7aa9-48cc-885b-52e671bfaa76","name":"Antoine B","camp":"antoine","status":"oui"}],"adminHash":"7201071f636b8d7a7999d358e018fe7ac891685d8ffe3f336e1e8541c09acd58","updated":"2026-08-25T14:56:42.138Z"}</script>
 <script>
 "use strict";
 const SRC = document.currentScript.textContent;
@@ -361,13 +361,14 @@ async function save(mutate) {
     saving = false;
     hideOverlay();
     state = readState();
+    if (meId && !state.guests.some(function (x) { return x.id === meId; })) setMe(null);
     const c2 = err && err.code;
     if (c2 === "conflict") { overlay("Quelqu'un vient de modifier la liste — rechargement…"); return; }
     if (c2 === "not_writer" || c2 === "not_granted" || c2 === "not_declared" ||
         c2 === "consent_required" || c2 === "capability_disabled" || c2 === "capability_removed") {
       readOnly = true;
       render();
-      toast("Ce lien est en lecture seule : demande à Charlotte d'ouvrir l'édition dans le partage.");
+      toast("Réponse non enregistrée : connecte-toi à claude.ai (gratuit) puis réessaie — ou envoie ta réponse dans le groupe WhatsApp.");
     } else if (c2 === "rate_limited") {
       render();
       toast("Trop de modifications d'un coup — attends quelques secondes et réessaie.");
@@ -541,7 +542,7 @@ function render() {
   html += "</header>";
 
   if (readOnly) {
-    html += '<p class="banner">Lecture seule — ce lien ne permet pas d’enregistrer de réponse.</p>';
+    html += '<p class="banner">Impossible d’enregistrer depuis cet appareil : connecte-toi à claude.ai (gratuit, bouton en haut de la page) puis recharge — ou envoie simplement ta réponse dans le groupe WhatsApp, les organisateurs la noteront.</p>';
   } else if (isAdmin) {
     html += '<p class="banner admin">Mode organisateurs actif — tu peux tout modifier depuis l’onglet « La liste ».</p>';
   }
@@ -752,7 +753,6 @@ document.getElementById("app").addEventListener("submit", function (ev) {
     const newId = uid();
     setMe(newId);
     const camp = joinCamp;
-    joinName = "";
     save(function (next) {
       next.guests.push({ id: newId, name: name, camp: camp, status: "oui" });
     });
