@@ -10,6 +10,7 @@
   --terra:#D97757; --blue:#6A9BCC; --rose:#C46686;
   --ink:#141413; --cream:#FAF9F5; --muted:#73726C; --body:#3D3D3A;
   --line:rgba(31,30,29,.15); --line2:rgba(31,30,29,.3);
+  --st-oui:#3E8F5F; --st-peutetre:#D3941F; --st-non:#9C9A92;
 }
 html{-webkit-text-size-adjust:100%}
 body{background:var(--terra);color:var(--ink);line-height:1.4;min-height:100vh;
@@ -61,6 +62,9 @@ button{cursor:pointer;border:none;background:none}
 .opt[aria-pressed=true] .s{color:rgba(250,249,245,.7)}
 .opt[aria-pressed=true] .ring{border-color:var(--cream)}
 .opt[aria-pressed=true] .dot{opacity:1}
+.opt[data-status=oui][aria-pressed=true] .dot{background:var(--st-oui)}
+.opt[data-status=peutetre][aria-pressed=true] .dot{background:var(--st-peutetre)}
+.opt[data-status=non][aria-pressed=true] .dot{background:var(--st-non)}
 
 .plusrow{display:flex;align-items:center;gap:12px;margin-top:24px;padding:0 2px}
 .plusrow .col{flex:1;display:flex;flex-direction:column;gap:2px}
@@ -96,6 +100,13 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .row .who{flex:1;min-width:120px;display:flex;flex-direction:column}
 .row .nm{font-size:16px;font-weight:450;overflow-wrap:anywhere}
 .row .mt{font-size:13px;color:var(--muted)}
+.stdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:0.5px}
+.stw{font-weight:500}
+.st-oui .stdot{background:var(--st-oui)} .st-oui .stw{color:var(--st-oui)}
+.st-peutetre .stdot{background:var(--st-peutetre)} .st-peutetre .stw{color:var(--st-peutetre)}
+.st-non .stdot{background:var(--st-non)} .st-non .stw{color:var(--st-non)}
+.fdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:0.5px}
+.filters button[aria-pressed=true] .fdot{outline:2px solid rgba(250,249,245,.4)}
 .pluspill{font-size:13px;font-weight:500;padding:4px 9px;border-radius:9999px;flex:none}
 .empty{padding:24px 0;color:var(--muted);font-size:15px}
 
@@ -388,10 +399,11 @@ function renderList() {
   var html = '<section class="sheet sheet-cream"><div class="in">';
   html += '<h2 class="stitle">Qui vient</h2>';
   html += '<div class="filters" role="group" aria-label="Filtrer">';
-  [["tous", "Tous " + state.guests.length], ["oui", "Oui " + c.oui],
-   ["peutetre", "Peut-être " + c.peutetre], ["non", "Non " + c.non]].forEach(function (f) {
+  [["tous", "", "Tous " + state.guests.length], ["oui", "oui", "Oui " + c.oui],
+   ["peutetre", "peutetre", "Peut-être " + c.peutetre], ["non", "non", "Non " + c.non]].forEach(function (f) {
+    var dot = f[1] ? '<span class="fdot" style="background:var(--st-' + f[1] + ')"></span>' : "";
     html += '<button type="button" data-act="filter" data-filter="' + f[0] +
-      '" aria-pressed="' + (filter === f[0]) + '">' + f[1] + "</button>";
+      '" aria-pressed="' + (filter === f[0]) + '">' + dot + f[2] + "</button>";
   });
   html += "</div>";
 
@@ -419,7 +431,8 @@ function renderList() {
       } else {
         html += '<span class="av" style="background:' + team.av + '">' + esc(initials(g.name)) + "</span>";
         html += '<div class="who"><span class="nm">' + esc(g.name) + (g.id === meId ? " (toi)" : "") + "</span>" +
-          '<span class="mt">' + team.label + " · " + STATUS_WORD[g.status] + "</span></div>";
+          '<span class="mt">' + team.label + ' · <span class="st-' + g.status + '"><span class="stdot"></span>' +
+          '<span class="stw">' + STATUS_WORD[g.status] + "</span></span></span></div>";
         if (g.plus > 0) {
           html += '<span class="pluspill" style="background:' + team.av + '">+' + g.plus + "</span>";
         }
