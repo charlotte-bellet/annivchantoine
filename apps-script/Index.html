@@ -4,176 +4,155 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Anniv Charlotte &amp; Antoine</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Figtree:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Nunito:wght@400;600;700;800&display=swap">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#FBF2EA; --card:#FFFFFF; --ink:#3A2430; --muted:#97707F;
-  --line:#EEDCD2; --accent:#CE4877; --accent-ink:#FFFFFF;
-  --charlotte:#CE4877; --antoine:#3B7FA8; --deux:#8A63B8;
-  --ok:#2F8F5B; --maybe:#B57A15; --off:#9C8F96;
-  --chip:#F6E7DC; --danger:#B4373C;
-  --shadow:0 1px 2px rgba(58,36,48,.06),0 10px 28px rgba(58,36,48,.08);
+  --bg:#FFF6EC; --card:#FFFFFF; --ink:#463A4B; --muted:#9A8AA0;
+  --line:#F3E4DC; --accent:#F4578C; --accent-soft:#FFE9F0;
+  --charlotte:#F4578C; --antoine:#4FA3D9; --deux:#9B7EDB;
+  --ok:#2FA96C; --ok-soft:#E2F6EB; --maybe:#E8960C; --maybe-soft:#FFF3DC;
+  --off:#9A8AA0; --off-soft:#F1EDF3; --danger:#E0526B;
+  --shadow:0 6px 24px rgba(90,60,80,.08);
 }
 @media (prefers-color-scheme: dark){
   :root{
-    --bg:#241922; --card:#31222E; --ink:#F6EAEF; --muted:#C29DAD;
-    --line:#4A3543; --accent:#E76F9B; --accent-ink:#2A1017;
-    --charlotte:#E76F9B; --antoine:#6FB2D8; --deux:#B18BE0;
-    --ok:#5CBE87; --maybe:#E0B15C; --off:#8D8089;
-    --chip:#3D2C3A; --danger:#E4737A;
-    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px rgba(0,0,0,.35);
+    --bg:#2A2230; --card:#372C3E; --ink:#F7EFF4; --muted:#BCA8C4;
+    --line:#4C3E55; --accent:#FF7FA6; --accent-soft:#4A3341;
+    --charlotte:#FF7FA6; --antoine:#77BCE8; --deux:#B79AE8;
+    --ok:#5ECD92; --ok-soft:#2F4237; --maybe:#F0B457; --maybe-soft:#4A3D2B;
+    --off:#BCA8C4; --off-soft:#443A4B; --danger:#F08498;
+    --shadow:0 6px 24px rgba(0,0,0,.3);
   }
 }
 html{-webkit-text-size-adjust:100%}
-body{background:var(--bg);color:var(--ink);font-family:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.45;min-height:100vh}
-body::before{content:"";position:fixed;top:0;left:0;right:0;height:6px;z-index:20;
-  background:repeating-linear-gradient(90deg,var(--charlotte) 0 44px,var(--deux) 44px 88px,var(--antoine) 88px 132px)}
+body{background:var(--bg);color:var(--ink);line-height:1.5;min-height:100vh;
+  font-family:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif}
 button,input{font:inherit;color:inherit}
 button{cursor:pointer;border:none;background:none}
-:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
 @media (prefers-reduced-motion: reduce){*{transition:none !important;animation:none !important}}
 
-.wrap{max-width:560px;margin:0 auto;padding:34px 18px 60px}
-.hero{text-align:center;margin-bottom:22px}
-.eyebrow{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;
-  font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:.78rem;color:var(--muted)}
-.jchip{background:var(--chip);color:var(--ink);border-radius:999px;padding:2px 10px;letter-spacing:.04em}
-.hero h1{font-family:"Baloo 2","Figtree",system-ui,sans-serif;font-weight:800;
-  font-size:clamp(2rem,8vw,2.7rem);line-height:1.08;margin-top:8px}
-.hero .amp{color:var(--accent);font-style:italic}
-.hero .sub{margin-top:10px;color:var(--muted);font-size:.95rem;max-width:42ch;margin-left:auto;margin-right:auto}
+.wrap{max-width:520px;margin:0 auto;padding:30px 16px 56px}
+.hero{text-align:center;margin-bottom:20px}
+.cake{font-size:3rem;line-height:1}
+.hero h1{font-family:"Baloo 2","Nunito",system-ui,sans-serif;font-weight:800;
+  font-size:clamp(1.8rem,7.5vw,2.4rem);line-height:1.1;margin-top:4px}
+.hero .date{margin-top:4px;font-weight:800;color:var(--accent);font-size:1.05rem}
+.hero .jj{color:var(--muted);font-weight:600;font-size:.9rem}
 
-.banner{background:var(--chip);border:1px solid var(--line);border-radius:12px;
-  padding:10px 14px;font-size:.9rem;margin-bottom:16px;text-align:center}
-.banner.admin{border-color:var(--accent);color:var(--accent);font-weight:600}
+.card{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:20px;margin-bottom:20px}
+.cardtitle{font-family:"Baloo 2","Nunito",sans-serif;font-weight:800;font-size:1.3rem;margin-bottom:12px}
 
-.stats{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:18px}
-.stat{display:flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--line);
-  border-radius:999px;padding:5px 12px;font-size:.85rem;font-weight:600;box-shadow:var(--shadow)}
-.stat b{font-variant-numeric:tabular-nums}
-.dot{width:9px;height:9px;border-radius:50%;flex:none}
-.dot-ok{background:var(--ok)} .dot-maybe{background:var(--maybe)} .dot-off{background:var(--off)}
-.dot-charlotte{background:var(--charlotte)} .dot-antoine{background:var(--antoine)}
+.hello{font-family:"Baloo 2","Nunito",sans-serif;font-weight:800;font-size:1.5rem;overflow-wrap:anywhere}
+.team{color:var(--muted);font-weight:700;font-size:.9rem;margin-top:2px}
+.team.c-charlotte{color:var(--charlotte)} .team.c-antoine{color:var(--antoine)} .team.c-deux{color:var(--deux)}
+.question{font-weight:800;margin:16px 0 10px}
 
-.tabs{display:flex;background:var(--card);border:1px solid var(--line);border-radius:999px;
-  padding:4px;margin-bottom:18px;box-shadow:var(--shadow)}
-.tabs button{flex:1;border-radius:999px;padding:8px 6px;font-weight:700;color:var(--muted);
-  font-family:"Baloo 2","Figtree",sans-serif;font-size:1rem;transition:background .15s,color .15s}
-.tabs button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink)}
+input[type=text],input[type=password]{width:100%;border:2px solid var(--line);border-radius:16px;
+  padding:13px 16px;background:var(--bg);font-weight:700}
+input::placeholder{color:var(--muted);opacity:.8;font-weight:600}
+input:focus{border-color:var(--accent);outline:none}
+.hint{color:var(--muted);font-size:.9rem;margin-top:10px}
 
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chips button{background:var(--accent-soft);color:var(--accent);border-radius:999px;
+  padding:10px 18px;font-weight:800;transition:transform .1s}
+.chips button:active{transform:scale(.96)}
+.chiplabel{font-weight:800;margin-top:14px}
 
-.mecard{padding:18px;display:flex;flex-direction:column;gap:14px;margin-bottom:22px}
-.melabel{font-size:.8rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
-.mename{font-family:"Baloo 2","Figtree",sans-serif;font-size:1.55rem;font-weight:800;line-height:1.1;overflow-wrap:anywhere}
-.mecamp{font-size:.85rem;font-weight:600;margin-top:2px}
-.mecamp.c-charlotte{color:var(--charlotte)} .mecamp.c-antoine{color:var(--antoine)} .mecamp.c-deux{color:var(--deux)}
-.bigseg{display:flex;flex-direction:column;gap:8px}
-@media (min-width:480px){.bigseg{flex-direction:row}.bigseg button{flex:1}}
-.bigseg button{border:1.5px solid var(--line);border-radius:12px;padding:12px;font-weight:700;
-  font-size:1rem;background:var(--bg);transition:background .15s,border-color .15s}
-.bigseg .b-oui[aria-pressed=true]{background:var(--ok);border-color:var(--ok);color:#fff}
-.bigseg .b-peutetre[aria-pressed=true]{background:var(--maybe);border-color:var(--maybe);color:#fff}
-.bigseg .b-non[aria-pressed=true]{background:var(--off);border-color:var(--off);color:#fff}
-.linkbtn{align-self:center;color:var(--muted);font-size:.85rem;text-decoration:underline;padding:4px}
-.mecard input[type=text]{width:100%;border:1.5px solid var(--line);border-radius:10px;
-  padding:10px 12px;background:var(--bg)}
-.mecard input[type=text]::placeholder{color:var(--muted);opacity:.8}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chips button{border:1.5px solid var(--line);background:var(--bg);border-radius:999px;
-  padding:7px 14px;font-weight:600;transition:border-color .15s,color .15s}
-.chips button:hover{border-color:var(--accent);color:var(--accent)}
-.hint{color:var(--muted);font-size:.85rem;margin-top:8px}
-.joinnew{display:flex;flex-direction:column;gap:10px;border-top:1px dashed var(--line);padding-top:14px}
-.joinnew .go,.add .go{background:var(--accent);color:var(--accent-ink);border-radius:12px;
-  padding:11px;font-family:"Baloo 2","Figtree",sans-serif;font-weight:700;font-size:1.02rem;transition:filter .15s}
-.joinnew .go:hover,.add .go:hover{filter:brightness(1.07)}
+.big{display:flex;flex-direction:column;gap:10px}
+@media (min-width:460px){.big{flex-direction:row}.big button{flex:1}}
+.big button{border-radius:18px;padding:15px 12px;font-weight:800;font-size:1.05rem;
+  background:var(--bg);border:2px solid var(--line);transition:transform .1s,background .15s,border-color .15s}
+.big button:active{transform:scale(.97)}
+.big .b-oui[aria-pressed=true]{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.big .b-peutetre[aria-pressed=true]{background:var(--maybe-soft);border-color:var(--maybe);color:var(--maybe)}
+.big .b-non[aria-pressed=true]{background:var(--off-soft);border-color:var(--off);color:var(--off)}
+
+.teamseg{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.teamseg button{flex:1;min-width:96px;border-radius:14px;padding:10px 6px;font-weight:800;
+  font-size:.92rem;background:var(--bg);border:2px solid var(--line)}
+.teamseg .c-charlotte[aria-pressed=true]{color:var(--charlotte);border-color:var(--charlotte)}
+.teamseg .c-antoine[aria-pressed=true]{color:var(--antoine);border-color:var(--antoine)}
+.teamseg .c-deux[aria-pressed=true]{color:var(--deux);border-color:var(--deux)}
+
+.go{width:100%;margin-top:14px;background:var(--accent);color:#fff;border-radius:18px;
+  padding:15px;font-family:"Baloo 2","Nunito",sans-serif;font-weight:800;font-size:1.15rem;
+  transition:transform .1s,filter .15s}
+.go:hover{filter:brightness(1.06)}
+.go:active{transform:scale(.98)}
 button:disabled{opacity:.5;cursor:not-allowed}
+.linkbtn{display:block;margin:14px auto 0;color:var(--muted);font-size:.9rem;
+  font-weight:700;text-decoration:underline;padding:4px}
 
-.add{padding:16px;margin-bottom:22px}
-.add label{display:block;font-size:.8rem;font-weight:700;letter-spacing:.05em;
-  text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-.add input[type=text]{width:100%;border:1.5px solid var(--line);border-radius:10px;
-  padding:10px 12px;background:var(--bg)}
-.add input[type=text]::placeholder{color:var(--muted);opacity:.8}
-.campseg{display:flex;gap:6px;flex-wrap:wrap}
-.add .campseg{margin-top:12px}
-.add .go{width:100%;margin-top:12px}
-.campseg button{flex:1;min-width:100px;border:1.5px solid var(--line);border-radius:10px;
-  padding:8px 6px;font-size:.88rem;font-weight:600;background:var(--bg);transition:background .15s,border-color .15s}
-.campseg button[aria-pressed=true]{border-color:currentColor}
-.campseg .c-charlotte[aria-pressed=true]{color:var(--charlotte);background:var(--chip)}
-.campseg .c-antoine[aria-pressed=true]{color:var(--antoine);background:var(--chip)}
-.campseg .c-deux[aria-pressed=true]{color:var(--deux);background:var(--chip)}
+.listhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.listhead h2{font-family:"Baloo 2","Nunito",sans-serif;font-weight:800;font-size:1.3rem}
+.listhead span{color:var(--muted);font-weight:700;font-size:.9rem}
+.moodline{color:var(--muted);font-weight:700;font-size:.92rem;margin-bottom:12px}
+.guests{list-style:none;display:flex;flex-direction:column}
+.guest{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 4px;border-top:2px solid var(--line)}
+.gwho{flex:1;min-width:120px}
+.gname{font-weight:800;overflow-wrap:anywhere}
+.gteam{font-size:.8rem;font-weight:700;color:var(--muted)}
+.gteam.c-charlotte{color:var(--charlotte)} .gteam.c-antoine{color:var(--antoine)} .gteam.c-deux{color:var(--deux)}
+.mood{font-weight:800;font-size:.95rem}
+.mood.p-oui{color:var(--ok)} .mood.p-peutetre{color:var(--maybe)} .mood.p-non{color:var(--off)}
+.empty{text-align:center;color:var(--muted);padding:20px;font-weight:700}
 
-.listhead{display:flex;justify-content:space-between;align-items:baseline;margin:0 4px 8px}
-.listhead h2{font-family:"Baloo 2","Figtree",sans-serif;font-weight:700;font-size:1.15rem}
-.listhead span{color:var(--muted);font-size:.85rem;font-variant-numeric:tabular-nums}
-.guests{list-style:none;display:flex;flex-direction:column;gap:8px}
-.guest{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:11px 14px}
-.gwho{flex:1;min-width:130px}
-.gname{font-weight:700;overflow-wrap:anywhere}
-.gcamp{font-size:.78rem;font-weight:600}
-.gcamp.c-charlotte{color:var(--charlotte)} .gcamp.c-antoine{color:var(--antoine)} .gcamp.c-deux{color:var(--deux)}
-.pill{display:flex;align-items:center;gap:7px;font-size:.85rem;font-weight:700}
-.pill.p-oui{color:var(--ok)} .pill.p-peutetre{color:var(--maybe)} .pill.p-non{color:var(--off)}
-.seg{display:flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden}
-.seg button{padding:5px 10px;font-size:.8rem;font-weight:600;color:var(--muted);background:transparent}
-.seg button + button{border-left:1.5px solid var(--line)}
-.seg button[aria-pressed=true]{color:#fff}
-.seg .s-oui[aria-pressed=true]{background:var(--ok)}
-.seg .s-peutetre[aria-pressed=true]{background:var(--maybe)}
-.seg .s-non[aria-pressed=true]{background:var(--off)}
+.seg{display:flex;border:2px solid var(--line);border-radius:999px;overflow:hidden}
+.seg button{padding:6px 10px;font-size:.82rem;font-weight:800;color:var(--muted)}
+.seg button + button{border-left:2px solid var(--line)}
+.seg .s-oui[aria-pressed=true]{background:var(--ok);color:#fff}
+.seg .s-peutetre[aria-pressed=true]{background:var(--maybe);color:#fff}
+.seg .s-non[aria-pressed=true]{background:var(--off);color:#fff}
 .gtools{display:flex;gap:2px}
-.gtools button{color:var(--muted);border-radius:8px;padding:4px 7px;font-size:.95rem;line-height:1}
-.gtools button:hover{color:var(--ink);background:var(--chip)}
-.gtools .armed{color:var(--danger);font-size:.78rem;font-weight:700}
+.gtools button{color:var(--muted);border-radius:10px;padding:5px 8px;font-size:1rem;line-height:1}
+.gtools .armed{color:var(--danger);font-size:.8rem;font-weight:800}
 .editrow{display:flex;gap:6px;flex:1;min-width:200px}
-.editrow input{flex:1;border:1.5px solid var(--accent);border-radius:8px;padding:6px 10px;background:var(--bg);min-width:0}
-.editrow button{border-radius:8px;padding:6px 10px;font-size:.85rem;font-weight:700}
-.editrow .ok{background:var(--accent);color:var(--accent-ink)}
+.editrow input{flex:1;min-width:0;padding:9px 12px;border-radius:12px}
+.editrow button{border-radius:12px;padding:8px 12px;font-weight:800}
+.editrow .ok{background:var(--accent);color:#fff}
 .editrow .no{color:var(--muted)}
-.empty{text-align:center;color:var(--muted);padding:34px 20px;font-size:.95rem}
-.empty b{display:block;font-family:"Baloo 2","Figtree",sans-serif;font-size:1.15rem;color:var(--ink);margin-bottom:4px}
+.addform{margin-bottom:16px;padding-bottom:16px;border-bottom:2px dashed var(--line)}
 
-.foot{margin-top:26px;text-align:center;color:var(--muted);font-size:.82rem;display:flex;flex-direction:column;gap:6px;align-items:center}
-.foot .orga{color:var(--muted);font-size:.8rem;text-decoration:underline;padding:4px}
-.adminbox{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;background:var(--card);
-  border:1px solid var(--line);border-radius:12px;padding:10px;box-shadow:var(--shadow);max-width:100%}
-.adminbox input{border:1.5px solid var(--line);border-radius:8px;padding:7px 10px;background:var(--bg);min-width:0;width:180px}
-.adminbox button{background:var(--accent);color:var(--accent-ink);border-radius:8px;padding:7px 12px;font-weight:700}
-.adminbox .quiet{background:none;color:var(--muted);font-weight:600}
+.foot{margin-top:24px;text-align:center;color:var(--muted);font-size:.85rem;
+  font-weight:600;display:flex;flex-direction:column;gap:8px;align-items:center}
+.orga{color:var(--muted);font-size:.82rem;font-weight:700;text-decoration:underline;padding:4px}
+.adminbox{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;background:var(--card);
+  border-radius:18px;padding:12px;box-shadow:var(--shadow);max-width:100%}
+.adminbox input{width:190px;padding:9px 12px;border-radius:12px}
+.adminbox button{background:var(--accent);color:#fff;border-radius:12px;padding:9px 14px;font-weight:800}
+.adminbox .quiet{background:none;color:var(--muted)}
 
-.overlay{position:fixed;inset:0;background:rgba(30,15,25,.45);display:flex;
+.overlay{position:fixed;inset:0;background:rgba(50,30,45,.4);display:flex;
   align-items:center;justify-content:center;z-index:50}
-.overlay div{background:var(--card);color:var(--ink);border-radius:14px;padding:16px 24px;
-  font-weight:700;box-shadow:var(--shadow)}
+.overlay div{background:var(--card);color:var(--ink);border-radius:18px;padding:16px 26px;
+  font-weight:800;box-shadow:var(--shadow)}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:60;
-  background:var(--ink);color:var(--bg);border-radius:12px;padding:10px 18px;
-  font-size:.9rem;font-weight:600;box-shadow:var(--shadow);max-width:92vw;text-align:center}
-.loading{text-align:center;color:var(--muted);padding:60px 20px;font-weight:600}
+  background:var(--ink);color:var(--bg);border-radius:16px;padding:12px 20px;
+  font-size:.95rem;font-weight:800;box-shadow:var(--shadow);max-width:92vw;text-align:center}
+.loading{text-align:center;color:var(--muted);padding:70px 20px;font-weight:800}
 </style>
 </head>
 <body>
-<div id="app"><p class="loading">Chargement de la liste…</p></div>
+<div id="app"><p class="loading">🎈 Chargement de la liste…</p></div>
 <script>
 "use strict";
 
-var PARTY = { y: 2026, m: 9, d: 17, label: "Samedi 17 octobre" };
-var CAMPS = {
-  charlotte: { short: "Copine/copain de Charlotte", cls: "c-charlotte" },
-  antoine:   { short: "Copine/copain d'Antoine",    cls: "c-antoine" },
-  deux:      { short: "Les deux",                   cls: "c-deux" }
+var PARTY = { y: 2026, m: 9, d: 17 };
+var TEAMS = {
+  charlotte: { label: "Team Charlotte", cls: "c-charlotte" },
+  antoine:   { label: "Team Antoine",   cls: "c-antoine" },
+  deux:      { label: "Les deux !",     cls: "c-deux" }
 };
-var STATUSES = { oui: "Oui", peutetre: "Peut-être", non: "Non" };
-var BIG_STATUSES = { oui: "Présent·e ✓", peutetre: "Peut-être", non: "Absent·e" };
-var PILLS = { oui: "Présent·e", peutetre: "Peut-être", non: "Absent·e" };
+var BIG = { oui: "🎉 Oui, je viens !", peutetre: "🤔 Peut-être", non: "😢 Je peux pas" };
+var MOODS = { oui: "🎉 Présent·e", peutetre: "🤔 Peut-être", non: "😢 Absent·e" };
+var SEG = { oui: "Oui", peutetre: "Peut-être", non: "Non" };
 
 var state = { guests: [], updated: "" };
 var loaded = false;
 var busy = false;
-var view = "moi";
 var isAdmin = false;
 var adminOpen = false;
 var adminCode = null;
@@ -261,12 +240,11 @@ function applyState(s) {
   render();
 }
 
-// Appelle le serveur, affiche l'attente, applique le nouvel état.
 function act(promiseFactory, waitMsg) {
   if (busy) return;
   busy = true;
   render();
-  overlay(waitMsg || "Enregistrement…");
+  overlay(waitMsg || "Une seconde… ✨");
   promiseFactory().then(function (result) {
     busy = false;
     hideOverlay();
@@ -280,27 +258,15 @@ function act(promiseFactory, waitMsg) {
     busy = false;
     hideOverlay();
     render();
-    toast((err && err.message ? err.message : "Ça n'a pas marché — réessaie.").replace(/^(Error|Exception):\s*/, ""));
+    toast((err && err.message ? err.message : "Oups, ça n'a pas marché — réessaie !").replace(/^(Error|Exception):\s*/, ""));
   });
 }
 
-function counts() {
-  var g = state.guests;
-  function n(f) { return g.filter(f).length; }
-  return {
-    oui: n(function (x) { return x.status === "oui"; }),
-    peutetre: n(function (x) { return x.status === "peutetre"; }),
-    charlotte: n(function (x) { return x.status !== "non" && (x.camp === "charlotte" || x.camp === "deux"); }),
-    antoine: n(function (x) { return x.status !== "non" && (x.camp === "antoine" || x.camp === "deux"); })
-  };
-}
-
-function campSegHtml(action, current) {
-  var html = '<div class="campseg" role="group" aria-label="Copain de qui ?">';
+function teamSegHtml(action, current) {
+  var html = '<div class="teamseg" role="group" aria-label="Tu es plutôt…">';
   ["charlotte", "antoine", "deux"].forEach(function (k) {
-    var lbl = k === "charlotte" ? "Charlotte" : k === "antoine" ? "Antoine" : "Les deux";
-    html += '<button type="button" class="' + CAMPS[k].cls + '" data-act="' + action +
-      '" data-camp="' + k + '" aria-pressed="' + (current === k) + '">' + lbl + "</button>";
+    html += '<button type="button" class="' + TEAMS[k].cls + '" data-act="' + action +
+      '" data-camp="' + k + '" aria-pressed="' + (current === k) + '">' + TEAMS[k].label + "</button>";
   });
   return html + "</div>";
 }
@@ -310,19 +276,18 @@ function renderMe() {
   var html = "";
 
   if (me) {
-    var camp = CAMPS[me.camp] || CAMPS.deux;
-    html += '<section class="mecard card">';
-    html += '<div><p class="melabel">C’est toi :</p>';
-    html += '<p class="mename">' + esc(me.name) + '</p>';
-    html += '<p class="mecamp ' + camp.cls + '">' + camp.short + "</p></div>";
-    html += '<div><p class="melabel">Tu viens le 17 octobre ?</p>';
-    html += '<div class="bigseg" style="margin-top:8px">';
-    Object.keys(BIG_STATUSES).forEach(function (s) {
+    var team = TEAMS[me.camp] || TEAMS.deux;
+    html += '<section class="card">';
+    html += '<p class="hello">Salut ' + esc(me.name) + ' 👋</p>';
+    html += '<p class="team ' + team.cls + '">' + team.label + "</p>";
+    html += '<p class="question">Alors, tu viens le 17 octobre ?</p>';
+    html += '<div class="big">';
+    Object.keys(BIG).forEach(function (s) {
       html += '<button type="button" class="b-' + s + '" data-act="me-status" data-status="' + s +
-        '" aria-pressed="' + (me.status === s) + '">' + BIG_STATUSES[s] + "</button>";
+        '" aria-pressed="' + (me.status === s) + '">' + BIG[s] + "</button>";
     });
-    html += "</div></div>";
-    html += '<div><p class="melabel" style="margin-bottom:8px">Tu es plutôt…</p>' + campSegHtml("me-camp", me.camp) + "</div>";
+    html += "</div>";
+    html += '<p class="question">Tu es plutôt…</p>' + teamSegHtml("me-camp", me.camp);
     html += '<button type="button" class="linkbtn" data-act="not-me">Ce n’est pas moi</button>';
     html += "</section>";
     return html;
@@ -334,57 +299,56 @@ function renderMe() {
     return norm(g.name).indexOf(q) !== -1;
   }) : [];
 
-  html += '<form class="mecard card" data-form="join">';
-  html += '<div><label class="melabel" for="join-name" style="display:block;margin-bottom:6px">Ton prénom</label>';
-  html += '<input type="text" id="join-name" maxlength="60" placeholder="Écris ton prénom…" autocomplete="off" value="' + esc(joinName) + '">';
+  html += '<form class="card" data-form="join">';
+  html += '<p class="cardtitle">Tu viens ? Dis-le-nous ! 💌</p>';
+  html += '<input type="text" id="join-name" maxlength="60" placeholder="Ton prénom…" autocomplete="off" value="' + esc(joinName) + '">';
   if (!ready) {
     html += '<p class="hint">' + (q.length === 1
-      ? "Encore une lettre ou deux…"
-      : "Écris les premières lettres de ton prénom : ton nom apparaîtra s’il est déjà dans la liste.") + "</p>";
-  }
-  html += "</div>";
-  if (ready) {
+      ? "Encore une lettre… ✍️"
+      : "Écris ton prénom, on s’occupe du reste 😊") + "</p>";
+  } else {
     if (matches.length) {
-      html += '<div><p class="melabel" style="margin-bottom:8px">C’est toi ? Clique sur ton nom :</p>';
+      html += '<p class="chiplabel">C’est toi ? 👇</p>';
       html += '<div class="chips">';
       matches.forEach(function (g) {
         html += '<button type="button" data-act="pick-me" data-id="' + esc(g.id) + '">' + esc(g.name) + "</button>";
       });
-      html += "</div></div>";
+      html += "</div>";
     }
-    html += '<div class="joinnew">';
-    html += '<p class="melabel">' + (matches.length
-      ? "Pas dans la liste ? Ajoute-toi — tu es plutôt…"
-      : "Ton nom n’est pas encore dans la liste — ajoute-toi ! Tu es plutôt…") + "</p>";
-    html += campSegHtml("join-camp", joinCamp);
-    html += '<button type="submit" class="go">Je m’ajoute comme « ' + esc(joinName.trim()) + ' »</button>';
-    html += "</div>";
+    html += '<p class="question">' + (matches.length ? "Pas dans la liste ? Tu es plutôt…" : "Tu es plutôt…") + "</p>";
+    html += teamSegHtml("join-camp", joinCamp);
+    html += '<button type="submit" class="go">Je m’inscris 🎉</button>';
   }
   html += "</form>";
   return html;
 }
 
-function renderListe() {
-  var html = "";
+function renderList() {
+  var oui = state.guests.filter(function (g) { return g.status === "oui"; }).length;
+  var maybe = state.guests.filter(function (g) { return g.status === "peutetre"; }).length;
+
+  var html = '<section class="card">';
+  html += '<div class="listhead"><h2>Qui vient ? 🎈</h2><span>' +
+    state.guests.length + (state.guests.length > 1 ? " réponses" : " réponse") + "</span></div>";
+  if (state.guests.length) {
+    html += '<p class="moodline">🎉 ' + oui + " viennent" + (maybe ? " · 🤔 " + maybe + " peut-être" : "") + "</p>";
+  }
+
   if (isAdmin) {
-    html += '<form class="add card" data-form="add">';
-    html += '<label for="guest-name">Ajouter quelqu’un</label>';
-    html += '<input type="text" id="guest-name" maxlength="60" placeholder="Prénom (et nom si besoin)" autocomplete="off" value="' + esc(draftName) + '">';
-    html += campSegHtml("camp", draftCamp);
-    html += '<button type="submit" class="go">Ajouter à la liste</button>';
+    html += '<form class="addform" data-form="add">';
+    html += '<input type="text" id="guest-name" maxlength="60" placeholder="Ajouter quelqu’un…" autocomplete="off" value="' + esc(draftName) + '">';
+    html += teamSegHtml("camp", draftCamp);
+    html += '<button type="submit" class="go">Ajouter</button>';
     html += "</form>";
   }
 
-  html += '<div class="listhead"><h2>Les invité·es</h2><span>' +
-    state.guests.length + (state.guests.length > 1 ? " personnes" : " personne") + "</span></div>";
-
   if (!state.guests.length) {
-    html += '<div class="card empty"><b>Personne pour l’instant</b>La liste se remplit bientôt !</div>';
+    html += '<p class="empty">Personne pour l’instant — sois le premier ou la première ! 🥳</p>';
   } else {
     html += '<ul class="guests">';
     state.guests.forEach(function (g) {
-      var camp = CAMPS[g.camp] || CAMPS.deux;
-      html += '<li class="guest card">';
+      var team = TEAMS[g.camp] || TEAMS.deux;
+      html += '<li class="guest">';
       if (editingId === g.id && isAdmin) {
         html += '<form class="editrow" data-form="rename" data-id="' + esc(g.id) + '">';
         html += '<input type="text" maxlength="60" value="' + esc(g.name) + '" aria-label="Nouveau nom" data-edit-input>';
@@ -394,12 +358,12 @@ function renderListe() {
       } else {
         html += '<div class="gwho"><div class="gname">' + esc(g.name) +
           (g.id === meId ? " (toi)" : "") + '</div>' +
-          '<div class="gcamp ' + camp.cls + '">' + camp.short + "</div></div>";
+          '<div class="gteam ' + team.cls + '">' + team.label + "</div></div>";
         if (isAdmin) {
           html += '<div class="seg" role="group" aria-label="Statut de ' + esc(g.name) + '">';
-          Object.keys(STATUSES).forEach(function (s) {
+          Object.keys(SEG).forEach(function (s) {
             html += '<button type="button" class="s-' + s + '" data-act="status" data-id="' + esc(g.id) +
-              '" data-status="' + s + '" aria-pressed="' + (g.status === s) + '">' + STATUSES[s] + "</button>";
+              '" data-status="' + s + '" aria-pressed="' + (g.status === s) + '">' + SEG[s] + "</button>";
           });
           html += "</div>";
           html += '<div class="gtools">';
@@ -411,59 +375,41 @@ function renderListe() {
           }
           html += "</div>";
         } else {
-          var st = PILLS[g.status] ? g.status : "peutetre";
-          html += '<span class="pill p-' + st + '"><span class="dot dot-' +
-            (st === "oui" ? "ok" : st === "peutetre" ? "maybe" : "off") + '"></span>' + PILLS[st] + "</span>";
+          var st = MOODS[g.status] ? g.status : "peutetre";
+          html += '<span class="mood p-' + st + '">' + MOODS[st] + "</span>";
         }
       }
       html += "</li>";
     });
     html += "</ul>";
   }
+  html += "</section>";
   return html;
 }
 
 function render() {
   var app = document.getElementById("app");
   if (!loaded) return;
-  var c = counts();
   var dl = daysLeft();
-  var jchip = dl > 0 ? "J‑" + dl : dl === 0 ? "C'est aujourd'hui !" : "";
 
   var html = '<main class="wrap">';
   html += '<header class="hero">';
-  html += '<p class="eyebrow"><span>' + PARTY.label + "</span>" +
-    (jchip ? '<span class="jchip">' + jchip + "</span>" : "") + "</p>";
-  html += '<h1>Anniv Charlotte <span class="amp">&amp;</span> Antoine</h1>';
-  html += '<p class="sub">Clique sur ton nom (ou ajoute-toi) et dis-nous si tu viens — tout s’enregistre pour tout le monde.</p>';
+  html += '<div class="cake">🎂</div>';
+  html += "<h1>Anniv Charlotte &amp; Antoine</h1>";
+  html += '<p class="date">Samedi 17 octobre' +
+    (dl > 0 ? ' <span class="jj">· dans ' + dl + " jours</span>" : dl === 0 ? ' <span class="jj">· c’est aujourd’hui !</span>' : "") + "</p>";
   html += "</header>";
 
-  if (isAdmin) {
-    html += '<p class="banner admin">Mode organisateurs actif — tu peux tout modifier depuis l’onglet « La liste ».</p>';
-  }
-
-  html += '<section class="stats" aria-label="Compteurs">';
-  html += '<span class="stat"><span class="dot dot-ok"></span><b>' + c.oui + "</b>&nbsp;présent·es</span>";
-  html += '<span class="stat"><span class="dot dot-maybe"></span><b>' + c.peutetre + "</b>&nbsp;peut-être</span>";
-  html += '<span class="stat"><span class="dot dot-charlotte"></span><b>' + c.charlotte + "</b>&nbsp;côté Charlotte</span>";
-  html += '<span class="stat"><span class="dot dot-antoine"></span><b>' + c.antoine + "</b>&nbsp;côté Antoine</span>";
-  html += "</section>";
-
-  html += '<nav class="tabs" aria-label="Vues">';
-  html += '<button type="button" data-act="tab" data-view="moi" aria-pressed="' + (view === "moi") + '">Moi</button>';
-  html += '<button type="button" data-act="tab" data-view="liste" aria-pressed="' + (view === "liste") + '">La liste</button>';
-  html += "</nav>";
-
-  html += view === "moi" ? renderMe() : renderListe();
+  html += renderMe();
+  html += renderList();
 
   html += '<footer class="foot">';
-  if (state.updated) html += "<span>Dernière mise à jour le " + esc(fmtUpdated(state.updated)) + "</span>";
-  html += "<span>Rendez-vous le 17 octobre \u{1F389}</span>";
+  if (state.updated) html += "<span>Dernière réponse le " + esc(fmtUpdated(state.updated)) + "</span>";
   if (isAdmin) {
     html += '<form class="adminbox" data-form="code">';
-    html += '<input type="password" id="admin-newcode" minlength="4" maxlength="40" placeholder="Nouveau code organisateurs" autocomplete="new-password">';
+    html += '<input type="password" id="admin-newcode" minlength="4" maxlength="40" placeholder="Nouveau code" autocomplete="new-password">';
     html += '<button type="submit">Changer le code</button>';
-    html += '<button type="button" class="quiet" data-act="admin-off">Quitter le mode organisateurs</button>';
+    html += '<button type="button" class="quiet" data-act="admin-off">Quitter le mode orga</button>';
     html += "</form>";
   } else if (adminOpen) {
     html += '<form class="adminbox" data-form="unlock">';
@@ -490,10 +436,7 @@ document.getElementById("app").addEventListener("click", function (ev) {
   if (!btn || busy) return;
   var actName = btn.getAttribute("data-act");
   var id = btn.getAttribute("data-id");
-  if (actName === "tab") {
-    view = btn.getAttribute("data-view");
-    render();
-  } else if (actName === "admin-open") {
+  if (actName === "admin-open") {
     adminOpen = true;
     render();
   } else if (actName === "admin-close") {
@@ -593,7 +536,6 @@ document.getElementById("app").addEventListener("submit", function (ev) {
         adminOpen = false;
         adminCode = code;
         store("anniv-admin-code", code);
-        view = "liste";
         return run("apiGetState");
       });
     }, "Vérification…");
@@ -606,14 +548,14 @@ document.getElementById("app").addEventListener("submit", function (ev) {
       return run("apiAdmin", adminCode, "code", { code: newCode }).then(function (s) {
         adminCode = newCode;
         store("anniv-admin-code", newCode);
-        toast("Code organisateurs changé.");
+        toast("Code organisateurs changé ✔");
         return s;
       });
     });
   } else if (kind === "join") {
     var name = joinName.trim();
     if (norm(name).length < 2) { toast("Écris ton prénom (au moins 2 lettres) !"); return; }
-    act(function () { return run("apiJoin", name, joinCamp); });
+    act(function () { return run("apiJoin", name, joinCamp); }, "Inscription… 🎉");
   } else if (kind === "add") {
     if (!isAdmin) return;
     var gname = (document.getElementById("guest-name").value || "").trim();
@@ -646,7 +588,7 @@ run("apiGetState").then(function (s) {
   }
 }).catch(function () {
   document.getElementById("app").innerHTML =
-    '<p class="loading">Impossible de charger la liste — recharge la page.</p>';
+    '<p class="loading">Impossible de charger la liste — recharge la page 🙏</p>';
 });
 
 setInterval(function () {
