@@ -29,3 +29,13 @@ Liste d'invités partagée pour l'anniversaire de Charlotte et Antoine, le **sam
   autoriser l'édition. Le code admin protège les actions de gestion dans
   l'interface ; c'est une protection de confort adaptée à une liste d'anniversaire,
   pas un contrôle d'accès cryptographique côté serveur.
+
+## Version Google Apps Script (recommandée pour les invités sans compte)
+
+Le dossier [`apps-script/`](apps-script/) contient une version de l'app hébergée
+dans le compte Google de Charlotte : la page est servie par une Web App Apps
+Script et la liste est stockée dans un Google Sheet du Drive (créé
+automatiquement au premier lancement). Contrairement à la version artifact
+claude.ai, **les invités n'ont besoin d'aucun compte** pour s'ajouter et changer
+leur statut, et le code organisateurs est vérifié côté serveur. Voir
+[`apps-script/DEPLOIEMENT.md`](apps-script/DEPLOIEMENT.md).
