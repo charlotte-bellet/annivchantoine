@@ -100,13 +100,10 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .row .who{flex:1;min-width:120px;display:flex;flex-direction:column}
 .row .nm{font-size:16px;font-weight:450;overflow-wrap:anywhere}
 .row .mt{font-size:13px;color:var(--muted)}
-.stdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:0.5px}
 .stw{font-weight:500}
-.st-oui .stdot{background:var(--st-oui)} .st-oui .stw{color:var(--st-oui)}
-.st-peutetre .stdot{background:var(--st-peutetre)} .st-peutetre .stw{color:var(--st-peutetre)}
-.st-non .stdot{background:var(--st-non)} .st-non .stw{color:var(--st-non)}
-.fdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:0.5px}
-.filters button[aria-pressed=true] .fdot{outline:2px solid rgba(250,249,245,.4)}
+.st-oui .stw{color:var(--st-oui)}
+.st-peutetre .stw{color:var(--st-peutetre)}
+.st-non .stw{color:var(--st-non)}
 .pluspill{font-size:13px;font-weight:500;padding:4px 9px;border-radius:9999px;flex:none}
 .empty{padding:24px 0;color:var(--muted);font-size:15px}
 
@@ -170,6 +167,7 @@ var OPTS = {
   non:      { t: "Je peux pas", s: "Et je vais le regretter…" }
 };
 var STATUS_WORD = { oui: "Vient", peutetre: "Peut-être", non: "Vient pas" };
+var STATUS_EMOJI = { oui: "\u{1F389}", peutetre: "\u{1F914}", non: "\u{1F622}" };
 var SEG = { oui: "Oui", peutetre: "Peut-être", non: "Non" };
 var MAX_PLUS = 2;
 
@@ -346,7 +344,7 @@ function renderRsvp() {
     Object.keys(OPTS).forEach(function (s) {
       html += '<button type="button" class="opt" data-act="me-status" data-status="' + s +
         '" aria-pressed="' + (me.status === s) + '">' +
-        '<span class="col"><span class="t">' + OPTS[s].t + '</span><span class="s">' + OPTS[s].s + "</span></span>" +
+        '<span class="col"><span class="t">' + STATUS_EMOJI[s] + " " + OPTS[s].t + '</span><span class="s">' + OPTS[s].s + "</span></span>" +
         '<span class="ring"><span class="dot"></span></span></button>';
     });
     html += "</div>";
@@ -399,11 +397,10 @@ function renderList() {
   var html = '<section class="sheet sheet-cream"><div class="in">';
   html += '<h2 class="stitle">Qui vient</h2>';
   html += '<div class="filters" role="group" aria-label="Filtrer">';
-  [["tous", "", "Tous " + state.guests.length], ["oui", "oui", "Oui " + c.oui],
-   ["peutetre", "peutetre", "Peut-être " + c.peutetre], ["non", "non", "Non " + c.non]].forEach(function (f) {
-    var dot = f[1] ? '<span class="fdot" style="background:var(--st-' + f[1] + ')"></span>' : "";
+  [["tous", "Tous " + state.guests.length], ["oui", STATUS_EMOJI.oui + " Oui " + c.oui],
+   ["peutetre", STATUS_EMOJI.peutetre + " Peut-être " + c.peutetre], ["non", STATUS_EMOJI.non + " Non " + c.non]].forEach(function (f) {
     html += '<button type="button" data-act="filter" data-filter="' + f[0] +
-      '" aria-pressed="' + (filter === f[0]) + '">' + dot + f[2] + "</button>";
+      '" aria-pressed="' + (filter === f[0]) + '">' + f[1] + "</button>";
   });
   html += "</div>";
 
@@ -431,8 +428,8 @@ function renderList() {
       } else {
         html += '<span class="av" style="background:' + team.av + '">' + esc(initials(g.name)) + "</span>";
         html += '<div class="who"><span class="nm">' + esc(g.name) + (g.id === meId ? " (toi)" : "") + "</span>" +
-          '<span class="mt">' + team.label + ' · <span class="st-' + g.status + '"><span class="stdot"></span>' +
-          '<span class="stw">' + STATUS_WORD[g.status] + "</span></span></span></div>";
+          '<span class="mt">' + team.label + ' · <span class="st-' + g.status + '">' + STATUS_EMOJI[g.status] +
+          ' <span class="stw">' + STATUS_WORD[g.status] + "</span></span></span></div>";
         if (g.plus > 0) {
           html += '<span class="pluspill" style="background:' + team.av + '">+' + g.plus + "</span>";
         }
