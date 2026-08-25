@@ -162,13 +162,12 @@ var TEAMS = {
   deux:      { label: "Team les deux",  av: "#D97757" }
 };
 var OPTS = {
-  oui:      { t: "Carrément",  s: "Réserve-moi une place" },
-  peutetre: { t: "Peut-être",  s: "J’aime entretenir le mystère" },
-  non:      { t: "Je peux pas", s: "Et je vais le regretter…" }
+  oui: { t: "Carrément",  s: "Réserve-moi une place" },
+  non: { t: "Je peux pas", s: "Et je vais le regretter…" }
 };
 var STATUS_WORD = { oui: "Vient", peutetre: "Peut-être", non: "Vient pas" };
 var STATUS_EMOJI = { oui: "\u{1F389}", peutetre: "\u{1F914}", non: "\u{1F622}" };
-var SEG = { oui: "Oui", peutetre: "Peut-être", non: "Non" };
+var SEG = { oui: "Oui", non: "Non" };
 var MAX_PLUS = 2;
 
 var state = { guests: [], updated: "" };
@@ -398,7 +397,7 @@ function renderList() {
   html += '<h2 class="stitle">Qui vient</h2>';
   html += '<div class="filters" role="group" aria-label="Filtrer">';
   [["tous", "Tous " + state.guests.length], ["oui", STATUS_EMOJI.oui + " Oui " + c.oui],
-   ["peutetre", STATUS_EMOJI.peutetre + " Peut-être " + c.peutetre], ["non", STATUS_EMOJI.non + " Non " + c.non]].forEach(function (f) {
+   ["non", STATUS_EMOJI.non + " Non " + c.non]].forEach(function (f) {
     html += '<button type="button" data-act="filter" data-filter="' + f[0] +
       '" aria-pressed="' + (filter === f[0]) + '">' + f[1] + "</button>";
   });
