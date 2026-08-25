@@ -181,19 +181,23 @@ function apiGetState() {
 
 // L'invité tape son nom : si un nom identique existe on le lui rattache,
 // sinon on crée un nouveau participant (statut "oui" par défaut).
-function apiJoin(name, camp, plus) {
+// clientId (optionnel) : identifiant généré côté client pour l'affichage
+// optimiste — réutilisé tel quel, et idempotent en cas de renvoi.
+function apiJoin(name, camp, plus, clientId) {
   name = String(name || "").trim().slice(0, 60);
   if (norm_(name).length < 2) throw new Error("Écris ton prénom (au moins 2 lettres).");
   if (CAMPS.indexOf(camp) < 0) camp = "deux";
+  var okId = (typeof clientId === "string" && /^[0-9A-Za-z-]{8,64}$/.test(clientId));
   return withLock_(function () {
     var all = readAll_();
     for (var i = 0; i < all.guests.length; i++) {
-      if (norm_(all.guests[i].name) === norm_(name)) {
+      if ((okId && all.guests[i].id === clientId) ||
+          norm_(all.guests[i].name) === norm_(name)) {
         return { meId: all.guests[i].id, state: finish_(all) };
       }
     }
     var g = {
-      id: Utilities.getUuid(),
+      id: okId ? clientId : Utilities.getUuid(),
       name: name,
       camp: camp,
       status: "oui",

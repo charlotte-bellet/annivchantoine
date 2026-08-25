@@ -216,6 +216,10 @@ function read(key) {
   try { return localStorage.getItem(key); } catch (e) { return null; }
 }
 function setMe(id) { meId = id; store("anniv-me", id); }
+function uid() {
+  if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+  return "g" + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+}
 
 function daysLeft() {
   var now = new Date();
@@ -333,6 +337,35 @@ function stepperHtml(prefix, n, enabled) {
     "</div>";
 }
 
+// Partie du formulaire d'inscription qui dépend de ce qui est tapé :
+// mise à jour seule à chaque frappe, sans reconstruire la page (sinon la
+// saisie rame et le clavier perd le focus).
+function joinSugHtml() {
+  var q = norm(joinName);
+  var ready = q.length >= 2;
+  if (!ready) {
+    return '<p class="hint">' + (q.length === 1
+      ? "Encore une lettre ou deux."
+      : "Écris ton prénom — s’il est déjà dans la liste, il apparaîtra ici.") + "</p>";
+  }
+  var matches = state.guests.filter(function (g) {
+    return norm(g.name).indexOf(q) !== -1;
+  });
+  var html = "";
+  if (matches.length) {
+    html += '<p class="chiplabel">C’est toi ?</p><div class="chips">';
+    matches.forEach(function (g) {
+      html += '<button type="button" data-act="pick-me" data-id="' + esc(g.id) + '">' + esc(g.name) + "</button>";
+    });
+    html += "</div>";
+  }
+  html += '<p class="chiplabel">' + (matches.length ? "Pas dans la liste ? Tu es plutôt…" : "Tu es plutôt…") + "</p>";
+  html += teamPillsHtml("join-camp", joinCamp);
+  html += '<button type="submit" class="cta">Je m’inscris</button>';
+  html += '<p class="small">Tu choisiras ta réponse et ton +1 juste après.</p>';
+  return html;
+}
+
 function renderRsvp() {
   var me = meId ? state.guests.find(function (g) { return g.id === meId; }) : null;
   var html = '<section class="sheet sheet-blue"><div class="in">';
@@ -354,32 +387,10 @@ function renderRsvp() {
     html += '<p class="small">Tu peux changer d’avis jusqu’au 17 octobre.</p>';
     html += '<button type="button" class="linkbtn" data-act="not-me">Ce n’est pas moi</button>';
   } else {
-    var q = norm(joinName);
-    var ready = q.length >= 2;
-    var matches = ready ? state.guests.filter(function (g) {
-      return norm(g.name).indexOf(q) !== -1;
-    }) : [];
-
     html += '<h2 class="stitle">Alors, tu viens ?</h2>';
     html += '<form data-form="join">';
     html += '<input type="text" class="field" id="join-name" maxlength="60" placeholder="Ton prénom…" autocomplete="off" value="' + esc(joinName) + '">';
-    if (!ready) {
-      html += '<p class="hint">' + (q.length === 1
-        ? "Encore une lettre ou deux."
-        : "Écris ton prénom — s’il est déjà dans la liste, il apparaîtra ici.") + "</p>";
-    } else {
-      if (matches.length) {
-        html += '<p class="chiplabel">C’est toi ?</p><div class="chips">';
-        matches.forEach(function (g) {
-          html += '<button type="button" data-act="pick-me" data-id="' + esc(g.id) + '">' + esc(g.name) + "</button>";
-        });
-        html += "</div>";
-      }
-      html += '<p class="chiplabel">' + (matches.length ? "Pas dans la liste ? Tu es plutôt…" : "Tu es plutôt…") + "</p>";
-      html += teamPillsHtml("join-camp", joinCamp);
-      html += '<button type="submit" class="cta">Je m’inscris</button>';
-      html += '<p class="small">Tu choisiras ta réponse et ton +1 juste après.</p>';
-    }
+    html += '<div id="join-sug">' + joinSugHtml() + "</div>";
     html += "</form>";
   }
 
@@ -571,9 +582,9 @@ document.getElementById("app").addEventListener("click", function (ev) {
     }, function () { return run("apiSetSelf", mid3, null, null, next); });
   } else if (actName === "join-camp") {
     joinCamp = btn.getAttribute("data-camp");
-    render();
-    var ji = document.getElementById("join-name");
-    if (ji) { ji.focus(); ji.setSelectionRange(ji.value.length, ji.value.length); }
+    var sug = document.getElementById("join-sug");
+    if (sug) sug.innerHTML = joinSugHtml();
+    else render();
   } else if (actName === "camp") {
     draftCamp = btn.getAttribute("data-camp");
     var ni = document.getElementById("guest-name");
@@ -631,10 +642,8 @@ document.getElementById("app").addEventListener("input", function (ev) {
     draftName = t.value;
   } else if (t.id === "join-name") {
     joinName = t.value;
-    var pos = t.selectionStart;
-    render();
-    var input = document.getElementById("join-name");
-    if (input) { input.focus(); input.setSelectionRange(pos, pos); }
+    var sug = document.getElementById("join-sug");
+    if (sug) sug.innerHTML = joinSugHtml();
   }
 });
 
@@ -674,7 +683,38 @@ document.getElementById("app").addEventListener("submit", function (ev) {
   } else if (kind === "join") {
     var name = joinName.trim();
     if (norm(name).length < 2) { toast("Écris ton prénom (au moins 2 lettres)."); return; }
-    act(function () { return run("apiJoin", name, joinCamp, 0); }, "On t’ajoute…");
+    var localMatch = state.guests.find(function (g) { return norm(g.name) === norm(name); });
+    if (localMatch) {
+      setMe(localMatch.id);
+      joinName = "";
+      render();
+      return;
+    }
+    // Inscription optimiste : la carte s'affiche tout de suite, le serveur
+    // enregistre en arrière-plan avec le même identifiant.
+    var snapshot = JSON.parse(JSON.stringify(state));
+    var prevMe = meId;
+    var savedName = joinName;
+    var newId = uid();
+    var jcamp = joinCamp;
+    state.guests.push({ id: newId, name: name, camp: jcamp, status: "oui", plus: 0, updated: new Date().toISOString() });
+    setMe(newId);
+    joinName = "";
+    render();
+    pending++;
+    run("apiJoin", name, jcamp, 0, newId).then(function (result) {
+      pending--;
+      if (result && result.meId) setMe(result.meId);
+      var s = result && result.state ? result.state : result;
+      if (pending === 0 && !busy) applyState(s);
+    }).catch(function (err) {
+      pending--;
+      state = snapshot;
+      setMe(prevMe);
+      joinName = savedName;
+      render();
+      toast((err && err.message ? err.message : "L'inscription n'a pas pu être enregistrée — réessaie.").replace(/^(Error|Exception):\s*/, ""));
+    });
   } else if (kind === "add") {
     if (!isAdmin) return;
     var gname = (document.getElementById("guest-name").value || "").trim();
