@@ -14,6 +14,20 @@ Liste d'invités partagée pour l'anniversaire de Charlotte et Antoine, le **sam
 - Chaque invité·e est rattaché·e à un « camp » : copains de Charlotte, copains
   d'Antoine, ou les deux, avec des compteurs en haut de page.
 
+## Parcours invité (onglet « Moi »)
+
+À l'ouverture, l'invité arrive sur l'onglet **Moi** :
+
+- il écrit son prénom : les noms correspondants de la liste s'affichent en chips —
+  s'il y est, il clique sur son nom ;
+- sinon, il choisit son camp et s'ajoute comme nouveau participant ;
+- il met ensuite à jour son statut (Présent·e / Peut-être / Absent·e) et peut
+  changer de camp. La page retient qui il est (`localStorage`) pour les visites
+  suivantes ; « Ce n'est pas moi » permet de changer d'identité.
+
+L'onglet **Toute la liste** garde la gestion complète : ajout, statut, renommage,
+suppression, pour n'importe quel invité.
+
 ## Édition
 
 Toute personne ayant accès en écriture au lien partagé peut modifier la liste depuis
