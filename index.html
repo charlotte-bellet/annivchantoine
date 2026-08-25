@@ -1,6 +1,6 @@
 <title>Anniv Charlotte &amp; Antoine</title>
 <div id="app"></div>
-<script type="application/json" id="state">{"guests":[{"id":"9989c605-c089-4cf7-a33d-c0702dc6fe36","name":"Charlotte B","camp":"charlotte","status":"oui"},{"id":"3d5a5d6a-7aa9-48cc-885b-52e671bfaa76","name":"Antoine B","camp":"antoine","status":"oui"}],"updated":"2026-08-25T13:58:09.713Z"}</script>
+<script type="application/json" id="state">{"guests":[{"id":"9989c605-c089-4cf7-a33d-c0702dc6fe36","name":"Charlotte B","camp":"charlotte","status":"oui"},{"id":"3d5a5d6a-7aa9-48cc-885b-52e671bfaa76","name":"Antoine B","camp":"antoine","status":"oui"}],"updated":"2026-08-25T14:08:33.927Z"}</script>
 <script>
 "use strict";
 const SRC = document.currentScript.textContent;
@@ -66,40 +66,7 @@ button{cursor:pointer;border:none;background:none}
 .dot-ok{background:var(--ok)} .dot-maybe{background:var(--maybe)}
 .dot-charlotte{background:var(--charlotte)} .dot-antoine{background:var(--antoine)}
 
-.tabs{display:flex;background:var(--card);border:1px solid var(--line);border-radius:999px;
-  padding:4px;margin-bottom:18px;box-shadow:var(--shadow)}
-.tabs button{flex:1;border-radius:999px;padding:8px 6px;font-weight:700;color:var(--muted);
-  font-family:"Baloo 2","Figtree",sans-serif;font-size:1rem;transition:background .15s,color .15s}
-.tabs button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink)}
-
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
-
-.mecard{padding:18px;display:flex;flex-direction:column;gap:14px;margin-bottom:22px}
-.melabel{font-size:.8rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
-.mename{font-family:"Baloo 2","Figtree",sans-serif;font-size:1.55rem;font-weight:800;line-height:1.1;overflow-wrap:anywhere}
-.mecamp{font-size:.85rem;font-weight:600;margin-top:2px}
-.mecamp.c-charlotte{color:var(--charlotte)} .mecamp.c-antoine{color:var(--antoine)} .mecamp.c-deux{color:var(--deux)}
-.bigseg{display:flex;flex-direction:column;gap:8px}
-@media (min-width:480px){.bigseg{flex-direction:row}.bigseg button{flex:1}}
-.bigseg button{border:1.5px solid var(--line);border-radius:12px;padding:12px;font-weight:700;
-  font-size:1rem;background:var(--bg);transition:background .15s,border-color .15s}
-.bigseg .b-oui[aria-pressed=true]{background:var(--ok);border-color:var(--ok);color:#fff}
-.bigseg .b-peutetre[aria-pressed=true]{background:var(--maybe);border-color:var(--maybe);color:#fff}
-.bigseg .b-non[aria-pressed=true]{background:var(--off);border-color:var(--off);color:#fff}
-.linkbtn{align-self:center;color:var(--muted);font-size:.85rem;text-decoration:underline;padding:4px}
-.mecard input[type=text]{width:100%;border:1.5px solid var(--line);border-radius:10px;
-  padding:10px 12px;background:var(--bg)}
-.mecard input[type=text]::placeholder{color:var(--muted);opacity:.8}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chips button{border:1.5px solid var(--line);background:var(--bg);border-radius:999px;
-  padding:7px 14px;font-weight:600;transition:border-color .15s,color .15s}
-.chips button:hover{border-color:var(--accent);color:var(--accent)}
-.chips .none{color:var(--muted);font-size:.88rem;padding:4px 0}
-.joinnew{display:flex;flex-direction:column;gap:10px;border-top:1px dashed var(--line);padding-top:14px}
-.joinnew .go,.add .go{background:var(--accent);color:var(--accent-ink);border-radius:12px;
-  padding:11px;font-family:"Baloo 2","Figtree",sans-serif;font-weight:700;font-size:1.02rem;transition:filter .15s}
-.joinnew .go:hover,.add .go:hover{filter:brightness(1.07)}
-.joinnew .go:disabled,.add .go:disabled,.guest button:disabled,.bigseg button:disabled{opacity:.5;cursor:not-allowed}
 
 .add{padding:16px;margin-bottom:22px}
 .add label{display:block;font-size:.8rem;font-weight:700;letter-spacing:.05em;
@@ -107,15 +74,18 @@ button{cursor:pointer;border:none;background:none}
 .add input[type=text]{width:100%;border:1.5px solid var(--line);border-radius:10px;
   padding:10px 12px;background:var(--bg)}
 .add input[type=text]::placeholder{color:var(--muted);opacity:.8}
-.campseg{display:flex;gap:6px;flex-wrap:wrap}
-.add .campseg{margin-top:12px}
-.add .go{width:100%;margin-top:12px}
+.campseg{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
 .campseg button{flex:1;min-width:100px;border:1.5px solid var(--line);border-radius:10px;
   padding:8px 6px;font-size:.88rem;font-weight:600;background:var(--bg);transition:background .15s,border-color .15s}
 .campseg button[aria-pressed=true]{border-color:currentColor}
 .campseg .c-charlotte[aria-pressed=true]{color:var(--charlotte);background:var(--chip)}
 .campseg .c-antoine[aria-pressed=true]{color:var(--antoine);background:var(--chip)}
 .campseg .c-deux[aria-pressed=true]{color:var(--deux);background:var(--chip)}
+.add .go{width:100%;margin-top:12px;background:var(--accent);color:var(--accent-ink);
+  border-radius:12px;padding:11px;font-family:"Baloo 2","Figtree",sans-serif;
+  font-weight:700;font-size:1.02rem;transition:filter .15s}
+.add .go:hover{filter:brightness(1.07)}
+.add .go:disabled,.guest button:disabled{opacity:.5;cursor:not-allowed}
 
 .listhead{display:flex;justify-content:space-between;align-items:baseline;margin:0 4px 8px}
 .listhead h2{font-family:"Baloo 2","Figtree",sans-serif;font-weight:700;font-size:1.15rem}
@@ -126,6 +96,8 @@ button{cursor:pointer;border:none;background:none}
 .gname{font-weight:700;overflow-wrap:anywhere}
 .gcamp{font-size:.78rem;font-weight:600}
 .gcamp.c-charlotte{color:var(--charlotte)} .gcamp.c-antoine{color:var(--antoine)} .gcamp.c-deux{color:var(--deux)}
+.pill{display:flex;align-items:center;gap:7px;font-size:.85rem;font-weight:700}
+.pill.p-oui{color:var(--ok)} .pill.p-peutetre{color:var(--maybe)} .pill.p-non{color:var(--off)}
 .seg{display:flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden}
 .seg button{padding:5px 10px;font-size:.8rem;font-weight:600;color:var(--muted);background:transparent}
 .seg button + button{border-left:1.5px solid var(--line)}
@@ -145,7 +117,8 @@ button{cursor:pointer;border:none;background:none}
 .empty{text-align:center;color:var(--muted);padding:34px 20px;font-size:.95rem}
 .empty b{display:block;font-family:"Baloo 2","Figtree",sans-serif;font-size:1.15rem;color:var(--ink);margin-bottom:4px}
 
-.foot{margin-top:26px;text-align:center;color:var(--muted);font-size:.82rem;display:flex;flex-direction:column;gap:4px}
+.foot{margin-top:26px;text-align:center;color:var(--muted);font-size:.82rem;display:flex;flex-direction:column;gap:6px}
+.foot .orga{color:var(--muted);font-size:.8rem;text-decoration:underline;align-self:center;padding:4px}
 
 .overlay{position:fixed;inset:0;background:rgba(30,15,25,.45);display:flex;
   align-items:center;justify-content:center;z-index:50}
@@ -164,22 +137,19 @@ const CAMPS = {
   deux:      { short: "Les deux",                   cls: "c-deux" }
 };
 const STATUSES = { oui: "Oui", peutetre: "Peut-être", non: "Non" };
-const BIG_STATUSES = { oui: "Présent·e ✓", peutetre: "Peut-être", non: "Absent·e" };
+const PILLS = { oui: "Présent·e", peutetre: "Peut-être", non: "Absent·e" };
 
 let state = readState();
 let artifact = null;
 let artifactKnown = false;
 let readOnly = false;
 let saving = false;
-let view = "moi";
+let editMode = false;
 let editingId = null;
 let armedDeleteId = null;
 let armedTimer = null;
 let draftName = "";
 let draftCamp = "charlotte";
-let joinName = "";
-let joinCamp = "charlotte";
-let meId = null;
 
 function readState() {
   try {
@@ -218,18 +188,14 @@ function esc(s) {
   });
 }
 
-function norm(s) {
-  return String(s).trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+function getEditMode() {
+  try { return localStorage.getItem("anniv-orga") === "1"; } catch (e) { return false; }
 }
-
-function getMe() {
-  try { return localStorage.getItem("anniv-me"); } catch (e) { return null; }
-}
-function setMe(id) {
-  meId = id;
+function setEditMode(on) {
+  editMode = on;
   try {
-    if (id) localStorage.setItem("anniv-me", id);
-    else localStorage.removeItem("anniv-me");
+    if (on) localStorage.setItem("anniv-orga", "1");
+    else localStorage.removeItem("anniv-orga");
   } catch (e) {}
 }
 
@@ -309,7 +275,6 @@ async function save(mutate) {
   overlay("Enregistrement…");
   try {
     sessionStorage.setItem("anniv-draft", JSON.stringify({ name: draftName, camp: draftCamp }));
-    sessionStorage.setItem("anniv-view", view);
   } catch (e) {}
   try {
     await art.publish(buildDocument(next));
@@ -336,8 +301,9 @@ async function save(mutate) {
     if (c2 === "not_writer" || c2 === "not_granted" || c2 === "not_declared" ||
         c2 === "consent_required" || c2 === "capability_disabled" || c2 === "capability_removed") {
       readOnly = true;
+      setEditMode(false);
       render();
-      toast("Ce lien est en lecture seule : la liste est visible mais pas modifiable.");
+      toast("Seuls les organisateurs (Charlotte et Antoine) peuvent modifier la liste.");
     } else if (c2 === "rate_limited") {
       render();
       toast("Trop de modifications d'un coup — attends quelques secondes et réessaie.");
@@ -359,79 +325,47 @@ function counts() {
   };
 }
 
-function campSegHtml(action, current) {
-  let html = '<div class="campseg" role="group" aria-label="Copain de qui ?">';
-  ["charlotte", "antoine", "deux"].forEach(function (k) {
-    const lbl = k === "charlotte" ? "Charlotte" : k === "antoine" ? "Antoine" : "Les deux";
-    html += '<button type="button" class="' + CAMPS[k].cls + '" data-act="' + action +
-      '" data-camp="' + k + '" aria-pressed="' + (current === k) + '">' + lbl + "</button>";
-  });
-  return html + "</div>";
-}
+function render() {
+  const app = document.getElementById("app");
+  const c = counts();
+  const dl = daysLeft();
+  const jchip = dl > 0 ? "J‑" + dl
+    : dl === 0 ? "C'est aujourd'hui !"
+    : "";
+  const canEdit = editMode && !readOnly && (!artifactKnown || artifact);
 
-function renderMe(canEdit) {
-  const me = meId ? state.guests.find(function (g) { return g.id === meId; }) : null;
-  let html = "";
+  let html = '<main class="wrap">';
+  html += '<header class="hero">';
+  html += '<p class="eyebrow"><span>' + PARTY.label + "</span>" +
+    (jchip ? '<span class="jchip">' + jchip + "</span>" : "") + "</p>";
+  html += '<h1>Anniv Charlotte <span class="amp">&amp;</span> Antoine</h1>';
+  html += canEdit
+    ? '<p class="sub">Mode organisateurs : tes modifications sont enregistrées et visibles par tout le monde.</p>'
+    : '<p class="sub">Voici qui participe. Pour être ajouté·e ou changer ta réponse, fais signe dans le groupe WhatsApp.</p>';
+  html += "</header>";
 
-  if (me) {
-    const camp = CAMPS[me.camp] || CAMPS.deux;
-    html += '<section class="mecard card">';
-    html += '<div><p class="melabel">C’est toi :</p>';
-    html += '<p class="mename">' + esc(me.name) + '</p>';
-    html += '<p class="mecamp ' + camp.cls + '">' + camp.short + "</p></div>";
-    html += '<div><p class="melabel">Tu viens le 17 octobre ?</p>';
-    html += '<div class="bigseg" style="margin-top:8px">';
-    Object.keys(BIG_STATUSES).forEach(function (s) {
-      html += '<button type="button" class="b-' + s + '" data-act="me-status" data-status="' + s +
-        '" aria-pressed="' + (me.status === s) + '"' + (canEdit ? "" : " disabled") + ">" +
-        BIG_STATUSES[s] + "</button>";
-    });
-    html += "</div></div>";
-    if (canEdit) {
-      html += '<div><p class="melabel" style="margin-bottom:8px">Tu es plutôt…</p>' + campSegHtml("me-camp", me.camp) + "</div>";
-    }
-    html += '<button type="button" class="linkbtn" data-act="not-me">Ce n’est pas moi</button>';
-    html += "</section>";
-    return html;
+  if (readOnly) {
+    html += '<p class="banner">Seuls les organisateurs peuvent modifier la liste — bonne nouvelle : tu n’as rien à faire, dis-nous juste si tu viens \u{1F604}</p>';
   }
 
-  const q = norm(joinName);
-  const matches = state.guests.filter(function (g) {
-    return !q || norm(g.name).indexOf(q) !== -1;
-  });
+  html += '<section class="stats" aria-label="Compteurs">';
+  html += '<span class="stat"><span class="dot dot-ok"></span><b>' + c.oui + "</b>&nbsp;présent·es</span>";
+  html += '<span class="stat"><span class="dot dot-maybe"></span><b>' + c.peutetre + "</b>&nbsp;peut-être</span>";
+  html += '<span class="stat"><span class="dot dot-charlotte"></span><b>' + c.charlotte + "</b>&nbsp;côté Charlotte</span>";
+  html += '<span class="stat"><span class="dot dot-antoine"></span><b>' + c.antoine + "</b>&nbsp;côté Antoine</span>";
+  html += "</section>";
 
-  html += '<form class="mecard card" data-form="join">';
-  html += '<div><label class="melabel" for="join-name" style="display:block;margin-bottom:6px">Ton prénom</label>';
-  html += '<input type="text" id="join-name" maxlength="60" placeholder="Écris ton prénom…" autocomplete="off" value="' + esc(joinName) + '"></div>';
-  html += '<div><p class="melabel" style="margin-bottom:8px">' +
-    (q ? "Clique sur ton nom s’il est là :" : "Déjà dans la liste ? Clique sur ton nom :") + "</p>";
-  html += '<div class="chips">';
-  if (matches.length) {
-    matches.forEach(function (g) {
-      html += '<button type="button" data-act="pick-me" data-id="' + esc(g.id) + '">' + esc(g.name) + "</button>";
-    });
-  } else {
-    html += '<span class="none">' + (state.guests.length ? "Aucun nom ne correspond." : "La liste est encore vide.") + "</span>";
-  }
-  html += "</div></div>";
-  if (q && canEdit) {
-    html += '<div class="joinnew">';
-    html += '<p class="melabel">Pas encore dans la liste ? Ajoute-toi — tu es plutôt…</p>';
-    html += campSegHtml("join-camp", joinCamp);
-    html += '<button type="submit" class="go">Je m’ajoute comme « ' + esc(joinName.trim()) + ' »</button>';
-    html += "</div>";
-  }
-  html += "</form>";
-  return html;
-}
-
-function renderListe(canEdit) {
-  let html = "";
   if (canEdit) {
     html += '<form class="add card" data-form="add">';
     html += '<label for="guest-name">Ajouter quelqu’un</label>';
     html += '<input type="text" id="guest-name" maxlength="60" placeholder="Prénom (et nom si besoin)" autocomplete="off" value="' + esc(draftName) + '">';
-    html += campSegHtml("camp", draftCamp);
+    html += '<div class="campseg" role="group" aria-label="Copain de qui ?">';
+    ["charlotte", "antoine", "deux"].forEach(function (k) {
+      const lbl = k === "charlotte" ? "Charlotte" : k === "antoine" ? "Antoine" : "Les deux";
+      html += '<button type="button" class="' + CAMPS[k].cls + '" data-act="camp" data-camp="' + k +
+        '" aria-pressed="' + (draftCamp === k) + '">' + lbl + "</button>";
+    });
+    html += "</div>";
     html += '<button type="submit" class="go">Ajouter à la liste</button>';
     html += "</form>";
   }
@@ -440,7 +374,7 @@ function renderListe(canEdit) {
     state.guests.length + (state.guests.length > 1 ? " personnes" : " personne") + "</span></div>";
 
   if (!state.guests.length) {
-    html += '<div class="card empty"><b>Personne pour l’instant</b>Ajoute les premiers copains, la liste se remplit toute seule.</div>';
+    html += '<div class="card empty"><b>Personne pour l’instant</b>La liste se remplit bientôt !</div>';
   } else {
     html += '<ul class="guests">';
     state.guests.forEach(function (g) {
@@ -453,17 +387,15 @@ function renderListe(canEdit) {
         html += '<button type="button" class="no" data-act="cancel-edit">Annuler</button>';
         html += "</form>";
       } else {
-        html += '<div class="gwho"><div class="gname">' + esc(g.name) +
-          (g.id === meId ? " (toi)" : "") + '</div>' +
+        html += '<div class="gwho"><div class="gname">' + esc(g.name) + '</div>' +
           '<div class="gcamp ' + camp.cls + '">' + camp.short + "</div></div>";
-        html += '<div class="seg" role="group" aria-label="Statut de ' + esc(g.name) + '">';
-        Object.keys(STATUSES).forEach(function (s) {
-          html += '<button type="button" class="s-' + s + '" data-act="status" data-id="' + esc(g.id) +
-            '" data-status="' + s + '" aria-pressed="' + (g.status === s) + '"' +
-            (canEdit ? "" : " disabled") + ">" + STATUSES[s] + "</button>";
-        });
-        html += "</div>";
         if (canEdit) {
+          html += '<div class="seg" role="group" aria-label="Statut de ' + esc(g.name) + '">';
+          Object.keys(STATUSES).forEach(function (s) {
+            html += '<button type="button" class="s-' + s + '" data-act="status" data-id="' + esc(g.id) +
+              '" data-status="' + s + '" aria-pressed="' + (g.status === s) + '">' + STATUSES[s] + "</button>";
+          });
+          html += "</div>";
           html += '<div class="gtools">';
           html += '<button type="button" data-act="edit" data-id="' + esc(g.id) + '" aria-label="Renommer ' + esc(g.name) + '">✎</button>';
           if (armedDeleteId === g.id) {
@@ -472,55 +404,25 @@ function renderListe(canEdit) {
             html += '<button type="button" data-act="del" data-id="' + esc(g.id) + '" aria-label="Supprimer ' + esc(g.name) + '">×</button>';
           }
           html += "</div>";
+        } else {
+          const st = PILLS[g.status] ? g.status : "peutetre";
+          html += '<span class="pill p-' + st + '"><span class="dot dot-' +
+            (st === "oui" ? "ok" : st === "peutetre" ? "maybe" : "off") + '"></span>' + PILLS[st] + "</span>";
         }
       }
       html += "</li>";
     });
     html += "</ul>";
   }
-  return html;
-}
-
-function render() {
-  const app = document.getElementById("app");
-  const c = counts();
-  const dl = daysLeft();
-  const jchip = dl > 0 ? "J‑" + dl
-    : dl === 0 ? "C'est aujourd'hui !"
-    : "";
-  const canEdit = !readOnly && (!artifactKnown || artifact);
-
-  let html = '<main class="wrap">';
-  html += '<header class="hero">';
-  html += '<p class="eyebrow"><span>' + PARTY.label + "</span>" +
-    (jchip ? '<span class="jchip">' + jchip + "</span>" : "") + "</p>";
-  html += '<h1>Anniv Charlotte <span class="amp">&amp;</span> Antoine</h1>';
-  html += '<p class="sub">Dis-nous si tu viens : clique sur ton nom (ou ajoute-toi), choisis ton statut, tout s’enregistre pour tout le monde.</p>';
-  html += "</header>";
-
-  if (readOnly) {
-    html += '<p class="banner">Lecture seule — ce lien ne permet pas de modifier la liste.</p>';
-  } else if (artifactKnown && !artifact) {
-    html += '<p class="banner">Aperçu local — ouvre la page via le lien partagé pour que tes modifications s’enregistrent.</p>';
-  }
-
-  html += '<section class="stats" aria-label="Compteurs">';
-  html += '<span class="stat"><span class="dot dot-ok"></span><b>' + c.oui + "</b>&nbsp;présent·es</span>";
-  html += '<span class="stat"><span class="dot dot-maybe"></span><b>' + c.peutetre + "</b>&nbsp;peut-être</span>";
-  html += '<span class="stat"><span class="dot dot-charlotte"></span><b>' + c.charlotte + "</b>&nbsp;côté Charlotte</span>";
-  html += '<span class="stat"><span class="dot dot-antoine"></span><b>' + c.antoine + "</b>&nbsp;côté Antoine</span>";
-  html += "</section>";
-
-  html += '<nav class="tabs" aria-label="Vues">';
-  html += '<button type="button" data-act="tab" data-view="moi" aria-pressed="' + (view === "moi") + '">Moi</button>';
-  html += '<button type="button" data-act="tab" data-view="liste" aria-pressed="' + (view === "liste") + '">Toute la liste</button>';
-  html += "</nav>";
-
-  html += view === "moi" ? renderMe(canEdit) : renderListe(canEdit);
 
   html += '<footer class="foot">';
-  if (state.updated) html += "<span>Dernière modification le " + esc(fmtUpdated(state.updated)) + "</span>";
-  html += "<span>Rendez-vous le 17 octobre — la liste est partagée, sois sympa avec elle \u{1F389}</span>";
+  if (state.updated) html += "<span>Dernière mise à jour le " + esc(fmtUpdated(state.updated)) + "</span>";
+  html += "<span>Rendez-vous le 17 octobre \u{1F389}</span>";
+  if (!readOnly) {
+    html += canEdit
+      ? '<button type="button" class="orga" data-act="orga-off">Quitter le mode organisateurs</button>'
+      : '<button type="button" class="orga" data-act="orga-on">Espace organisateurs</button>';
+  }
   html += "</footer></main>";
 
   app.innerHTML = html;
@@ -533,40 +435,15 @@ document.getElementById("app").addEventListener("click", function (ev) {
   if (!btn || saving) return;
   const act = btn.getAttribute("data-act");
   const id = btn.getAttribute("data-id");
-  if (act === "tab") {
-    view = btn.getAttribute("data-view");
-    try { sessionStorage.setItem("anniv-view", view); } catch (e) {}
+  if (act === "orga-on") {
+    setEditMode(true);
     render();
-  } else if (act === "pick-me") {
-    setMe(id);
+    toast("Mode organisateurs : les modifications ne marchent que pour Charlotte et Antoine.");
+  } else if (act === "orga-off") {
+    setEditMode(false);
+    editingId = null;
+    armedDeleteId = null;
     render();
-  } else if (act === "not-me") {
-    setMe(null);
-    joinName = "";
-    render();
-  } else if (act === "me-status") {
-    const status = btn.getAttribute("data-status");
-    save(function (next) {
-      const g = next.guests.find(function (x) { return x.id === meId; });
-      if (!g || g.status === status) return false;
-      g.status = status;
-    });
-  } else if (act === "me-camp") {
-    const camp = btn.getAttribute("data-camp");
-    save(function (next) {
-      const g = next.guests.find(function (x) { return x.id === meId; });
-      if (!g || g.camp === camp) return false;
-      g.camp = camp;
-    });
-  } else if (act === "join-camp") {
-    joinCamp = btn.getAttribute("data-camp");
-    render();
-    const input = document.getElementById("join-name");
-    if (input) {
-      const end = input.value.length;
-      input.focus();
-      input.setSelectionRange(end, end);
-    }
   } else if (act === "camp") {
     draftCamp = btn.getAttribute("data-camp");
     const nameInput = document.getElementById("guest-name");
@@ -596,7 +473,6 @@ document.getElementById("app").addEventListener("click", function (ev) {
         if (i < 0) return false;
         next.guests.splice(i, 1);
       });
-      if (meId === id) setMe(null);
     } else {
       armedDeleteId = id;
       render();
@@ -609,20 +485,7 @@ document.getElementById("app").addEventListener("click", function (ev) {
 });
 
 document.getElementById("app").addEventListener("input", function (ev) {
-  const t = ev.target;
-  if (!t) return;
-  if (t.id === "guest-name") {
-    draftName = t.value;
-  } else if (t.id === "join-name") {
-    joinName = t.value;
-    const pos = t.selectionStart;
-    render();
-    const input = document.getElementById("join-name");
-    if (input) {
-      input.focus();
-      input.setSelectionRange(pos, pos);
-    }
-  }
+  if (ev.target && ev.target.id === "guest-name") draftName = ev.target.value;
 });
 
 document.getElementById("app").addEventListener("submit", function (ev) {
@@ -631,24 +494,7 @@ document.getElementById("app").addEventListener("submit", function (ev) {
   ev.preventDefault();
   if (saving) return;
   const kind = form.getAttribute("data-form");
-  if (kind === "join") {
-    const name = joinName.trim();
-    if (!name) { toast("Écris ton prénom !"); return; }
-    const existing = state.guests.find(function (g) { return norm(g.name) === norm(name); });
-    if (existing) {
-      setMe(existing.id);
-      joinName = "";
-      render();
-      return;
-    }
-    const newId = uid();
-    setMe(newId);
-    const camp = joinCamp;
-    joinName = "";
-    save(function (next) {
-      next.guests.push({ id: newId, name: name, camp: camp, status: "oui" });
-    });
-  } else if (kind === "add") {
+  if (kind === "add") {
     const name = (document.getElementById("guest-name").value || "").trim();
     if (!name) { toast("Il manque le prénom !"); return; }
     const camp = draftCamp;
@@ -670,13 +516,8 @@ document.getElementById("app").addEventListener("submit", function (ev) {
   }
 });
 
-meId = getMe();
-if (meId && !state.guests.some(function (g) { return g.id === meId; })) {
-  setMe(null);
-}
+editMode = getEditMode();
 try {
-  const storedView = sessionStorage.getItem("anniv-view");
-  if (storedView === "moi" || storedView === "liste") view = storedView;
   const draft = JSON.parse(sessionStorage.getItem("anniv-draft") || "null");
   if (draft) {
     if (typeof draft.name === "string") draftName = draft.name;

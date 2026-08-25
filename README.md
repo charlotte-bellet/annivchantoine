@@ -7,30 +7,22 @@ Liste d'invités partagée pour l'anniversaire de Charlotte et Antoine, le **sam
 - `index.html` est une page unique, publiée comme artifact sur claude.ai et partagée
   via le lien dans la conversation WhatsApp.
 - La liste des invités est stockée dans la page elle-même (bloc JSON `#state`).
-- À chaque modification (ajout, statut Oui / Peut-être / Non, renommage, suppression),
-  la page se republie via la capacité `artifact` du runtime claude.ai
-  (`claude.use("artifact")` puis `artifact.publish(html)`) : la nouvelle version est
-  enregistrée pour tout le monde et toutes les vues ouvertes se rechargent.
+- À chaque modification, la page se republie via la capacité `artifact` du runtime
+  claude.ai (`claude.use("artifact")` puis `artifact.publish(html)`) : la nouvelle
+  version est enregistrée pour tout le monde et toutes les vues ouvertes se rechargent.
 - Chaque invité·e est rattaché·e à un « camp » : copains de Charlotte, copains
   d'Antoine, ou les deux, avec des compteurs en haut de page.
 
-## Parcours invité (onglet « Moi »)
+## Droits d'accès
 
-À l'ouverture, l'invité arrive sur l'onglet **Moi** :
-
-- il écrit son prénom : les noms correspondants de la liste s'affichent en chips —
-  s'il y est, il clique sur son nom ;
-- sinon, il choisit son camp et s'ajoute comme nouveau participant ;
-- il met ensuite à jour son statut (Présent·e / Peut-être / Absent·e) et peut
-  changer de camp. La page retient qui il est (`localStorage`) pour les visites
-  suivantes ; « Ce n'est pas moi » permet de changer d'identité.
-
-L'onglet **Toute la liste** garde la gestion complète : ajout, statut, renommage,
-suppression, pour n'importe quel invité.
-
-## Édition
-
-Toute personne ayant accès en écriture au lien partagé peut modifier la liste depuis
-l'app. Les conflits d'édition simultanée sont gérés par le runtime (la version la plus
-récente gagne, les vues se rechargent). Un lien en lecture seule affiche la liste sans
-permettre de la modifier.
+- **Les invités consultent seulement** : la page s'ouvre en vue lecture (liste des
+  participants avec leur statut Présent·e / Peut-être / Absent·e). Pour changer leur
+  réponse, ils font signe dans le groupe WhatsApp.
+- **Les organisateurs éditent** : le lien « Espace organisateurs » en bas de page
+  active le mode édition (ajout, statut, renommage, suppression), mémorisé sur
+  l'appareil.
+- Le vrai contrôle d'accès est celui du partage claude.ai : le lien diffusé aux
+  invités est en lecture seule ; seuls les comptes invités en édition
+  (Charlotte, propriétaire, et antoinejeux92@gmail.com) peuvent réellement
+  enregistrer — pour tout autre viewer, l'enregistrement est refusé (`not_writer`)
+  et la page repasse en lecture seule.
