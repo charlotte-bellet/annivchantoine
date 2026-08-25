@@ -4,6 +4,8 @@
  * Déployé en Web App ("Exécuter en tant que : moi", "Accès : Tout le monde"),
  * ce script sert la page Index.html et stocke la liste des invités dans un
  * Google Sheet créé automatiquement dans le Drive du compte au premier accès.
+ * Colonnes : id / nom / camp / statut / plusuns / maj (les classeurs créés
+ * avant la colonne "plusuns" sont migrés automatiquement).
  */
 
 var SHEET_GUESTS = "invites";
@@ -12,6 +14,7 @@ var SHEET_CONFIG = "config";
 var DEFAULT_ADMIN_HASH = "7201071f636b8d7a7999d358e018fe7ac891685d8ffe3f336e1e8541c09acd58";
 var CAMPS = ["charlotte", "antoine", "deux"];
 var STATUSES = ["oui", "peutetre", "non"];
+var MAX_PLUS = 2;
 
 function doGet() {
   return HtmlService.createHtmlOutputFromFile("Index")
@@ -32,11 +35,11 @@ function getSpreadsheet_() {
   var ss = SpreadsheetApp.create("Anniv Charlotte & Antoine — invités");
   var g = ss.getActiveSheet();
   g.setName(SHEET_GUESTS);
-  g.getRange(1, 1, 1, 5).setValues([["id", "nom", "camp", "statut", "maj"]]);
+  g.getRange(1, 1, 1, 6).setValues([["id", "nom", "camp", "statut", "plusuns", "maj"]]);
   var now = new Date().toISOString();
-  g.getRange(2, 1, 2, 5).setValues([
-    [Utilities.getUuid(), "Charlotte B", "charlotte", "oui", now],
-    [Utilities.getUuid(), "Antoine B", "antoine", "oui", now]
+  g.getRange(2, 1, 2, 6).setValues([
+    [Utilities.getUuid(), "Charlotte B", "charlotte", "oui", 0, now],
+    [Utilities.getUuid(), "Antoine B", "antoine", "oui", 0, now]
   ]);
   var c = ss.insertSheet(SHEET_CONFIG);
   c.getRange(1, 1, 2, 2).setValues([["cle", "valeur"], ["note", "Le code organisateurs est stocké (haché) dans les propriétés du script."]]);
@@ -45,14 +48,29 @@ function getSpreadsheet_() {
 }
 
 function guestsSheet_() {
-  return getSpreadsheet_().getSheetByName(SHEET_GUESTS);
+  var sh = getSpreadsheet_().getSheetByName(SHEET_GUESTS);
+  // Migration : les anciens classeurs n'ont pas la colonne "plusuns".
+  if (sh.getRange(1, 5).getValue() === "maj") {
+    sh.insertColumnBefore(5);
+    sh.getRange(1, 5).setValue("plusuns");
+    var last = sh.getLastRow();
+    if (last > 1) sh.getRange(2, 5, last - 1, 1).setValue(0);
+  }
+  return sh;
+}
+
+function clampPlus_(v) {
+  var n = parseInt(v, 10);
+  if (isNaN(n) || n < 0) n = 0;
+  if (n > MAX_PLUS) n = MAX_PLUS;
+  return n;
 }
 
 function readGuests_() {
   var sh = guestsSheet_();
   var last = sh.getLastRow();
   if (last < 2) return [];
-  return sh.getRange(2, 1, last - 1, 5).getValues()
+  return sh.getRange(2, 1, last - 1, 6).getValues()
     .filter(function (r) { return r[0] && r[1]; })
     .map(function (r) {
       return {
@@ -60,7 +78,8 @@ function readGuests_() {
         name: String(r[1]),
         camp: CAMPS.indexOf(String(r[2])) >= 0 ? String(r[2]) : "deux",
         status: STATUSES.indexOf(String(r[3])) >= 0 ? String(r[3]) : "peutetre",
-        updated: String(r[4] || "")
+        plus: clampPlus_(r[4]),
+        updated: String(r[5] || "")
       };
     });
 }
@@ -68,10 +87,10 @@ function readGuests_() {
 function writeGuests_(guests) {
   var sh = guestsSheet_();
   var last = sh.getLastRow();
-  if (last > 1) sh.getRange(2, 1, last - 1, 5).clearContent();
+  if (last > 1) sh.getRange(2, 1, last - 1, 6).clearContent();
   if (guests.length) {
-    sh.getRange(2, 1, guests.length, 5).setValues(guests.map(function (g) {
-      return [g.id, g.name, g.camp, g.status, g.updated || ""];
+    sh.getRange(2, 1, guests.length, 6).setValues(guests.map(function (g) {
+      return [g.id, g.name, g.camp, g.status, g.plus || 0, g.updated || ""];
     }));
   }
 }
@@ -116,7 +135,7 @@ function apiGetState() {
 
 // L'invité tape son nom : si un nom identique existe on le lui rattache,
 // sinon on crée un nouveau participant (statut "oui" par défaut).
-function apiJoin(name, camp) {
+function apiJoin(name, camp, plus) {
   name = String(name || "").trim().slice(0, 60);
   if (norm_(name).length < 2) throw new Error("Écris ton prénom (au moins 2 lettres).");
   if (CAMPS.indexOf(camp) < 0) camp = "deux";
@@ -127,15 +146,23 @@ function apiJoin(name, camp) {
       if (norm_(guests[i].name) === norm_(name)) { existing = guests[i]; break; }
     }
     if (existing) return { meId: existing.id, state: stateFor_(guests) };
-    var g = { id: Utilities.getUuid(), name: name, camp: camp, status: "oui", updated: new Date().toISOString() };
+    var g = {
+      id: Utilities.getUuid(),
+      name: name,
+      camp: camp,
+      status: "oui",
+      plus: clampPlus_(plus),
+      updated: new Date().toISOString()
+    };
     guests.push(g);
     writeGuests_(guests);
     return { meId: g.id, state: stateFor_(guests) };
   });
 }
 
-// L'invité met à jour sa propre carte (statut et/ou camp).
-function apiSetSelf(id, status, camp) {
+// L'invité met à jour sa propre carte (statut, camp et/ou +1).
+// Passer null pour un champ le laisse inchangé.
+function apiSetSelf(id, status, camp, plus) {
   return withLock_(function () {
     var guests = readGuests_();
     var g = null;
@@ -145,6 +172,7 @@ function apiSetSelf(id, status, camp) {
     if (!g) throw new Error("Invité·e introuvable — recharge la page.");
     if (status && STATUSES.indexOf(status) >= 0) g.status = status;
     if (camp && CAMPS.indexOf(camp) >= 0) g.camp = camp;
+    if (plus !== null && plus !== undefined) g.plus = clampPlus_(plus);
     g.updated = new Date().toISOString();
     writeGuests_(guests);
     return stateFor_(guests);
@@ -180,6 +208,7 @@ function apiAdmin(code, op, payload) {
         name: name,
         camp: CAMPS.indexOf(payload.camp) >= 0 ? payload.camp : "deux",
         status: "oui",
+        plus: 0,
         updated: now
       });
     } else if (op === "rename") {
@@ -198,6 +227,10 @@ function apiAdmin(code, op, payload) {
       if (CAMPS.indexOf(payload.camp) < 0) throw new Error("Camp inconnu.");
       g3.camp = payload.camp;
       g3.updated = now;
+    } else if (op === "plus") {
+      var g4 = find(payload.id);
+      g4.plus = clampPlus_(payload.plus);
+      g4.updated = now;
     } else if (op === "del") {
       var before = guests.length;
       guests = guests.filter(function (x) { return x.id !== payload.id; });

@@ -4,151 +4,159 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Anniv Charlotte &amp; Antoine</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Nunito:wght@400;600;700;800&display=swap">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#FFF6EC; --card:#FFFFFF; --ink:#463A4B; --muted:#9A8AA0;
-  --line:#F3E4DC; --accent:#F4578C; --accent-soft:#FFE9F0;
-  --charlotte:#F4578C; --antoine:#4FA3D9; --deux:#9B7EDB;
-  --ok:#2FA96C; --ok-soft:#E2F6EB; --maybe:#E8960C; --maybe-soft:#FFF3DC;
-  --off:#9A8AA0; --off-soft:#F1EDF3; --danger:#E0526B;
-  --shadow:0 6px 24px rgba(90,60,80,.08);
-}
-@media (prefers-color-scheme: dark){
-  :root{
-    --bg:#2A2230; --card:#372C3E; --ink:#F7EFF4; --muted:#BCA8C4;
-    --line:#4C3E55; --accent:#FF7FA6; --accent-soft:#4A3341;
-    --charlotte:#FF7FA6; --antoine:#77BCE8; --deux:#B79AE8;
-    --ok:#5ECD92; --ok-soft:#2F4237; --maybe:#F0B457; --maybe-soft:#4A3D2B;
-    --off:#BCA8C4; --off-soft:#443A4B; --danger:#F08498;
-    --shadow:0 6px 24px rgba(0,0,0,.3);
-  }
+  --terra:#D97757; --blue:#6A9BCC; --rose:#C46686;
+  --ink:#141413; --cream:#FAF9F5; --muted:#73726C; --body:#3D3D3A;
+  --line:rgba(31,30,29,.15); --line2:rgba(31,30,29,.3);
 }
 html{-webkit-text-size-adjust:100%}
-body{background:var(--bg);color:var(--ink);line-height:1.5;min-height:100vh;
-  font-family:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif}
+body{background:var(--terra);color:var(--ink);line-height:1.4;min-height:100vh;
+  font-family:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif}
 button,input{font:inherit;color:inherit}
 button{cursor:pointer;border:none;background:none}
-:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px;border-radius:8px}
 @media (prefers-reduced-motion: reduce){*{transition:none !important;animation:none !important}}
 
-.wrap{max-width:520px;margin:0 auto;padding:30px 16px 56px}
-.hero{text-align:center;margin-bottom:20px}
-.cake{font-size:3rem;line-height:1}
-.hero h1{font-family:"Baloo 2","Nunito",system-ui,sans-serif;font-weight:800;
-  font-size:clamp(1.8rem,7.5vw,2.4rem);line-height:1.1;margin-top:4px}
-.hero .date{margin-top:4px;font-weight:800;color:var(--accent);font-size:1.05rem}
-.hero .jj{color:var(--muted);font-weight:600;font-size:.9rem}
+.in{max-width:430px;margin:0 auto;padding:0 20px}
 
-.card{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:20px;margin-bottom:20px}
-.cardtitle{font-family:"Baloo 2","Nunito",sans-serif;font-weight:800;font-size:1.3rem;margin-bottom:12px}
+.hero{padding:44px 0 60px}
+.badge{width:72px;height:72px;border-radius:50%;background:var(--cream);
+  display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:500;letter-spacing:-.01em}
+.hero h1{margin-top:26px;font-size:clamp(30px,8.5vw,38px);line-height:1.08;font-weight:500;letter-spacing:-.02em}
+.facts{margin-top:26px;display:flex;flex-direction:column;gap:14px;font-size:17px;line-height:1.35}
+.fact{display:flex;gap:12px;align-items:center}
+.tile{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:none}
+.tile svg{display:block}
+.fact b{font-weight:500}
 
-.hello{font-family:"Baloo 2","Nunito",sans-serif;font-weight:800;font-size:1.5rem;overflow-wrap:anywhere}
-.team{color:var(--muted);font-weight:700;font-size:.9rem;margin-top:2px}
-.team.c-charlotte{color:var(--charlotte)} .team.c-antoine{color:var(--antoine)} .team.c-deux{color:var(--deux)}
-.question{font-weight:800;margin:16px 0 10px}
+.sheet{border-radius:32px 32px 0 0;margin-top:-32px;position:relative;padding:30px 0 44px}
+.sheet-blue{background:var(--blue)}
+.sheet-cream{background:var(--cream);padding-bottom:56px;min-height:45vh}
+.stitle{font-size:30px;line-height:1.1;font-weight:500;letter-spacing:-.02em;overflow-wrap:anywhere}
 
-input[type=text],input[type=password]{width:100%;border:2px solid var(--line);border-radius:16px;
-  padding:13px 16px;background:var(--bg);font-weight:700}
-input::placeholder{color:var(--muted);opacity:.8;font-weight:600}
-input:focus{border-color:var(--accent);outline:none}
-.hint{color:var(--muted);font-size:.9rem;margin-top:10px}
+.field{width:100%;background:#fff;border:.5px solid var(--line);border-radius:16px;
+  padding:16px;font-size:16px;margin-top:20px}
+.field::placeholder{color:var(--muted)}
+.field:focus{outline:none;border-color:var(--ink)}
+.hint{margin-top:12px;font-size:14px;color:rgba(20,20,19,.75)}
 
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.chips button{background:var(--accent-soft);color:var(--accent);border-radius:999px;
-  padding:10px 18px;font-weight:800;transition:transform .1s}
-.chips button:active{transform:scale(.96)}
-.chiplabel{font-weight:800;margin-top:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chips button{background:#fff;border:.5px solid var(--line2);border-radius:9999px;
+  padding:10px 16px;font-size:15px;font-weight:500}
+.chiplabel{margin-top:18px;font-size:14px;color:rgba(20,20,19,.75)}
 
-.big{display:flex;flex-direction:column;gap:10px}
-@media (min-width:460px){.big{flex-direction:row}.big button{flex:1}}
-.big button{border-radius:18px;padding:15px 12px;font-weight:800;font-size:1.05rem;
-  background:var(--bg);border:2px solid var(--line);transition:transform .1s,background .15s,border-color .15s}
-.big button:active{transform:scale(.97)}
-.big .b-oui[aria-pressed=true]{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
-.big .b-peutetre[aria-pressed=true]{background:var(--maybe-soft);border-color:var(--maybe);color:var(--maybe)}
-.big .b-non[aria-pressed=true]{background:var(--off-soft);border-color:var(--off);color:var(--off)}
+.opts{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+.opt{display:flex;align-items:center;gap:14px;padding:18px;border-radius:16px;
+  background:#fff;border:.5px solid var(--line);text-align:left;width:100%;transition:background .15s}
+.opt .col{flex:1;display:flex;flex-direction:column;gap:2px}
+.opt .t{font-size:18px;font-weight:500}
+.opt .s{font-size:14px;color:var(--muted)}
+.opt .ring{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line2);
+  display:flex;align-items:center;justify-content:center;flex:none}
+.opt .dot{width:12px;height:12px;border-radius:50%;background:var(--cream);opacity:0}
+.opt[aria-pressed=true]{background:var(--ink)}
+.opt[aria-pressed=true] .t{color:var(--cream)}
+.opt[aria-pressed=true] .s{color:rgba(250,249,245,.7)}
+.opt[aria-pressed=true] .ring{border-color:var(--cream)}
+.opt[aria-pressed=true] .dot{opacity:1}
 
-.teamseg{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.teamseg button{flex:1;min-width:96px;border-radius:14px;padding:10px 6px;font-weight:800;
-  font-size:.92rem;background:var(--bg);border:2px solid var(--line)}
-.teamseg .c-charlotte[aria-pressed=true]{color:var(--charlotte);border-color:var(--charlotte)}
-.teamseg .c-antoine[aria-pressed=true]{color:var(--antoine);border-color:var(--antoine)}
-.teamseg .c-deux[aria-pressed=true]{color:var(--deux);border-color:var(--deux)}
+.plusrow{display:flex;align-items:center;gap:12px;margin-top:24px;padding:0 2px}
+.plusrow .col{flex:1;display:flex;flex-direction:column;gap:2px}
+.plusrow .t{font-size:18px;font-weight:500}
+.plusrow .s{font-size:14px;color:rgba(20,20,19,.75)}
+.step{display:flex;align-items:center;gap:12px;flex:none}
+.step button{width:40px;height:40px;border-radius:50%;background:#fff;border:.5px solid var(--line2);
+  display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:500;line-height:1}
+.step button:disabled{opacity:.4;cursor:not-allowed}
+.step .n{font-size:22px;font-weight:500;min-width:16px;text-align:center}
 
-.go{width:100%;margin-top:14px;background:var(--accent);color:#fff;border-radius:18px;
-  padding:15px;font-family:"Baloo 2","Nunito",sans-serif;font-weight:800;font-size:1.15rem;
-  transition:transform .1s,filter .15s}
-.go:hover{filter:brightness(1.06)}
-.go:active{transform:scale(.98)}
+.tpills{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.tpills button{padding:9px 15px;border-radius:9999px;background:#fff;
+  border:.5px solid var(--line2);font-size:14px;font-weight:500}
+.tpills button[aria-pressed=true]{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+
+.cta{width:100%;height:56px;border-radius:9999px;background:var(--ink);color:var(--cream);
+  font-size:17px;font-weight:500;margin-top:24px;transition:opacity .15s}
+.cta:hover{opacity:.9}
 button:disabled{opacity:.5;cursor:not-allowed}
-.linkbtn{display:block;margin:14px auto 0;color:var(--muted);font-size:.9rem;
-  font-weight:700;text-decoration:underline;padding:4px}
+.small{margin-top:12px;text-align:center;font-size:13px;color:rgba(20,20,19,.75)}
+.linkbtn{display:block;margin:18px auto 0;font-size:14px;color:rgba(20,20,19,.75);text-decoration:underline;padding:4px}
 
-.listhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
-.listhead h2{font-family:"Baloo 2","Nunito",sans-serif;font-weight:800;font-size:1.3rem}
-.listhead span{color:var(--muted);font-weight:700;font-size:.9rem}
-.moodline{color:var(--muted);font-weight:700;font-size:.92rem;margin-bottom:12px}
-.guests{list-style:none;display:flex;flex-direction:column}
-.guest{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 4px;border-top:2px solid var(--line)}
-.gwho{flex:1;min-width:120px}
-.gname{font-weight:800;overflow-wrap:anywhere}
-.gteam{font-size:.8rem;font-weight:700;color:var(--muted)}
-.gteam.c-charlotte{color:var(--charlotte)} .gteam.c-antoine{color:var(--antoine)} .gteam.c-deux{color:var(--deux)}
-.mood{font-weight:800;font-size:.95rem}
-.mood.p-oui{color:var(--ok)} .mood.p-peutetre{color:var(--maybe)} .mood.p-non{color:var(--off)}
-.empty{text-align:center;color:var(--muted);padding:20px;font-weight:700}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-top:16px}
+.filters button{flex:none;padding:8px 14px;border-radius:9999px;background:#fff;
+  border:.5px solid rgba(31,30,29,.2);font-size:14px}
+.filters button[aria-pressed=true]{background:var(--ink);color:var(--cream);border-color:var(--ink);font-weight:500}
 
-.seg{display:flex;border:2px solid var(--line);border-radius:999px;overflow:hidden}
-.seg button{padding:6px 10px;font-size:.82rem;font-weight:800;color:var(--muted)}
-.seg button + button{border-left:2px solid var(--line)}
-.seg .s-oui[aria-pressed=true]{background:var(--ok);color:#fff}
-.seg .s-peutetre[aria-pressed=true]{background:var(--maybe);color:#fff}
-.seg .s-non[aria-pressed=true]{background:var(--off);color:#fff}
-.gtools{display:flex;gap:2px}
-.gtools button{color:var(--muted);border-radius:10px;padding:5px 8px;font-size:1rem;line-height:1}
-.gtools .armed{color:var(--danger);font-size:.8rem;font-weight:800}
+.rows{margin-top:10px}
+.row{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:.5px solid rgba(31,30,29,.1);flex-wrap:wrap}
+.av{width:40px;height:40px;border-radius:50%;font-size:14px;font-weight:500;
+  display:flex;align-items:center;justify-content:center;flex:none}
+.row .who{flex:1;min-width:120px;display:flex;flex-direction:column}
+.row .nm{font-size:16px;font-weight:450;overflow-wrap:anywhere}
+.row .mt{font-size:13px;color:var(--muted)}
+.pluspill{font-size:13px;font-weight:500;padding:4px 9px;border-radius:9999px;flex:none}
+.empty{padding:24px 0;color:var(--muted);font-size:15px}
+
+.total{display:flex;align-items:center;gap:12px;margin-top:18px;padding-top:16px;border-top:.5px solid var(--line)}
+.total .col{flex:1;display:flex;flex-direction:column}
+.total .t{font-size:15px;font-weight:500}
+.total .s{font-size:13px;color:var(--muted)}
+
+.seg{display:flex;border:.5px solid var(--line2);border-radius:9999px;overflow:hidden}
+.seg button{padding:6px 10px;font-size:13px;font-weight:500;color:var(--muted)}
+.seg button + button{border-left:.5px solid var(--line2)}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--cream)}
+.gtools{display:flex;gap:2px;align-items:center}
+.gtools button{color:var(--muted);border-radius:10px;padding:5px 8px;font-size:15px;line-height:1}
+.gtools .cycle{border:.5px solid var(--line2);border-radius:9999px;font-size:13px;font-weight:500;padding:5px 10px}
+.gtools .armed{color:#B4373C;font-size:13px;font-weight:600}
 .editrow{display:flex;gap:6px;flex:1;min-width:200px}
-.editrow input{flex:1;min-width:0;padding:9px 12px;border-radius:12px}
-.editrow button{border-radius:12px;padding:8px 12px;font-weight:800}
-.editrow .ok{background:var(--accent);color:#fff}
+.editrow input{flex:1;min-width:0;background:#fff;border:.5px solid var(--line2);border-radius:12px;padding:9px 12px;font-size:15px}
+.editrow button{border-radius:9999px;padding:8px 14px;font-size:14px;font-weight:500}
+.editrow .ok{background:var(--ink);color:var(--cream)}
 .editrow .no{color:var(--muted)}
-.addform{margin-bottom:16px;padding-bottom:16px;border-bottom:2px dashed var(--line)}
+.addform{padding:14px 0 18px;border-bottom:.5px solid var(--line)}
+.addform .cta{height:48px;margin-top:12px;font-size:15px}
+.addform .field{margin-top:0}
 
-.foot{margin-top:24px;text-align:center;color:var(--muted);font-size:.85rem;
-  font-weight:600;display:flex;flex-direction:column;gap:8px;align-items:center}
-.orga{color:var(--muted);font-size:.82rem;font-weight:700;text-decoration:underline;padding:4px}
-.adminbox{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;background:var(--card);
-  border-radius:18px;padding:12px;box-shadow:var(--shadow);max-width:100%}
-.adminbox input{width:190px;padding:9px 12px;border-radius:12px}
-.adminbox button{background:var(--accent);color:#fff;border-radius:12px;padding:9px 14px;font-weight:800}
+.foot{margin-top:30px;text-align:center;color:var(--muted);font-size:13px;
+  display:flex;flex-direction:column;gap:10px;align-items:center}
+.adminbox{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;background:#fff;
+  border:.5px solid var(--line);border-radius:20px;padding:12px;max-width:100%}
+.adminbox input{width:190px;background:var(--cream);border:.5px solid var(--line2);border-radius:12px;padding:9px 12px;font-size:14px}
+.adminbox button{background:var(--ink);color:var(--cream);border-radius:9999px;padding:9px 16px;font-size:14px;font-weight:500}
 .adminbox .quiet{background:none;color:var(--muted)}
 
-.overlay{position:fixed;inset:0;background:rgba(50,30,45,.4);display:flex;
+.overlay{position:fixed;inset:0;background:rgba(20,20,19,.4);display:flex;
   align-items:center;justify-content:center;z-index:50}
-.overlay div{background:var(--card);color:var(--ink);border-radius:18px;padding:16px 26px;
-  font-weight:800;box-shadow:var(--shadow)}
+.overlay div{background:var(--cream);color:var(--ink);border-radius:16px;padding:16px 26px;font-weight:500}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:60;
-  background:var(--ink);color:var(--bg);border-radius:16px;padding:12px 20px;
-  font-size:.95rem;font-weight:800;box-shadow:var(--shadow);max-width:92vw;text-align:center}
-.loading{text-align:center;color:var(--muted);padding:70px 20px;font-weight:800}
+  background:var(--ink);color:var(--cream);border-radius:9999px;padding:12px 22px;
+  font-size:15px;font-weight:500;max-width:92vw;text-align:center}
+.loading{text-align:center;padding:80px 20px;font-weight:500;color:var(--ink)}
 </style>
 </head>
 <body>
-<div id="app"><p class="loading">🎈 Chargement de la liste…</p></div>
+<div id="app"><p class="loading">Une seconde, on ouvre la liste…</p></div>
 <script>
 "use strict";
 
 var PARTY = { y: 2026, m: 9, d: 17 };
 var TEAMS = {
-  charlotte: { label: "Team Charlotte", cls: "c-charlotte" },
-  antoine:   { label: "Team Antoine",   cls: "c-antoine" },
-  deux:      { label: "Les deux !",     cls: "c-deux" }
+  charlotte: { label: "Team Charlotte", av: "#C46686" },
+  antoine:   { label: "Team Antoine",   av: "#6A9BCC" },
+  deux:      { label: "Team les deux",  av: "#D97757" }
 };
-var BIG = { oui: "🎉 Oui, je viens !", peutetre: "🤔 Peut-être", non: "😢 Je peux pas" };
-var MOODS = { oui: "🎉 Présent·e", peutetre: "🤔 Peut-être", non: "😢 Absent·e" };
+var OPTS = {
+  oui:      { t: "Carrément",  s: "Réserve-moi une place" },
+  peutetre: { t: "Peut-être",  s: "J’aime entretenir le mystère" },
+  non:      { t: "Je peux pas", s: "Et je vais le regretter…" }
+};
+var STATUS_WORD = { oui: "Vient", peutetre: "Peut-être", non: "Vient pas" };
 var SEG = { oui: "Oui", peutetre: "Peut-être", non: "Non" };
+var MAX_PLUS = 2;
 
 var state = { guests: [], updated: "" };
 var loaded = false;
@@ -156,6 +164,7 @@ var busy = false;
 var isAdmin = false;
 var adminOpen = false;
 var adminCode = null;
+var filter = "tous";
 var editingId = null;
 var armedDeleteId = null;
 var armedTimer = null;
@@ -181,6 +190,10 @@ function esc(s) {
 function norm(s) {
   return String(s).trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
+function initials(name) {
+  var parts = String(name).trim().split(/\s+/).slice(0, 2);
+  return parts.map(function (p) { return p.charAt(0).toUpperCase(); }).join("") || "?";
+}
 function store(key, val) {
   try {
     if (val === null) localStorage.removeItem(key);
@@ -196,13 +209,6 @@ function daysLeft() {
   var now = new Date();
   var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   return Math.round((new Date(PARTY.y, PARTY.m, PARTY.d) - today) / 86400000);
-}
-function fmtUpdated(iso) {
-  try {
-    var d = new Date(iso);
-    return d.toLocaleDateString("fr-FR", { day: "numeric", month: "long" }) +
-      " à " + d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
-  } catch (e) { return ""; }
 }
 
 function overlay(msg) {
@@ -244,7 +250,7 @@ function act(promiseFactory, waitMsg) {
   if (busy) return;
   busy = true;
   render();
-  overlay(waitMsg || "Une seconde… ✨");
+  overlay(waitMsg || "On note ça…");
   promiseFactory().then(function (result) {
     busy = false;
     hideOverlay();
@@ -258,97 +264,128 @@ function act(promiseFactory, waitMsg) {
     busy = false;
     hideOverlay();
     render();
-    toast((err && err.message ? err.message : "Oups, ça n'a pas marché — réessaie !").replace(/^(Error|Exception):\s*/, ""));
+    toast((err && err.message ? err.message : "Ça n'a pas marché — réessaie.").replace(/^(Error|Exception):\s*/, ""));
   });
 }
 
-function teamSegHtml(action, current) {
-  var html = '<div class="teamseg" role="group" aria-label="Tu es plutôt…">';
+function counts() {
+  var g = state.guests;
+  var oui = g.filter(function (x) { return x.status === "oui"; });
+  var plus = oui.reduce(function (t, x) { return t + (x.plus || 0); }, 0);
+  return {
+    oui: oui.length,
+    peutetre: g.filter(function (x) { return x.status === "peutetre"; }).length,
+    non: g.filter(function (x) { return x.status === "non"; }).length,
+    plus: plus,
+    total: oui.length + plus
+  };
+}
+
+var ICON_CAL = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#141413" stroke-width="1.8" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"></rect><path d="M3.5 9.5h17M8 2.8v4M16 2.8v4"></path></svg>';
+var ICON_USERS = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#141413" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8" r="3.2"></circle><path d="M3.2 19.5c.7-3.1 3-5 5.8-5s5.1 1.9 5.8 5"></path><path d="M15.5 5.2a3.2 3.2 0 0 1 0 5.8M17.6 14.8c1.7.7 2.9 2.3 3.3 4.4"></path></svg>';
+
+function teamPillsHtml(actName, current) {
+  var html = '<div class="tpills" role="group" aria-label="Tu es plutôt…">';
   ["charlotte", "antoine", "deux"].forEach(function (k) {
-    html += '<button type="button" class="' + TEAMS[k].cls + '" data-act="' + action +
-      '" data-camp="' + k + '" aria-pressed="' + (current === k) + '">' + TEAMS[k].label + "</button>";
+    html += '<button type="button" data-act="' + actName + '" data-camp="' + k +
+      '" aria-pressed="' + (current === k) + '">' + TEAMS[k].label + "</button>";
   });
   return html + "</div>";
 }
 
-function renderMe() {
+function stepperHtml(prefix, n, enabled) {
+  return '<div class="step">' +
+    '<button type="button" data-act="' + prefix + '-dec" aria-label="Un accompagnant de moins"' + (enabled && n > 0 ? "" : " disabled") + '>−</button>' +
+    '<span class="n">' + n + "</span>" +
+    '<button type="button" data-act="' + prefix + '-inc" aria-label="Un accompagnant de plus"' + (enabled && n < MAX_PLUS ? "" : " disabled") + '>+</button>' +
+    "</div>";
+}
+
+function renderRsvp() {
   var me = meId ? state.guests.find(function (g) { return g.id === meId; }) : null;
-  var html = "";
+  var html = '<section class="sheet sheet-blue"><div class="in">';
 
   if (me) {
-    var team = TEAMS[me.camp] || TEAMS.deux;
-    html += '<section class="card">';
-    html += '<p class="hello">Salut ' + esc(me.name) + ' 👋</p>';
-    html += '<p class="team ' + team.cls + '">' + team.label + "</p>";
-    html += '<p class="question">Alors, tu viens le 17 octobre ?</p>';
-    html += '<div class="big">';
-    Object.keys(BIG).forEach(function (s) {
-      html += '<button type="button" class="b-' + s + '" data-act="me-status" data-status="' + s +
-        '" aria-pressed="' + (me.status === s) + '">' + BIG[s] + "</button>";
+    html += '<h2 class="stitle">Alors, ' + esc(me.name) + '. Tu viens ?</h2>';
+    html += '<div class="opts">';
+    Object.keys(OPTS).forEach(function (s) {
+      html += '<button type="button" class="opt" data-act="me-status" data-status="' + s +
+        '" aria-pressed="' + (me.status === s) + '">' +
+        '<span class="col"><span class="t">' + OPTS[s].t + '</span><span class="s">' + OPTS[s].s + "</span></span>" +
+        '<span class="ring"><span class="dot"></span></span></button>';
     });
     html += "</div>";
-    html += '<p class="question">Tu es plutôt…</p>' + teamSegHtml("me-camp", me.camp);
+    html += '<div class="plusrow"><div class="col"><span class="t">Tu viens accompagné·e ?</span>' +
+      '<span class="s">Amoureux·se, coloc, ami·e de soutien émotionnel. Max ' + MAX_PLUS + '.</span></div>' +
+      stepperHtml("me-plus", me.plus || 0, true) + "</div>";
+    html += '<p class="chiplabel">Tu es plutôt…</p>' + teamPillsHtml("me-camp", me.camp);
+    html += '<p class="small">Tu peux changer d’avis jusqu’au 17 octobre.</p>';
     html += '<button type="button" class="linkbtn" data-act="not-me">Ce n’est pas moi</button>';
-    html += "</section>";
-    return html;
-  }
-
-  var q = norm(joinName);
-  var ready = q.length >= 2;
-  var matches = ready ? state.guests.filter(function (g) {
-    return norm(g.name).indexOf(q) !== -1;
-  }) : [];
-
-  html += '<form class="card" data-form="join">';
-  html += '<p class="cardtitle">Tu viens ? Dis-le-nous ! 💌</p>';
-  html += '<input type="text" id="join-name" maxlength="60" placeholder="Ton prénom…" autocomplete="off" value="' + esc(joinName) + '">';
-  if (!ready) {
-    html += '<p class="hint">' + (q.length === 1
-      ? "Encore une lettre… ✍️"
-      : "Écris ton prénom, on s’occupe du reste 😊") + "</p>";
   } else {
-    if (matches.length) {
-      html += '<p class="chiplabel">C’est toi ? 👇</p>';
-      html += '<div class="chips">';
-      matches.forEach(function (g) {
-        html += '<button type="button" data-act="pick-me" data-id="' + esc(g.id) + '">' + esc(g.name) + "</button>";
-      });
-      html += "</div>";
+    var q = norm(joinName);
+    var ready = q.length >= 2;
+    var matches = ready ? state.guests.filter(function (g) {
+      return norm(g.name).indexOf(q) !== -1;
+    }) : [];
+
+    html += '<h2 class="stitle">Alors, tu viens ?</h2>';
+    html += '<form data-form="join">';
+    html += '<input type="text" class="field" id="join-name" maxlength="60" placeholder="Ton prénom…" autocomplete="off" value="' + esc(joinName) + '">';
+    if (!ready) {
+      html += '<p class="hint">' + (q.length === 1
+        ? "Encore une lettre ou deux."
+        : "Écris ton prénom — s’il est déjà dans la liste, il apparaîtra ici.") + "</p>";
+    } else {
+      if (matches.length) {
+        html += '<p class="chiplabel">C’est toi ?</p><div class="chips">';
+        matches.forEach(function (g) {
+          html += '<button type="button" data-act="pick-me" data-id="' + esc(g.id) + '">' + esc(g.name) + "</button>";
+        });
+        html += "</div>";
+      }
+      html += '<p class="chiplabel">' + (matches.length ? "Pas dans la liste ? Tu es plutôt…" : "Tu es plutôt…") + "</p>";
+      html += teamPillsHtml("join-camp", joinCamp);
+      html += '<button type="submit" class="cta">Je m’inscris</button>';
+      html += '<p class="small">Tu choisiras ta réponse et ton +1 juste après.</p>';
     }
-    html += '<p class="question">' + (matches.length ? "Pas dans la liste ? Tu es plutôt…" : "Tu es plutôt…") + "</p>";
-    html += teamSegHtml("join-camp", joinCamp);
-    html += '<button type="submit" class="go">Je m’inscris 🎉</button>';
+    html += "</form>";
   }
-  html += "</form>";
+
+  html += "</div></section>";
   return html;
 }
 
 function renderList() {
-  var oui = state.guests.filter(function (g) { return g.status === "oui"; }).length;
-  var maybe = state.guests.filter(function (g) { return g.status === "peutetre"; }).length;
+  var c = counts();
+  var shown = state.guests.filter(function (g) {
+    return filter === "tous" || g.status === filter;
+  });
 
-  var html = '<section class="card">';
-  html += '<div class="listhead"><h2>Qui vient ? 🎈</h2><span>' +
-    state.guests.length + (state.guests.length > 1 ? " réponses" : " réponse") + "</span></div>";
-  if (state.guests.length) {
-    html += '<p class="moodline">🎉 ' + oui + " viennent" + (maybe ? " · 🤔 " + maybe + " peut-être" : "") + "</p>";
-  }
+  var html = '<section class="sheet sheet-cream"><div class="in">';
+  html += '<h2 class="stitle">Qui vient</h2>';
+  html += '<div class="filters" role="group" aria-label="Filtrer">';
+  [["tous", "Tous " + state.guests.length], ["oui", "Oui " + c.oui],
+   ["peutetre", "Peut-être " + c.peutetre], ["non", "Non " + c.non]].forEach(function (f) {
+    html += '<button type="button" data-act="filter" data-filter="' + f[0] +
+      '" aria-pressed="' + (filter === f[0]) + '">' + f[1] + "</button>";
+  });
+  html += "</div>";
 
   if (isAdmin) {
-    html += '<form class="addform" data-form="add">';
-    html += '<input type="text" id="guest-name" maxlength="60" placeholder="Ajouter quelqu’un…" autocomplete="off" value="' + esc(draftName) + '">';
-    html += teamSegHtml("camp", draftCamp);
-    html += '<button type="submit" class="go">Ajouter</button>';
+    html += '<form class="addform" data-form="add" style="margin-top:16px">';
+    html += '<input type="text" class="field" id="guest-name" maxlength="60" placeholder="Ajouter quelqu’un…" autocomplete="off" value="' + esc(draftName) + '">';
+    html += teamPillsHtml("camp", draftCamp);
+    html += '<button type="submit" class="cta">Ajouter</button>';
     html += "</form>";
   }
 
-  if (!state.guests.length) {
-    html += '<p class="empty">Personne pour l’instant — sois le premier ou la première ! 🥳</p>';
+  html += '<div class="rows">';
+  if (!shown.length) {
+    html += '<p class="empty">' + (state.guests.length ? "Personne dans cette catégorie pour l’instant." : "Personne pour l’instant — lance le mouvement.") + "</p>";
   } else {
-    html += '<ul class="guests">';
-    state.guests.forEach(function (g) {
+    shown.forEach(function (g) {
       var team = TEAMS[g.camp] || TEAMS.deux;
-      html += '<li class="guest">';
+      html += '<div class="row">';
       if (editingId === g.id && isAdmin) {
         html += '<form class="editrow" data-form="rename" data-id="' + esc(g.id) + '">';
         html += '<input type="text" maxlength="60" value="' + esc(g.name) + '" aria-label="Nouveau nom" data-edit-input>';
@@ -356,17 +393,22 @@ function renderList() {
         html += '<button type="button" class="no" data-act="cancel-edit">Annuler</button>';
         html += "</form>";
       } else {
-        html += '<div class="gwho"><div class="gname">' + esc(g.name) +
-          (g.id === meId ? " (toi)" : "") + '</div>' +
-          '<div class="gteam ' + team.cls + '">' + team.label + "</div></div>";
+        html += '<span class="av" style="background:' + team.av + '">' + esc(initials(g.name)) + "</span>";
+        html += '<div class="who"><span class="nm">' + esc(g.name) + (g.id === meId ? " (toi)" : "") + "</span>" +
+          '<span class="mt">' + team.label + " · " + STATUS_WORD[g.status] + "</span></div>";
+        if (g.plus > 0) {
+          html += '<span class="pluspill" style="background:' + team.av + '">+' + g.plus + "</span>";
+        }
         if (isAdmin) {
           html += '<div class="seg" role="group" aria-label="Statut de ' + esc(g.name) + '">';
           Object.keys(SEG).forEach(function (s) {
-            html += '<button type="button" class="s-' + s + '" data-act="status" data-id="' + esc(g.id) +
+            html += '<button type="button" data-act="status" data-id="' + esc(g.id) +
               '" data-status="' + s + '" aria-pressed="' + (g.status === s) + '">' + SEG[s] + "</button>";
           });
           html += "</div>";
           html += '<div class="gtools">';
+          html += '<button type="button" class="cycle" data-act="plus-cycle" data-id="' + esc(g.id) +
+            '" data-plus="' + (g.plus || 0) + '" aria-label="Changer le nombre d’accompagnants">+' + (g.plus || 0) + "</button>";
           html += '<button type="button" data-act="edit" data-id="' + esc(g.id) + '" aria-label="Renommer ' + esc(g.name) + '">✎</button>';
           if (armedDeleteId === g.id) {
             html += '<button type="button" class="armed" data-act="del" data-id="' + esc(g.id) + '">Supprimer ?</button>';
@@ -374,37 +416,18 @@ function renderList() {
             html += '<button type="button" data-act="del" data-id="' + esc(g.id) + '" aria-label="Supprimer ' + esc(g.name) + '">×</button>';
           }
           html += "</div>";
-        } else {
-          var st = MOODS[g.status] ? g.status : "peutetre";
-          html += '<span class="mood p-' + st + '">' + MOODS[st] + "</span>";
         }
       }
-      html += "</li>";
+      html += "</div>";
     });
-    html += "</ul>";
   }
-  html += "</section>";
-  return html;
-}
+  html += "</div>";
 
-function render() {
-  var app = document.getElementById("app");
-  if (!loaded) return;
-  var dl = daysLeft();
-
-  var html = '<main class="wrap">';
-  html += '<header class="hero">';
-  html += '<div class="cake">🎂</div>';
-  html += "<h1>Anniv Charlotte &amp; Antoine</h1>";
-  html += '<p class="date">Samedi 17 octobre' +
-    (dl > 0 ? ' <span class="jj">· dans ' + dl + " jours</span>" : dl === 0 ? ' <span class="jj">· c’est aujourd’hui !</span>' : "") + "</p>";
-  html += "</header>";
-
-  html += renderMe();
-  html += renderList();
+  html += '<div class="total"><div class="col">' +
+    '<span class="t">' + c.total + (c.total > 1 ? " couverts" : " couvert") + "</span>" +
+    '<span class="s">' + c.oui + " invité·es + " + c.plus + " accompagnant·es</span></div></div>";
 
   html += '<footer class="foot">';
-  if (state.updated) html += "<span>Dernière réponse le " + esc(fmtUpdated(state.updated)) + "</span>";
   if (isAdmin) {
     html += '<form class="adminbox" data-form="code">';
     html += '<input type="password" id="admin-newcode" minlength="4" maxlength="40" placeholder="Nouveau code" autocomplete="new-password">';
@@ -418,9 +441,38 @@ function render() {
     html += '<button type="button" class="quiet" data-act="admin-close">Annuler</button>';
     html += "</form>";
   } else {
-    html += '<button type="button" class="orga" data-act="admin-open">Espace organisateurs</button>';
+    html += '<button type="button" class="linkbtn" data-act="admin-open" style="margin-top:0">Espace organisateurs</button>';
   }
-  html += "</footer></main>";
+  html += "</footer>";
+
+  html += "</div></section>";
+  return html;
+}
+
+function render() {
+  var app = document.getElementById("app");
+  if (!loaded) return;
+  var c = counts();
+  var dl = daysLeft();
+  var me = meId ? state.guests.find(function (g) { return g.id === meId; }) : null;
+
+  var peopleLine;
+  if (!c.total) peopleLine = "<b>Personne n’a encore répondu</b> · sois le premier ou la première";
+  else if (me && me.status === "oui") peopleLine = "<b>" + c.total + (c.total > 1 ? " personnes viennent" : " personne vient") + "</b> · dont toi";
+  else peopleLine = "<b>" + c.total + (c.total > 1 ? " personnes viennent" : " personne vient") + "</b> · avec toi ça fera " + (c.total + 1);
+
+  var html = '<header class="hero"><div class="in">';
+  html += '<div class="badge">17.10</div>';
+  html += "<h1>Charlotte et Antoine fêtent leur anniversaire et comptent bien que ça se sache.</h1>";
+  html += '<div class="facts">';
+  html += '<div class="fact"><span class="tile" style="background:var(--cream)">' + ICON_CAL + "</span>" +
+    "<span><b>Samedi 17 octobre</b>" + (dl > 0 ? " · dans " + dl + " jours" : dl === 0 ? " · c’est ce soir" : "") + "</span></div>";
+  html += '<div class="fact"><span class="tile" style="background:var(--rose)">' + ICON_USERS + "</span>" +
+    "<span>" + peopleLine + "</span></div>";
+  html += "</div></div></header>";
+
+  html += renderRsvp();
+  html += renderList();
 
   app.innerHTML = html;
   var editInput = app.querySelector("[data-edit-input]");
@@ -436,7 +488,10 @@ document.getElementById("app").addEventListener("click", function (ev) {
   if (!btn || busy) return;
   var actName = btn.getAttribute("data-act");
   var id = btn.getAttribute("data-id");
-  if (actName === "admin-open") {
+  if (actName === "filter") {
+    filter = btn.getAttribute("data-filter");
+    render();
+  } else if (actName === "admin-open") {
     adminOpen = true;
     render();
   } else if (actName === "admin-close") {
@@ -459,10 +514,16 @@ document.getElementById("app").addEventListener("click", function (ev) {
     render();
   } else if (actName === "me-status") {
     var st = btn.getAttribute("data-status");
-    act(function () { return run("apiSetSelf", meId, st, null); });
+    act(function () { return run("apiSetSelf", meId, st, null, null); });
   } else if (actName === "me-camp") {
     var mc = btn.getAttribute("data-camp");
-    act(function () { return run("apiSetSelf", meId, null, mc); });
+    act(function () { return run("apiSetSelf", meId, null, mc, null); });
+  } else if (actName === "me-plus-inc" || actName === "me-plus-dec") {
+    var meG = state.guests.find(function (g) { return g.id === meId; });
+    if (!meG) return;
+    var next = (meG.plus || 0) + (actName === "me-plus-inc" ? 1 : -1);
+    if (next < 0 || next > MAX_PLUS) return;
+    act(function () { return run("apiSetSelf", meId, null, null, next); });
   } else if (actName === "join-camp") {
     joinCamp = btn.getAttribute("data-camp");
     render();
@@ -479,6 +540,11 @@ document.getElementById("app").addEventListener("click", function (ev) {
     if (!isAdmin) return;
     var s2 = btn.getAttribute("data-status");
     act(function () { return run("apiAdmin", adminCode, "status", { id: id, status: s2 }); });
+  } else if (actName === "plus-cycle") {
+    if (!isAdmin) return;
+    var cur = parseInt(btn.getAttribute("data-plus"), 10) || 0;
+    var nxt = (cur + 1) % (MAX_PLUS + 1);
+    act(function () { return run("apiAdmin", adminCode, "plus", { id: id, plus: nxt }); });
   } else if (actName === "edit") {
     if (!isAdmin) return;
     editingId = id;
@@ -548,18 +614,18 @@ document.getElementById("app").addEventListener("submit", function (ev) {
       return run("apiAdmin", adminCode, "code", { code: newCode }).then(function (s) {
         adminCode = newCode;
         store("anniv-admin-code", newCode);
-        toast("Code organisateurs changé ✔");
+        toast("Code organisateurs changé.");
         return s;
       });
     });
   } else if (kind === "join") {
     var name = joinName.trim();
-    if (norm(name).length < 2) { toast("Écris ton prénom (au moins 2 lettres) !"); return; }
-    act(function () { return run("apiJoin", name, joinCamp); }, "Inscription… 🎉");
+    if (norm(name).length < 2) { toast("Écris ton prénom (au moins 2 lettres)."); return; }
+    act(function () { return run("apiJoin", name, joinCamp, 0); }, "On t’ajoute…");
   } else if (kind === "add") {
     if (!isAdmin) return;
     var gname = (document.getElementById("guest-name").value || "").trim();
-    if (!gname) { toast("Il manque le prénom !"); return; }
+    if (!gname) { toast("Il manque le prénom."); return; }
     var camp = draftCamp;
     draftName = "";
     act(function () { return run("apiAdmin", adminCode, "add", { name: gname, camp: camp }); });
@@ -588,7 +654,7 @@ run("apiGetState").then(function (s) {
   }
 }).catch(function () {
   document.getElementById("app").innerHTML =
-    '<p class="loading">Impossible de charger la liste — recharge la page 🙏</p>';
+    '<p class="loading">Impossible de charger la liste — recharge la page.</p>';
 });
 
 setInterval(function () {
