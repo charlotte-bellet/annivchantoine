@@ -143,6 +143,10 @@ button:disabled{opacity:.5;cursor:not-allowed}
 <script>
 "use strict";
 
+// État embarqué par doGet() : la page s'affiche avec les données, sans attendre
+// un aller-retour serveur.
+var INITIAL_STATE = <?!= initialJson ?>;
+
 var PARTY = { y: 2026, m: 9, d: 17 };
 var TEAMS = {
   charlotte: { label: "Team Charlotte", av: "#C46686" },
@@ -263,6 +267,26 @@ function act(promiseFactory, waitMsg) {
   }).catch(function (err) {
     busy = false;
     hideOverlay();
+    render();
+    toast((err && err.message ? err.message : "Ça n'a pas marché — réessaie.").replace(/^(Error|Exception):\s*/, ""));
+  });
+}
+
+// Action optimiste : l'écran change tout de suite, le serveur suit derrière.
+// En cas d'échec on revient à l'état précédent.
+var pending = 0;
+function optimistic(mutate, promiseFactory) {
+  var snapshot = JSON.parse(JSON.stringify(state));
+  mutate(state);
+  render();
+  pending++;
+  promiseFactory().then(function (result) {
+    pending--;
+    var s = result && result.state ? result.state : result;
+    if (pending === 0 && !busy) applyState(s);
+  }).catch(function (err) {
+    pending--;
+    state = snapshot;
     render();
     toast((err && err.message ? err.message : "Ça n'a pas marché — réessaie.").replace(/^(Error|Exception):\s*/, ""));
   });
@@ -514,16 +538,28 @@ document.getElementById("app").addEventListener("click", function (ev) {
     render();
   } else if (actName === "me-status") {
     var st = btn.getAttribute("data-status");
-    act(function () { return run("apiSetSelf", meId, st, null, null); });
+    var mid1 = meId;
+    optimistic(function (s) {
+      var g = s.guests.find(function (x) { return x.id === mid1; });
+      if (g) g.status = st;
+    }, function () { return run("apiSetSelf", mid1, st, null, null); });
   } else if (actName === "me-camp") {
     var mc = btn.getAttribute("data-camp");
-    act(function () { return run("apiSetSelf", meId, null, mc, null); });
+    var mid2 = meId;
+    optimistic(function (s) {
+      var g = s.guests.find(function (x) { return x.id === mid2; });
+      if (g) g.camp = mc;
+    }, function () { return run("apiSetSelf", mid2, null, mc, null); });
   } else if (actName === "me-plus-inc" || actName === "me-plus-dec") {
     var meG = state.guests.find(function (g) { return g.id === meId; });
     if (!meG) return;
     var next = (meG.plus || 0) + (actName === "me-plus-inc" ? 1 : -1);
     if (next < 0 || next > MAX_PLUS) return;
-    act(function () { return run("apiSetSelf", meId, null, null, next); });
+    var mid3 = meId;
+    optimistic(function (s) {
+      var g = s.guests.find(function (x) { return x.id === mid3; });
+      if (g) g.plus = next;
+    }, function () { return run("apiSetSelf", mid3, null, null, next); });
   } else if (actName === "join-camp") {
     joinCamp = btn.getAttribute("data-camp");
     render();
@@ -539,12 +575,18 @@ document.getElementById("app").addEventListener("click", function (ev) {
   } else if (actName === "status") {
     if (!isAdmin) return;
     var s2 = btn.getAttribute("data-status");
-    act(function () { return run("apiAdmin", adminCode, "status", { id: id, status: s2 }); });
+    optimistic(function (s) {
+      var g = s.guests.find(function (x) { return x.id === id; });
+      if (g) g.status = s2;
+    }, function () { return run("apiAdmin", adminCode, "status", { id: id, status: s2 }); });
   } else if (actName === "plus-cycle") {
     if (!isAdmin) return;
     var cur = parseInt(btn.getAttribute("data-plus"), 10) || 0;
     var nxt = (cur + 1) % (MAX_PLUS + 1);
-    act(function () { return run("apiAdmin", adminCode, "plus", { id: id, plus: nxt }); });
+    optimistic(function (s) {
+      var g = s.guests.find(function (x) { return x.id === id; });
+      if (g) g.plus = nxt;
+    }, function () { return run("apiAdmin", adminCode, "plus", { id: id, plus: nxt }); });
   } else if (actName === "edit") {
     if (!isAdmin) return;
     editingId = id;
@@ -559,7 +601,9 @@ document.getElementById("app").addEventListener("click", function (ev) {
       clearTimeout(armedTimer);
       armedDeleteId = null;
       editingId = null;
-      act(function () { return run("apiAdmin", adminCode, "del", { id: id }); });
+      optimistic(function (s) {
+        s.guests = s.guests.filter(function (x) { return x.id !== id; });
+      }, function () { return run("apiAdmin", adminCode, "del", { id: id }); });
     } else {
       armedDeleteId = id;
       render();
@@ -643,24 +687,32 @@ document.getElementById("app").addEventListener("submit", function (ev) {
 meId = read("anniv-me");
 var storedCode = read("anniv-admin-code");
 
-run("apiGetState").then(function (s) {
-  applyState(s);
-  if (storedCode) {
-    run("apiVerifyAdmin", storedCode).then(function (ok) {
-      if (ok) { isAdmin = true; adminCode = storedCode; }
-      else store("anniv-admin-code", null);
-      render();
-    });
-  }
-}).catch(function () {
-  document.getElementById("app").innerHTML =
-    '<p class="loading">Impossible de charger la liste — recharge la page.</p>';
-});
+function bootAdmin() {
+  if (!storedCode) return;
+  run("apiVerifyAdmin", storedCode).then(function (ok) {
+    if (ok) { isAdmin = true; adminCode = storedCode; }
+    else store("anniv-admin-code", null);
+    render();
+  }).catch(function () {});
+}
+
+if (INITIAL_STATE && Array.isArray(INITIAL_STATE.guests)) {
+  applyState(INITIAL_STATE);
+  bootAdmin();
+} else {
+  run("apiGetState").then(function (s) {
+    applyState(s);
+    bootAdmin();
+  }).catch(function () {
+    document.getElementById("app").innerHTML =
+      '<p class="loading">Impossible de charger la liste — recharge la page.</p>';
+  });
+}
 
 setInterval(function () {
-  if (busy || document.hidden || !loaded) return;
+  if (busy || pending > 0 || document.hidden || !loaded) return;
   run("apiGetState").then(function (s) {
-    if (!busy) applyState(s);
+    if (!busy && pending === 0) applyState(s);
   }).catch(function () {});
 }, 45000);
 </script>

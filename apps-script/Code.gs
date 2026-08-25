@@ -2,10 +2,11 @@
  * Anniv Charlotte & Antoine — backend Google Apps Script.
  *
  * Déployé en Web App ("Exécuter en tant que : moi", "Accès : Tout le monde"),
- * ce script sert la page Index.html et stocke la liste des invités dans un
- * Google Sheet créé automatiquement dans le Drive du compte au premier accès.
- * Colonnes : id / nom / camp / statut / plusuns / maj (les classeurs créés
- * avant la colonne "plusuns" sont migrés automatiquement).
+ * ce script sert la page Index.html avec l'état initial embarqué, et stocke la
+ * liste des invités dans un Google Sheet créé automatiquement dans le Drive.
+ * Colonnes : id / nom / camp / statut / plusuns / maj. Les écritures ne
+ * touchent que la ligne concernée, et l'état est mis en cache (CacheService)
+ * pour accélérer les lectures.
  */
 
 var SHEET_GUESTS = "invites";
@@ -15,9 +16,19 @@ var DEFAULT_ADMIN_HASH = "7201071f636b8d7a7999d358e018fe7ac891685d8ffe3f336e1e85
 var CAMPS = ["charlotte", "antoine", "deux"];
 var STATUSES = ["oui", "peutetre", "non"];
 var MAX_PLUS = 2;
+var CACHE_KEY = "state-v2";
+var CACHE_TTL = 120; // secondes — une modif faite à la main dans le Sheet met au plus 2 min à apparaître.
 
 function doGet() {
-  return HtmlService.createHtmlOutputFromFile("Index")
+  var t = HtmlService.createTemplateFromFile("Index");
+  var json = '{"guests":[],"updated":""}';
+  try {
+    json = JSON.stringify(apiGetState());
+  } catch (e) {
+    // La page se rabattra sur un chargement via apiGetState.
+  }
+  t.initialJson = json.replace(/</g, "\\u003c");
+  return t.evaluate()
     .setTitle("Anniv Charlotte & Antoine")
     .addMetaTag("viewport", "width=device-width, initial-scale=1");
 }
@@ -66,33 +77,35 @@ function clampPlus_(v) {
   return n;
 }
 
-function readGuests_() {
-  var sh = guestsSheet_();
-  var last = sh.getLastRow();
-  if (last < 2) return [];
-  return sh.getRange(2, 1, last - 1, 6).getValues()
-    .filter(function (r) { return r[0] && r[1]; })
-    .map(function (r) {
-      return {
-        id: String(r[0]),
-        name: String(r[1]),
-        camp: CAMPS.indexOf(String(r[2])) >= 0 ? String(r[2]) : "deux",
-        status: STATUSES.indexOf(String(r[3])) >= 0 ? String(r[3]) : "peutetre",
-        plus: clampPlus_(r[4]),
-        updated: String(r[5] || "")
-      };
-    });
+function guestFromRow_(r) {
+  return {
+    id: String(r[0]),
+    name: String(r[1]),
+    camp: CAMPS.indexOf(String(r[2])) >= 0 ? String(r[2]) : "deux",
+    status: STATUSES.indexOf(String(r[3])) >= 0 ? String(r[3]) : "peutetre",
+    plus: clampPlus_(r[4]),
+    updated: String(r[5] || "")
+  };
 }
 
-function writeGuests_(guests) {
+function rowValues_(g) {
+  return [g.id, g.name, g.camp, g.status, g.plus || 0, g.updated || ""];
+}
+
+// Une seule lecture du Sheet : les invités + le numéro de ligne de chacun,
+// pour pouvoir réécrire uniquement la ligne modifiée ensuite.
+function readAll_() {
   var sh = guestsSheet_();
+  var out = { sh: sh, guests: [], rows: [] };
   var last = sh.getLastRow();
-  if (last > 1) sh.getRange(2, 1, last - 1, 6).clearContent();
-  if (guests.length) {
-    sh.getRange(2, 1, guests.length, 6).setValues(guests.map(function (g) {
-      return [g.id, g.name, g.camp, g.status, g.plus || 0, g.updated || ""];
-    }));
+  if (last < 2) return out;
+  var vals = sh.getRange(2, 1, last - 1, 6).getValues();
+  for (var i = 0; i < vals.length; i++) {
+    if (!vals[i][0] || !vals[i][1]) continue;
+    out.guests.push(guestFromRow_(vals[i]));
+    out.rows.push(i + 2);
   }
+  return out;
 }
 
 function norm_(s) {
@@ -117,6 +130,18 @@ function stateFor_(guests) {
   return { guests: guests, updated: updated };
 }
 
+function cacheGet_() {
+  try {
+    var c = CacheService.getScriptCache().get(CACHE_KEY);
+    return c ? JSON.parse(c) : null;
+  } catch (e) { return null; }
+}
+function cachePut_(state) {
+  try {
+    CacheService.getScriptCache().put(CACHE_KEY, JSON.stringify(state), CACHE_TTL);
+  } catch (e) {}
+}
+
 function withLock_(fn) {
   var lock = LockService.getScriptLock();
   lock.waitLock(10000);
@@ -127,10 +152,31 @@ function withLock_(fn) {
   }
 }
 
+function findIndex_(all, id) {
+  for (var i = 0; i < all.guests.length; i++) {
+    if (all.guests[i].id === id) return i;
+  }
+  throw new Error("Invité·e introuvable — recharge la page.");
+}
+
+function saveRow_(all, idx) {
+  all.sh.getRange(all.rows[idx], 1, 1, 6).setValues([rowValues_(all.guests[idx])]);
+}
+
+function finish_(all) {
+  var s = stateFor_(all.guests);
+  cachePut_(s);
+  return s;
+}
+
 /* ------------------------- API appelée par la page ------------------------ */
 
 function apiGetState() {
-  return stateFor_(readGuests_());
+  var cached = cacheGet_();
+  if (cached) return cached;
+  var s = stateFor_(readAll_().guests);
+  cachePut_(s);
+  return s;
 }
 
 // L'invité tape son nom : si un nom identique existe on le lui rattache,
@@ -140,12 +186,12 @@ function apiJoin(name, camp, plus) {
   if (norm_(name).length < 2) throw new Error("Écris ton prénom (au moins 2 lettres).");
   if (CAMPS.indexOf(camp) < 0) camp = "deux";
   return withLock_(function () {
-    var guests = readGuests_();
-    var existing = null;
-    for (var i = 0; i < guests.length; i++) {
-      if (norm_(guests[i].name) === norm_(name)) { existing = guests[i]; break; }
+    var all = readAll_();
+    for (var i = 0; i < all.guests.length; i++) {
+      if (norm_(all.guests[i].name) === norm_(name)) {
+        return { meId: all.guests[i].id, state: finish_(all) };
+      }
     }
-    if (existing) return { meId: existing.id, state: stateFor_(guests) };
     var g = {
       id: Utilities.getUuid(),
       name: name,
@@ -154,9 +200,9 @@ function apiJoin(name, camp, plus) {
       plus: clampPlus_(plus),
       updated: new Date().toISOString()
     };
-    guests.push(g);
-    writeGuests_(guests);
-    return { meId: g.id, state: stateFor_(guests) };
+    all.sh.appendRow(rowValues_(g));
+    all.guests.push(g);
+    return { meId: g.id, state: finish_(all) };
   });
 }
 
@@ -164,18 +210,15 @@ function apiJoin(name, camp, plus) {
 // Passer null pour un champ le laisse inchangé.
 function apiSetSelf(id, status, camp, plus) {
   return withLock_(function () {
-    var guests = readGuests_();
-    var g = null;
-    for (var i = 0; i < guests.length; i++) {
-      if (guests[i].id === id) { g = guests[i]; break; }
-    }
-    if (!g) throw new Error("Invité·e introuvable — recharge la page.");
+    var all = readAll_();
+    var idx = findIndex_(all, id);
+    var g = all.guests[idx];
     if (status && STATUSES.indexOf(status) >= 0) g.status = status;
     if (camp && CAMPS.indexOf(camp) >= 0) g.camp = camp;
     if (plus !== null && plus !== undefined) g.plus = clampPlus_(plus);
     g.updated = new Date().toISOString();
-    writeGuests_(guests);
-    return stateFor_(guests);
+    saveRow_(all, idx);
+    return finish_(all);
   });
 }
 
@@ -191,54 +234,55 @@ function apiAdmin(code, op, payload) {
     var newCode = String(payload.code || "").trim();
     if (newCode.length < 4) throw new Error("Le code doit faire au moins 4 caractères.");
     PropertiesService.getScriptProperties().setProperty("ADMIN_HASH", sha256Hex_(newCode));
-    return stateFor_(readGuests_());
+    return apiGetState();
   }
   return withLock_(function () {
-    var guests = readGuests_();
+    var all = readAll_();
     var now = new Date().toISOString();
-    function find(id) {
-      for (var i = 0; i < guests.length; i++) if (guests[i].id === id) return guests[i];
-      throw new Error("Invité·e introuvable — recharge la page.");
-    }
     if (op === "add") {
       var name = String(payload.name || "").trim().slice(0, 60);
       if (!name) throw new Error("Il manque le prénom.");
-      guests.push({
+      var g = {
         id: Utilities.getUuid(),
         name: name,
         camp: CAMPS.indexOf(payload.camp) >= 0 ? payload.camp : "deux",
         status: "oui",
         plus: 0,
         updated: now
-      });
+      };
+      all.sh.appendRow(rowValues_(g));
+      all.guests.push(g);
     } else if (op === "rename") {
-      var g1 = find(payload.id);
+      var i1 = findIndex_(all, payload.id);
       var n = String(payload.name || "").trim().slice(0, 60);
       if (!n) throw new Error("Le nom ne peut pas être vide.");
-      g1.name = n;
-      g1.updated = now;
+      all.guests[i1].name = n;
+      all.guests[i1].updated = now;
+      saveRow_(all, i1);
     } else if (op === "status") {
-      var g2 = find(payload.id);
+      var i2 = findIndex_(all, payload.id);
       if (STATUSES.indexOf(payload.status) < 0) throw new Error("Statut inconnu.");
-      g2.status = payload.status;
-      g2.updated = now;
+      all.guests[i2].status = payload.status;
+      all.guests[i2].updated = now;
+      saveRow_(all, i2);
     } else if (op === "camp") {
-      var g3 = find(payload.id);
+      var i3 = findIndex_(all, payload.id);
       if (CAMPS.indexOf(payload.camp) < 0) throw new Error("Camp inconnu.");
-      g3.camp = payload.camp;
-      g3.updated = now;
+      all.guests[i3].camp = payload.camp;
+      all.guests[i3].updated = now;
+      saveRow_(all, i3);
     } else if (op === "plus") {
-      var g4 = find(payload.id);
-      g4.plus = clampPlus_(payload.plus);
-      g4.updated = now;
+      var i4 = findIndex_(all, payload.id);
+      all.guests[i4].plus = clampPlus_(payload.plus);
+      all.guests[i4].updated = now;
+      saveRow_(all, i4);
     } else if (op === "del") {
-      var before = guests.length;
-      guests = guests.filter(function (x) { return x.id !== payload.id; });
-      if (guests.length === before) throw new Error("Invité·e introuvable — recharge la page.");
+      var i5 = findIndex_(all, payload.id);
+      all.sh.deleteRow(all.rows[i5]);
+      all.guests.splice(i5, 1);
     } else {
       throw new Error("Action inconnue.");
     }
-    writeGuests_(guests);
-    return stateFor_(guests);
+    return finish_(all);
   });
 }
