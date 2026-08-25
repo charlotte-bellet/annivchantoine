@@ -1,6 +1,6 @@
 <title>Anniv Charlotte &amp; Antoine</title>
 <div id="app"></div>
-<script type="application/json" id="state">{"guests":[{"id":"9989c605-c089-4cf7-a33d-c0702dc6fe36","name":"Charlotte B","camp":"charlotte","status":"oui"},{"id":"3d5a5d6a-7aa9-48cc-885b-52e671bfaa76","name":"Antoine B","camp":"antoine","status":"oui"}],"adminHash":"7201071f636b8d7a7999d358e018fe7ac891685d8ffe3f336e1e8541c09acd58","updated":"2026-08-25T14:08:33.927Z"}</script>
+<script type="application/json" id="state">{"guests":[{"id":"9989c605-c089-4cf7-a33d-c0702dc6fe36","name":"Charlotte B","camp":"charlotte","status":"peutetre"},{"id":"3d5a5d6a-7aa9-48cc-885b-52e671bfaa76","name":"Antoine B","camp":"antoine","status":"oui"}],"adminHash":"7201071f636b8d7a7999d358e018fe7ac891685d8ffe3f336e1e8541c09acd58","updated":"2026-08-25T14:39:54.305Z"}</script>
 <script>
 "use strict";
 const SRC = document.currentScript.textContent;
@@ -97,6 +97,7 @@ button{cursor:pointer;border:none;background:none}
   padding:7px 14px;font-weight:600;transition:border-color .15s,color .15s}
 .chips button:hover{border-color:var(--accent);color:var(--accent)}
 .chips .none{color:var(--muted);font-size:.88rem;padding:4px 0}
+.hint{color:var(--muted);font-size:.85rem;margin-top:8px}
 .joinnew{display:flex;flex-direction:column;gap:10px;border-top:1px dashed var(--line);padding-top:14px}
 .joinnew .go,.add .go{background:var(--accent);color:var(--accent-ink);border-radius:12px;
   padding:11px;font-family:"Baloo 2","Figtree",sans-serif;font-weight:700;font-size:1.02rem;transition:filter .15s}
@@ -425,30 +426,38 @@ function renderMe(canWrite) {
   }
 
   const q = norm(joinName);
-  const matches = state.guests.filter(function (g) {
-    return !q || norm(g.name).indexOf(q) !== -1;
-  });
+  const ready = q.length >= 2;
+  const matches = ready ? state.guests.filter(function (g) {
+    return norm(g.name).indexOf(q) !== -1;
+  }) : [];
 
   html += '<form class="mecard card" data-form="join">';
   html += '<div><label class="melabel" for="join-name" style="display:block;margin-bottom:6px">Ton prénom</label>';
-  html += '<input type="text" id="join-name" maxlength="60" placeholder="Écris ton prénom…" autocomplete="off" value="' + esc(joinName) + '"></div>';
-  html += '<div><p class="melabel" style="margin-bottom:8px">' +
-    (q ? "Clique sur ton nom s’il est là :" : "Déjà dans la liste ? Clique sur ton nom :") + "</p>";
-  html += '<div class="chips">';
-  if (matches.length) {
-    matches.forEach(function (g) {
-      html += '<button type="button" data-act="pick-me" data-id="' + esc(g.id) + '">' + esc(g.name) + "</button>";
-    });
-  } else {
-    html += '<span class="none">' + (state.guests.length ? "Aucun nom ne correspond." : "La liste est encore vide.") + "</span>";
+  html += '<input type="text" id="join-name" maxlength="60" placeholder="Écris ton prénom…" autocomplete="off" value="' + esc(joinName) + '">';
+  if (!ready) {
+    html += '<p class="hint">' + (q.length === 1
+      ? "Encore une lettre ou deux…"
+      : "Écris les premières lettres de ton prénom : ton nom apparaîtra s’il est déjà dans la liste.") + "</p>";
   }
-  html += "</div></div>";
-  if (q && canWrite) {
-    html += '<div class="joinnew">';
-    html += '<p class="melabel">Pas encore dans la liste ? Ajoute-toi — tu es plutôt…</p>';
-    html += campSegHtml("join-camp", joinCamp);
-    html += '<button type="submit" class="go">Je m’ajoute comme « ' + esc(joinName.trim()) + ' »</button>';
-    html += "</div>";
+  html += "</div>";
+  if (ready) {
+    if (matches.length) {
+      html += '<div><p class="melabel" style="margin-bottom:8px">C’est toi ? Clique sur ton nom :</p>';
+      html += '<div class="chips">';
+      matches.forEach(function (g) {
+        html += '<button type="button" data-act="pick-me" data-id="' + esc(g.id) + '">' + esc(g.name) + "</button>";
+      });
+      html += "</div></div>";
+    }
+    if (canWrite) {
+      html += '<div class="joinnew">';
+      html += '<p class="melabel">' + (matches.length
+        ? "Pas dans la liste ? Ajoute-toi — tu es plutôt…"
+        : "Ton nom n’est pas encore dans la liste — ajoute-toi ! Tu es plutôt…") + "</p>";
+      html += campSegHtml("join-camp", joinCamp);
+      html += '<button type="submit" class="go">Je m’ajoute comme « ' + esc(joinName.trim()) + ' »</button>';
+      html += "</div>";
+    }
   }
   html += "</form>";
   return html;
@@ -732,6 +741,7 @@ document.getElementById("app").addEventListener("submit", function (ev) {
   } else if (kind === "join") {
     const name = joinName.trim();
     if (!name) { toast("Écris ton prénom !"); return; }
+    if (norm(name).length < 2) { toast("Ton prénom fait au moins 2 lettres, non ? \u{1F609}"); return; }
     const existing = state.guests.find(function (g) { return norm(g.name) === norm(name); });
     if (existing) {
       setMe(existing.id);
