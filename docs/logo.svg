@@ -1,9 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 120 120" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="600" viewBox="0 0 120 150" fill="none">
   <style>@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,500&amp;family=Jost:wght@500&amp;display=swap');</style>
-  <circle cx="60" cy="60" r="57" stroke="#25412F" stroke-width="1.4"/>
-  <circle cx="60" cy="60" r="51" stroke="#25412F" stroke-width="0.7" opacity="0.55"/>
-  <text x="34" y="71" font-family="Cormorant Garamond, Georgia, serif" font-size="44" font-weight="600" text-anchor="middle" fill="#25412F">C</text>
-  <text x="60" y="74" font-family="Cormorant Garamond, Georgia, serif" font-size="27" font-style="italic" text-anchor="middle" fill="#C96A4A">&amp;</text>
-  <text x="86" y="71" font-family="Cormorant Garamond, Georgia, serif" font-size="44" font-weight="600" text-anchor="middle" fill="#25412F">A</text>
-  <text x="60" y="94" font-family="Jost, sans-serif" font-size="8.5" letter-spacing="3.5" text-anchor="middle" fill="#25412F" opacity="0.8">17.10.2026</text>
+  <text x="52" y="44" font-family="Cormorant Garamond, Georgia, serif" font-size="48" font-weight="600" text-anchor="middle" fill="#25412F">C</text>
+  <text x="60" y="78" font-family="Cormorant Garamond, Georgia, serif" font-size="26" font-style="italic" font-weight="500" text-anchor="middle" fill="#C96A4A">&amp;</text>
+  <text x="68" y="121" font-family="Cormorant Garamond, Georgia, serif" font-size="48" font-weight="600" text-anchor="middle" fill="#25412F">A</text>
+  <text x="60" y="141" font-family="Jost, sans-serif" font-size="8" letter-spacing="3.2" text-anchor="middle" fill="#25412F" opacity="0.8">17.10.2026</text>
 </svg>
