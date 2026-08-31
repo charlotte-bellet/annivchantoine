@@ -179,35 +179,47 @@ function apiGetState() {
   return s;
 }
 
-// L'invité tape son nom : si un nom identique existe on le lui rattache,
-// sinon on crée un nouveau participant (statut "oui" par défaut).
+// Réponse d'un invité (upsert) : si le prénom (ou l'id client) est déjà dans
+// la liste, on met à jour son statut / team / +1 ; sinon on l'ajoute.
 // clientId (optionnel) : identifiant généré côté client pour l'affichage
 // optimiste — réutilisé tel quel, et idempotent en cas de renvoi.
-function apiJoin(name, camp, plus, clientId) {
+function apiRsvp(name, camp, plus, clientId, status) {
   name = String(name || "").trim().slice(0, 60);
   if (norm_(name).length < 2) throw new Error("Écris ton prénom (au moins 2 lettres).");
-  if (CAMPS.indexOf(camp) < 0) camp = "deux";
+  if (STATUSES.indexOf(status) < 0) status = "oui";
   var okId = (typeof clientId === "string" && /^[0-9A-Za-z-]{8,64}$/.test(clientId));
   return withLock_(function () {
     var all = readAll_();
+    var now = new Date().toISOString();
     for (var i = 0; i < all.guests.length; i++) {
       if ((okId && all.guests[i].id === clientId) ||
           norm_(all.guests[i].name) === norm_(name)) {
-        return { meId: all.guests[i].id, state: finish_(all) };
+        var g0 = all.guests[i];
+        g0.status = status;
+        if (CAMPS.indexOf(camp) >= 0) g0.camp = camp;
+        if (plus !== null && plus !== undefined) g0.plus = clampPlus_(plus);
+        g0.updated = now;
+        saveRow_(all, i);
+        return { meId: g0.id, state: finish_(all) };
       }
     }
     var g = {
       id: okId ? clientId : Utilities.getUuid(),
       name: name,
-      camp: camp,
-      status: "oui",
+      camp: CAMPS.indexOf(camp) >= 0 ? camp : "deux",
+      status: status,
       plus: clampPlus_(plus),
-      updated: new Date().toISOString()
+      updated: now
     };
     all.sh.appendRow(rowValues_(g));
     all.guests.push(g);
     return { meId: g.id, state: finish_(all) };
   });
+}
+
+// Compatibilité avec les pages encore ouvertes sur l'ancienne version.
+function apiJoin(name, camp, plus, clientId) {
+  return apiRsvp(name, camp, plus, clientId, "oui");
 }
 
 // L'invité met à jour sa propre carte (statut, camp et/ou +1).
