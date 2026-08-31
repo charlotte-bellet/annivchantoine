@@ -80,7 +80,7 @@ begin
     raise exception 'Écris ton prénom (au moins 2 lettres).';
   end if;
   v_status := case when p_status in ('oui','peutetre','non') then p_status else 'oui' end;
-  v_plus := least(greatest(coalesce(p_plus, 0), 0), 2);
+  v_plus := least(greatest(coalesce(p_plus, 0), 0), 1);
 
   select * into g from public.guests
   where (p_client_id is not null and id::text = p_client_id)
@@ -157,7 +157,7 @@ begin
       if not (p_payload->>'camp' in ('charlotte','antoine','deux')) then raise exception 'Camp inconnu.'; end if;
       update public.guests set camp = p_payload->>'camp', updated = now() where id = v_id;
     elsif p_op = 'plus' then
-      update public.guests set plus = least(greatest(coalesce((p_payload->>'plus')::int, 0), 0), 2), updated = now() where id = v_id;
+      update public.guests set plus = least(greatest(coalesce((p_payload->>'plus')::int, 0), 0), 1), updated = now() where id = v_id;
     else
       delete from public.guests where id = v_id;
     end if;
