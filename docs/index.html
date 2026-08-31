@@ -400,19 +400,11 @@ function counts() {
 }
 
 function logoHtml(size) {
-  var h = Math.round(size * 1.15);
-  return '<span class="logo" aria-label="C et A"><svg width="' + size + '" height="' + h + '" viewBox="0 0 130 150" fill="none">' +
-    '<circle cx="16" cy="36" r="3" fill="#C96A4A"/>' +
-    '<rect x="100" y="18" width="6" height="6" transform="rotate(24 103 21)" fill="#B08D3E"/>' +
-    '<circle cx="118" cy="52" r="2.5" fill="currentColor" opacity="0.55"/>' +
-    '<path d="M 8 78 q 5 -7 10 0 t 10 0" stroke="#B08D3E" stroke-width="2" stroke-linecap="round"/>' +
-    '<path d="M 110 96 l 9 4 -7 6 z" fill="#C96A4A"/>' +
-    '<circle cx="24" cy="118" r="2.5" fill="#B08D3E"/>' +
-    '<path d="M 108 128 v 8 M 104 132 h 8" stroke="currentColor" stroke-width="1.6" opacity="0.7"/>' +
-    '<text x="50" y="46" font-family="Cormorant Garamond, Georgia, serif" font-size="46" font-weight="600" text-anchor="middle" fill="currentColor" transform="rotate(-8 50 46)">C</text>' +
-    '<text x="62" y="80" font-family="Cormorant Garamond, Georgia, serif" font-size="25" font-style="italic" font-weight="500" text-anchor="middle" fill="#C96A4A">&amp;</text>' +
-    '<text x="70" y="122" font-family="Cormorant Garamond, Georgia, serif" font-size="46" font-weight="600" text-anchor="middle" fill="currentColor" transform="rotate(7 70 122)">A</text>' +
-    '<text x="62" y="142" font-family="Jost, sans-serif" font-size="8" letter-spacing="3.2" text-anchor="middle" fill="currentColor" opacity="0.8">17.10.2026</text>' +
+  return '<span class="logo" aria-label="C et A"><svg width="' + size + '" height="' + size + '" viewBox="0 0 120 120" fill="none">' +
+    '<circle cx="60" cy="60" r="58" fill="#C96A4A"/>' +
+    '<circle cx="60" cy="60" r="52" stroke="#E9C87E" stroke-width="1.5"/>' +
+    '<text x="43" y="78" font-family="Cormorant Garamond, Georgia, serif" font-size="52" font-weight="600" text-anchor="middle" fill="#FAF6EE">C</text>' +
+    '<text x="79" y="78" font-family="Cormorant Garamond, Georgia, serif" font-size="52" font-weight="600" text-anchor="middle" fill="#FAF6EE">A</text>' +
     "</svg></span>";
 }
 
