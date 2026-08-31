@@ -40,15 +40,6 @@ a{color:inherit}
 .a3{animation:rise .6s .3s ease both}
 .a4{animation:rise .6s .45s ease both}
 .logo{animation:pop .7s ease both;line-height:0}
-.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-.confetti span{position:absolute;border-radius:50%}
-.confetti .c1{width:7px;height:7px;background:var(--gold);opacity:.55;top:12%;left:12%;animation:floaty 8s ease-in-out infinite}
-.confetti .c2{width:5px;height:5px;background:var(--terra);opacity:.6;top:9%;right:16%;animation:drift 9s .5s ease-in-out infinite}
-.confetti .c3{width:9px;height:9px;background:transparent;border:1px solid var(--cream);opacity:.4;top:24%;right:9%;animation:floaty 10s 1s ease-in-out infinite}
-.confetti .c4{width:5px;height:5px;background:var(--cream);opacity:.4;top:36%;left:7%;animation:drift 11s .8s ease-in-out infinite}
-.confetti .c5{width:6px;height:6px;background:var(--gold);opacity:.45;bottom:30%;right:12%;animation:floaty 9s .3s ease-in-out infinite}
-.confetti .c6{width:8px;height:8px;background:transparent;border:1px solid var(--terra);opacity:.5;bottom:20%;left:13%;animation:drift 8.5s 1.2s ease-in-out infinite}
-.confetti .c7{width:5px;height:5px;background:var(--cream);opacity:.5;bottom:12%;left:44%;animation:floaty 10.5s .6s ease-in-out infinite}
 
 .serif{font-family:"Cormorant Garamond",Georgia,serif}
 .h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;
@@ -400,12 +391,13 @@ function counts() {
 }
 
 function logoHtml(size) {
-  var h = Math.round(size * 0.89);
-  return '<span class="logo" aria-label="C et A"><svg width="' + size + '" height="' + h + '" viewBox="26 36 194 172" fill="none">' +
-    '<path d="M 165.2 73.7 A 72 72 0 1 0 165.2 166.3" stroke="#C96A4A" stroke-width="13" stroke-linecap="round"/>' +
-    '<path d="M 128 196 L 168 52 L 208 196" stroke="currentColor" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>' +
-    '<path d="M 140.8 150 L 195.2 150" stroke="#B08D3E" stroke-width="11" stroke-linecap="round"/>' +
-    "</svg></span>";
+  return '<span class="logo" aria-label="C et A"><svg width="' + size + '" height="' + size + '" viewBox="0 0 240 240" fill="none">' +
+    '<circle cx="120" cy="120" r="116" fill="#C96A4A"/>' +
+    '<g transform="translate(123 122) scale(0.74) translate(-123 -122)" stroke="#FFFFFF">' +
+    '<path d="M 165.2 73.7 A 72 72 0 1 0 165.2 166.3" stroke-width="14" stroke-linecap="round"/>' +
+    '<path d="M 128 196 L 168 52 L 208 196" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '<path d="M 140.8 150 L 195.2 150" stroke-width="12" stroke-linecap="round"/>' +
+    "</g></svg></span>";
 }
 
 var ICON_CAL = '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"></rect><path d="M3.5 9.5h17M8 2.8v4M16 2.8v4"></path></svg>';
@@ -432,9 +424,6 @@ function renderHome() {
   var c = counts();
   var dl = daysLeft();
   var html = '<div class="scr scr-home">';
-  html += '<div class="confetti" aria-hidden="true">' +
-    '<span class="c1"></span><span class="c2"></span><span class="c3"></span><span class="c4"></span>' +
-    '<span class="c5"></span><span class="c6"></span><span class="c7"></span></div>';
   html += '<div class="grow"><div class="in">';
   html += logoHtml(96);
   html += '<h1 class="h1 a1" style="margin-top:24px">PACS <span class="amp">&amp;</span> 60 ans</h1>';
