@@ -400,11 +400,11 @@ function counts() {
 }
 
 function logoHtml(size) {
-  return '<span class="logo" aria-label="C et A"><svg width="' + size + '" height="' + size + '" viewBox="0 0 120 120" fill="none">' +
-    '<circle cx="60" cy="60" r="58" fill="#C96A4A"/>' +
-    '<circle cx="60" cy="60" r="52" stroke="#E9C87E" stroke-width="1.5"/>' +
-    '<text x="43" y="78" font-family="Cormorant Garamond, Georgia, serif" font-size="52" font-weight="600" text-anchor="middle" fill="#FAF6EE">C</text>' +
-    '<text x="79" y="78" font-family="Cormorant Garamond, Georgia, serif" font-size="52" font-weight="600" text-anchor="middle" fill="#FAF6EE">A</text>' +
+  var h = Math.round(size * 0.89);
+  return '<span class="logo" aria-label="C et A"><svg width="' + size + '" height="' + h + '" viewBox="26 36 194 172" fill="none">' +
+    '<path d="M 165.2 73.7 A 72 72 0 1 0 165.2 166.3" stroke="#C96A4A" stroke-width="13" stroke-linecap="round"/>' +
+    '<path d="M 128 196 L 168 52 L 208 196" stroke="currentColor" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '<path d="M 140.8 150 L 195.2 150" stroke="#B08D3E" stroke-width="11" stroke-linecap="round"/>' +
     "</svg></span>";
 }
 
