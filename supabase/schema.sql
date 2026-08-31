@@ -2,8 +2,8 @@
 -- À coller tel quel dans Supabase : SQL Editor → New query → Run.
 -- Idempotent : peut être rejoué sans casser les données.
 
-create extension if not exists pgcrypto;
-create extension if not exists unaccent;
+create extension if not exists pgcrypto with schema extensions;
+create extension if not exists unaccent with schema extensions;
 
 create table if not exists public.guests (
   id uuid primary key default gen_random_uuid(),
@@ -45,8 +45,9 @@ create policy "lecture publique" on public.guests for select using (true);
 -- les fonctions ci-dessous (security definer), qui valident tout.
 
 create or replace function public.norm_name(t text)
-returns text language sql immutable
-as $$ select lower(public.unaccent(trim(coalesce(t, '')))) $$;
+returns text language sql stable
+set search_path = public, extensions
+as $$ select lower(unaccent(trim(coalesce(t, '')))) $$;
 
 create or replace function public.state_json()
 returns jsonb language sql stable
@@ -62,12 +63,12 @@ as $$
 $$;
 
 create or replace function public.get_state()
-returns jsonb language sql stable security definer set search_path = public
+returns jsonb language sql stable security definer set search_path = public, extensions
 as $$ select public.state_json() $$;
 
 -- Réponse d'un invité (upsert) : prénom déjà connu → mise à jour, sinon ajout.
 create or replace function public.rsvp(p_name text, p_camp text, p_plus int, p_client_id text, p_status text)
-returns jsonb language plpgsql security definer set search_path = public
+returns jsonb language plpgsql security definer set search_path = public, extensions
 as $$
 declare
   g public.guests%rowtype;
@@ -111,7 +112,7 @@ end
 $$;
 
 create or replace function public.verify_admin(p_code text)
-returns boolean language sql stable security definer set search_path = public
+returns boolean language sql stable security definer set search_path = public, extensions
 as $$
   select encode(digest(coalesce(p_code, ''), 'sha256'), 'hex')
        = (select value from public.config where key = 'admin_hash')
@@ -119,7 +120,7 @@ $$;
 
 -- Actions organisateurs : le code est vérifié ici, côté serveur.
 create or replace function public.admin_op(p_code text, p_op text, p_payload jsonb)
-returns jsonb language plpgsql security definer set search_path = public
+returns jsonb language plpgsql security definer set search_path = public, extensions
 as $$
 declare
   v_id uuid;
