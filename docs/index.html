@@ -1,0 +1,874 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anniv Charlotte &amp; Antoine</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --terra:#D97757; --blue:#6A9BCC; --rose:#C46686;
+  --ink:#141413; --cream:#FAF9F5; --muted:#73726C; --body:#3D3D3A;
+  --line:rgba(31,30,29,.15); --line2:rgba(31,30,29,.3);
+  --st-oui:#3E8F5F; --st-peutetre:#D3941F; --st-non:#9C9A92;
+}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--terra);color:var(--ink);line-height:1.4;min-height:100vh;
+  font-family:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;border:none;background:none}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px;border-radius:8px}
+@media (prefers-reduced-motion: reduce){*{transition:none !important;animation:none !important}}
+
+.scr{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.scr-home{background:var(--terra)} .scr-status{background:var(--blue)}
+.scr-who{background:var(--rose)} .scr-done{background:var(--cream)} .scr-list{background:var(--cream)}
+.in{width:100%;max-width:430px;margin:0 auto;padding:0 20px;position:relative}
+.top{padding:14px 0 0}
+.grow{flex:1;display:flex;flex-direction:column;justify-content:center;padding:24px 0}
+.bottom{padding:0 0 34px}
+
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.5)}60%{transform:scale(1.08)}to{opacity:1;transform:scale(1)}}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-22px) rotate(10deg)}}
+@keyframes drift{0%,100%{transform:translate(0,0)}50%{transform:translate(10px,-16px)}}
+.a1{animation:rise .5s ease both}
+.a2{animation:rise .5s .12s ease both}
+.a3{animation:rise .5s .24s ease both}
+.a4{animation:rise .5s .36s ease both}
+.badge{width:72px;height:72px;border-radius:50%;background:var(--cream);
+  display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:500;
+  letter-spacing:-.01em;animation:pop .6s ease both}
+.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.confetti span{position:absolute;border-radius:50%;opacity:.85}
+.confetti .sq{border-radius:4px}
+.confetti .c1{width:12px;height:12px;background:var(--cream);top:12%;left:12%;animation:floaty 6s ease-in-out infinite}
+.confetti .c2{width:9px;height:9px;background:var(--blue);top:8%;right:16%;animation:drift 7s .5s ease-in-out infinite}
+.confetti .c3{width:14px;height:14px;background:var(--rose);top:26%;right:8%;animation:floaty 8s 1s ease-in-out infinite}
+.confetti .c4{width:8px;height:8px;background:var(--ink);top:34%;left:6%;animation:drift 9s .8s ease-in-out infinite;opacity:.5}
+.confetti .c5{width:11px;height:11px;background:var(--cream);bottom:30%;right:12%;animation:floaty 7s .3s ease-in-out infinite}
+.confetti .c6{width:10px;height:10px;background:var(--blue);bottom:22%;left:14%;animation:drift 6.5s 1.2s ease-in-out infinite}
+.confetti .c7{width:13px;height:13px;background:var(--rose);bottom:12%;left:40%;animation:floaty 8.5s .6s ease-in-out infinite}
+.confetti .c8{width:7px;height:7px;background:var(--cream);top:18%;left:46%;animation:drift 7.5s 1.5s ease-in-out infinite}
+
+.h1{font-size:clamp(30px,8.5vw,38px);line-height:1.08;font-weight:500;letter-spacing:-.02em;overflow-wrap:anywhere}
+.stitle{font-size:30px;line-height:1.1;font-weight:500;letter-spacing:-.02em;overflow-wrap:anywhere}
+.sub{margin-top:12px;font-size:16px;line-height:1.4;color:rgba(20,20,19,.8)}
+.facts{margin-top:26px;display:flex;flex-direction:column;gap:14px;font-size:17px;line-height:1.35}
+.fact{display:flex;gap:12px;align-items:center}
+.tile{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:none}
+.tile svg{display:block}
+.fact b{font-weight:500}
+
+.backbtn{width:44px;height:44px;border-radius:9999px;background:rgba(255,255,255,.6);
+  box-shadow:0 2px 8px rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center;font-size:20px}
+
+.cta{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:56px;
+  border-radius:9999px;background:var(--ink);color:var(--cream);font-size:17px;font-weight:500;
+  text-decoration:none;transition:opacity .15s}
+.cta:hover{opacity:.9}
+button:disabled{opacity:.5;cursor:not-allowed}
+.small{margin-top:12px;text-align:center;font-size:13px;color:rgba(20,20,19,.75)}
+.linkbtn{display:block;margin:16px auto 0;font-size:14px;color:rgba(20,20,19,.75);text-decoration:underline;padding:4px;text-align:center}
+
+.opts{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+.opt{display:flex;align-items:center;gap:14px;padding:20px 18px;border-radius:16px;
+  background:#fff;border:.5px solid var(--line);text-align:left;width:100%;transition:transform .1s}
+.opt:active{transform:scale(.98)}
+.opt .col{flex:1;display:flex;flex-direction:column;gap:2px}
+.opt .t{font-size:18px;font-weight:500}
+.opt .s{font-size:14px;color:var(--muted)}
+.opt .arrow{font-size:18px;color:var(--muted)}
+
+.field{width:100%;background:#fff;border:.5px solid var(--line);border-radius:16px;
+  padding:16px;font-size:16px;margin-top:20px}
+.field::placeholder{color:var(--muted)}
+.field:focus{outline:none;border-color:var(--ink)}
+.hint{margin-top:12px;font-size:14px;color:rgba(20,20,19,.78)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chips button{background:#fff;border:.5px solid var(--line2);border-radius:9999px;
+  padding:10px 16px;font-size:15px;font-weight:500}
+.chiplabel{margin-top:18px;font-size:14px;color:rgba(20,20,19,.78)}
+
+.tpills{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.tpills button{padding:9px 15px;border-radius:9999px;background:#fff;
+  border:.5px solid var(--line2);font-size:14px;font-weight:500}
+.tpills button[aria-pressed=true]{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+
+.plusrow{display:flex;align-items:center;gap:12px;margin-top:24px;padding:0 2px}
+.plusrow .col{flex:1;display:flex;flex-direction:column;gap:2px}
+.plusrow .t{font-size:18px;font-weight:500}
+.plusrow .s{font-size:14px;color:rgba(20,20,19,.78)}
+.step{display:flex;align-items:center;gap:12px;flex:none}
+.step button{width:40px;height:40px;border-radius:50%;background:#fff;border:.5px solid var(--line2);
+  display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:500;line-height:1}
+.step .n{font-size:22px;font-weight:500;min-width:16px;text-align:center}
+
+.donecard{margin-top:24px;background:#fff;border:.5px solid var(--line);border-radius:20px;
+  padding:20px;display:flex;flex-direction:column;gap:12px}
+.doneline{display:flex;justify-content:space-between;gap:12px;font-size:16px}
+.doneline .k{color:var(--muted)}
+.doneline .v{font-weight:500;text-align:right}
+
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-top:16px}
+.filters button{flex:none;padding:8px 14px;border-radius:9999px;background:#fff;
+  border:.5px solid rgba(31,30,29,.2);font-size:14px}
+.filters button[aria-pressed=true]{background:var(--ink);color:var(--cream);border-color:var(--ink);font-weight:500}
+.rows{margin-top:10px}
+.row{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:.5px solid rgba(31,30,29,.1);flex-wrap:wrap}
+.av{width:40px;height:40px;border-radius:50%;font-size:14px;font-weight:500;
+  display:flex;align-items:center;justify-content:center;flex:none}
+.row .who{flex:1;min-width:120px;display:flex;flex-direction:column}
+.row .nm{font-size:16px;font-weight:450;overflow-wrap:anywhere}
+.row .mt{font-size:13px;color:var(--muted)}
+.stw{font-weight:500}
+.st-oui .stw{color:var(--st-oui)}
+.st-peutetre .stw{color:var(--st-peutetre)}
+.st-non .stw{color:var(--st-non)}
+.pluspill{font-size:13px;font-weight:500;padding:4px 9px;border-radius:9999px;flex:none}
+.empty{padding:24px 0;color:var(--muted);font-size:15px}
+.total{display:flex;align-items:center;gap:12px;margin-top:18px;padding-top:16px;border-top:.5px solid var(--line)}
+.total .col{flex:1;display:flex;flex-direction:column}
+.total .t{font-size:15px;font-weight:500}
+.total .s{font-size:13px;color:var(--muted)}
+
+.seg{display:flex;border:.5px solid var(--line2);border-radius:9999px;overflow:hidden}
+.seg button{padding:6px 10px;font-size:13px;font-weight:500;color:var(--muted)}
+.seg button + button{border-left:.5px solid var(--line2)}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--cream)}
+.gtools{display:flex;gap:2px;align-items:center}
+.gtools button{color:var(--muted);border-radius:10px;padding:5px 8px;font-size:15px;line-height:1}
+.gtools .cycle{border:.5px solid var(--line2);border-radius:9999px;font-size:13px;font-weight:500;padding:5px 10px}
+.gtools .armed{color:#B4373C;font-size:13px;font-weight:600}
+.editrow{display:flex;gap:6px;flex:1;min-width:200px}
+.editrow input{flex:1;min-width:0;background:#fff;border:.5px solid var(--line2);border-radius:12px;padding:9px 12px;font-size:15px}
+.editrow button{border-radius:9999px;padding:8px 14px;font-size:14px;font-weight:500}
+.editrow .ok{background:var(--ink);color:var(--cream)}
+.editrow .no{color:var(--muted)}
+.addform{padding:14px 0 18px;border-bottom:.5px solid var(--line)}
+.addform .cta{height:48px;margin-top:12px;font-size:15px}
+.addform .field{margin-top:0}
+
+.foot{margin-top:30px;text-align:center;color:var(--muted);font-size:13px;
+  display:flex;flex-direction:column;gap:10px;align-items:center}
+.adminbox{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;background:#fff;
+  border:.5px solid var(--line);border-radius:20px;padding:12px;max-width:100%}
+.adminbox input{width:190px;background:var(--cream);border:.5px solid var(--line2);border-radius:12px;padding:9px 12px;font-size:14px}
+.adminbox button{background:var(--ink);color:var(--cream);border-radius:9999px;padding:9px 16px;font-size:14px;font-weight:500}
+.adminbox .quiet{background:none;color:var(--muted)}
+
+.overlay{position:fixed;inset:0;background:rgba(20,20,19,.4);display:flex;
+  align-items:center;justify-content:center;z-index:50}
+.overlay div{background:var(--cream);color:var(--ink);border-radius:16px;padding:16px 26px;font-weight:500}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:60;
+  background:var(--ink);color:var(--cream);border-radius:9999px;padding:12px 22px;
+  font-size:15px;font-weight:500;max-width:92vw;text-align:center}
+.loading{text-align:center;padding:80px 20px;font-weight:500;color:var(--ink)}
+</style>
+</head>
+<body>
+<div id="app"><p class="loading">Une seconde…</p></div>
+<script>
+"use strict";
+
+// État embarqué par doGet() : la page s'affiche avec les données, sans attendre
+// un aller-retour serveur.
+var INITIAL_STATE = null;
+try { INITIAL_STATE = JSON.parse(localStorage.getItem("anniv-cache") || "null"); } catch (e) {}
+
+var PARTY = { y: 2026, m: 9, d: 17 };
+var CAL_URL = "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+  "&text=" + encodeURIComponent("Anniv Charlotte & Antoine") +
+  "&dates=20261017/20261018" +
+  "&details=" + encodeURIComponent("On fête l'anniversaire de Charlotte et Antoine !");
+var TEAMS = {
+  charlotte: { label: "Team Charlotte", av: "#C46686" },
+  antoine:   { label: "Team Antoine",   av: "#6A9BCC" },
+  deux:      { label: "Team les deux",  av: "#D97757" }
+};
+var OPTS = {
+  oui: { t: "Carrément",  s: "Réserve-moi une place" },
+  non: { t: "Je peux pas", s: "Et je vais le regretter…" }
+};
+var STATUS_WORD = { oui: "Vient", peutetre: "Peut-être", non: "Vient pas" };
+var STATUS_EMOJI = { oui: "\u{1F389}", peutetre: "\u{1F914}", non: "\u{1F622}" };
+var SEG = { oui: "Oui", non: "Non" };
+var MAX_PLUS = 2;
+var SCREEN_BG = { home: "#D97757", status: "#6A9BCC", who: "#C46686", done: "#FAF9F5", list: "#FAF9F5" };
+
+var state = { guests: [], updated: "" };
+var loaded = false;
+var busy = false;
+var pending = 0;
+var screen = "home";
+var pendingStatus = "oui";
+var plusDraft = 0;
+var isAdmin = false;
+var adminOpen = false;
+var adminCode = null;
+var filter = "tous";
+var editingId = null;
+var armedDeleteId = null;
+var armedTimer = null;
+var draftName = "";
+var draftCamp = "charlotte";
+var joinName = "";
+var joinCamp = "charlotte";
+var meId = null;
+
+// —— Configuration Supabase (remplie au déploiement) ——
+var SUPABASE_URL = "%%SUPABASE_URL%%";
+var SUPABASE_ANON_KEY = "%%SUPABASE_ANON_KEY%%";
+
+function rpc(name, body) {
+  return fetch(SUPABASE_URL + "/rest/v1/rpc/" + name, {
+    method: "POST",
+    headers: {
+      "apikey": SUPABASE_ANON_KEY,
+      "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(body)
+  }).then(function (r) {
+    return r.json().catch(function () { return null; }).then(function (data) {
+      if (!r.ok) {
+        throw new Error((data && (data.message || data.hint || data.error_description)) || "Erreur serveur — réessaie.");
+      }
+      return data;
+    });
+  });
+}
+
+var API = {
+  apiGetState: function () { return rpc("get_state", {}); },
+  apiRsvp: function (name, camp, plus, clientId, status) {
+    return rpc("rsvp", { p_name: name, p_camp: camp, p_plus: plus, p_client_id: clientId, p_status: status });
+  },
+  apiVerifyAdmin: function (code) { return rpc("verify_admin", { p_code: code }); },
+  apiAdmin: function (code, op, payload) {
+    return rpc("admin_op", { p_code: code, p_op: op, p_payload: payload || {} });
+  }
+};
+function run(fn) {
+  var args = Array.prototype.slice.call(arguments, 1);
+  return API[fn].apply(null, args);
+}
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+  });
+}
+function norm(s) {
+  return String(s).trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+function initials(name) {
+  var parts = String(name).trim().split(/\s+/).slice(0, 2);
+  return parts.map(function (p) { return p.charAt(0).toUpperCase(); }).join("") || "?";
+}
+function store(key, val) {
+  try {
+    if (val === null) localStorage.removeItem(key);
+    else localStorage.setItem(key, val);
+  } catch (e) {}
+}
+function read(key) {
+  try { return localStorage.getItem(key); } catch (e) { return null; }
+}
+function setMe(id) { meId = id; store("anniv-me", id); }
+function me_() {
+  return meId ? state.guests.find(function (g) { return g.id === meId; }) : null;
+}
+function uid() {
+  if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+  return "g" + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+}
+
+function daysLeft() {
+  var now = new Date();
+  var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  return Math.round((new Date(PARTY.y, PARTY.m, PARTY.d) - today) / 86400000);
+}
+
+function overlay(msg) {
+  hideOverlay();
+  var el = document.createElement("div");
+  el.className = "overlay";
+  el.id = "overlay";
+  var inner = document.createElement("div");
+  inner.textContent = msg;
+  el.appendChild(inner);
+  document.body.appendChild(el);
+}
+function hideOverlay() {
+  var el = document.getElementById("overlay");
+  if (el) el.remove();
+}
+var toastTimer = null;
+function toast(msg) {
+  var el = document.getElementById("toast");
+  if (!el) {
+    el = document.createElement("div");
+    el.className = "toast";
+    el.id = "toast";
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function () { el.remove(); }, 4500);
+}
+
+function applyState(s) {
+  if (s && Array.isArray(s.guests)) state = s;
+  try { localStorage.setItem("anniv-cache", JSON.stringify(state)); } catch (e) {}
+  loaded = true;
+  if (meId && !state.guests.some(function (g) { return g.id === meId; })) setMe(null);
+  render();
+}
+
+function errMsg(err) {
+  return (err && err.message ? err.message : "Ça n'a pas marché — réessaie.").replace(/^(Error|Exception):\s*/, "");
+}
+
+function act(promiseFactory, waitMsg) {
+  if (busy) return;
+  busy = true;
+  render();
+  overlay(waitMsg || "On note ça…");
+  promiseFactory().then(function (result) {
+    busy = false;
+    hideOverlay();
+    if (result && result.state) {
+      if (result.meId) setMe(result.meId);
+      applyState(result.state);
+    } else {
+      applyState(result);
+    }
+  }).catch(function (err) {
+    busy = false;
+    hideOverlay();
+    render();
+    toast(errMsg(err));
+  });
+}
+
+// Action optimiste : l'écran change tout de suite, le serveur suit derrière.
+function optimistic(mutate, promiseFactory) {
+  var snapshot = JSON.parse(JSON.stringify(state));
+  mutate(state);
+  render();
+  pending++;
+  promiseFactory().then(function (result) {
+    pending--;
+    var s = result && result.state ? result.state : result;
+    if (pending === 0 && !busy) applyState(s);
+  }).catch(function (err) {
+    pending--;
+    state = snapshot;
+    render();
+    toast(errMsg(err));
+  });
+}
+
+function counts() {
+  var g = state.guests;
+  var oui = g.filter(function (x) { return x.status === "oui"; });
+  var plus = oui.reduce(function (t, x) { return t + (x.plus || 0); }, 0);
+  return {
+    oui: oui.length,
+    non: g.filter(function (x) { return x.status === "non"; }).length,
+    plus: plus,
+    total: oui.length + plus
+  };
+}
+
+var ICON_CAL = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#141413" stroke-width="1.8" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"></rect><path d="M3.5 9.5h17M8 2.8v4M16 2.8v4"></path></svg>';
+var ICON_USERS = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#141413" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8" r="3.2"></circle><path d="M3.2 19.5c.7-3.1 3-5 5.8-5s5.1 1.9 5.8 5"></path><path d="M15.5 5.2a3.2 3.2 0 0 1 0 5.8M17.6 14.8c1.7.7 2.9 2.3 3.3 4.4"></path></svg>';
+
+function teamPillsHtml(actName, current) {
+  var html = '<div class="tpills" role="group" aria-label="Tu es plutôt…">';
+  ["charlotte", "antoine", "deux"].forEach(function (k) {
+    html += '<button type="button" data-act="' + actName + '" data-camp="' + k +
+      '" aria-pressed="' + (current === k) + '">' + TEAMS[k].label + "</button>";
+  });
+  return html + "</div>";
+}
+
+function backBtnHtml(target) {
+  return '<button type="button" class="backbtn" data-act="goto" data-screen="' + target + '" aria-label="Retour">←</button>';
+}
+
+/* ------------------------------- Écrans ---------------------------------- */
+
+function renderHome() {
+  var c = counts();
+  var dl = daysLeft();
+  var html = '<div class="scr scr-home">';
+  html += '<div class="confetti" aria-hidden="true">' +
+    '<span class="c1"></span><span class="c2 sq"></span><span class="c3"></span><span class="c4 sq"></span>' +
+    '<span class="c5"></span><span class="c6 sq"></span><span class="c7"></span><span class="c8"></span></div>';
+  html += '<div class="grow"><div class="in">';
+  html += '<div class="badge">17.10</div>';
+  html += '<h1 class="h1 a1" style="margin-top:26px">Charlotte et Antoine fêtent leur anniversaire et comptent bien que ça se sache.</h1>';
+  html += '<div class="facts">';
+  html += '<div class="fact a2"><span class="tile" style="background:var(--cream)">' + ICON_CAL + "</span>" +
+    "<span><b>Samedi 17 octobre</b>" + (dl > 0 ? " · dans " + dl + " jours" : dl === 0 ? " · c’est ce soir" : "") + "</span></div>";
+  html += '<div class="fact a3"><span class="tile" style="background:var(--rose)">' + ICON_USERS + "</span>" +
+    "<span>" + (c.total ? "<b>" + c.total + (c.total > 1 ? " personnes viennent" : " personne vient") + "</b> déjà" : "<b>Sois le premier ou la première</b> à répondre") + "</span></div>";
+  html += "</div></div></div>";
+  html += '<div class="bottom"><div class="in a4">';
+  html += '<button type="button" class="cta" data-act="goto" data-screen="status">RSVP <span aria-hidden="true">→</span></button>';
+  html += '<button type="button" class="linkbtn" data-act="goto" data-screen="list">Voir qui vient (' + state.guests.length + ")</button>";
+  html += "</div></div></div>";
+  return html;
+}
+
+function renderStatus() {
+  var html = '<div class="scr scr-status">';
+  html += '<div class="top"><div class="in">' + backBtnHtml("home") + "</div></div>";
+  html += '<div class="grow"><div class="in">';
+  html += '<h2 class="stitle a1">Alors, tu viens le 17 octobre ?</h2>';
+  html += '<div class="opts a2">';
+  Object.keys(OPTS).forEach(function (s) {
+    html += '<button type="button" class="opt" data-act="pick-status" data-status="' + s + '">' +
+      '<span class="col"><span class="t">' + STATUS_EMOJI[s] + " " + OPTS[s].t + '</span><span class="s">' + OPTS[s].s + "</span></span>" +
+      '<span class="arrow" aria-hidden="true">→</span></button>';
+  });
+  html += "</div></div></div></div>";
+  return html;
+}
+
+// Partie du formulaire qui dépend de ce qui est tapé : mise à jour seule à
+// chaque frappe, sans reconstruire la page (sinon la saisie rame).
+function whoSugHtml() {
+  var q = norm(joinName);
+  if (q.length < 2) {
+    return '<p class="hint">' + (q.length === 1
+      ? "Encore une lettre ou deux."
+      : "Si tu as déjà répondu, ton nom apparaîtra ici.") + "</p>";
+  }
+  var matches = state.guests.filter(function (g) {
+    return norm(g.name).indexOf(q) !== -1;
+  });
+  if (!matches.length) return "";
+  var html = '<p class="chiplabel">Déjà dans la liste ? Prends ton nom :</p><div class="chips">';
+  matches.forEach(function (g) {
+    html += '<button type="button" data-act="pick-name" data-id="' + esc(g.id) + '">' + esc(g.name) + "</button>";
+  });
+  return html + "</div>";
+}
+
+function renderWho() {
+  var html = '<div class="scr scr-who">';
+  html += '<div class="top"><div class="in">' + backBtnHtml("status") + "</div></div>";
+  html += '<div class="grow"><div class="in">';
+  html += '<h2 class="stitle a1">' + (pendingStatus === "oui" ? "Génial ! Et tu es… ?" : "Dommage… Et tu es… ?") + "</h2>";
+  html += '<form data-form="who" class="a2">';
+  html += '<input type="text" class="field" id="who-name" maxlength="60" placeholder="Prénom (et nom)…" autocomplete="off" value="' + esc(joinName) + '">';
+  html += '<div id="who-sug">' + whoSugHtml() + "</div>";
+  html += '<p class="chiplabel">Tu es plutôt…</p>' + teamPillsHtml("who-camp", joinCamp);
+  if (pendingStatus === "oui") {
+    html += '<div class="plusrow"><div class="col"><span class="t">Tu viens accompagné·e ?</span>' +
+      '<span class="s">Amoureux·se, coloc, ami·e de soutien émotionnel. Max ' + MAX_PLUS + '.</span></div>' +
+      '<div class="step">' +
+      '<button type="button" data-act="who-plus-dec" aria-label="Un accompagnant de moins"' + (plusDraft > 0 ? "" : " disabled") + '>−</button>' +
+      '<span class="n">' + plusDraft + "</span>" +
+      '<button type="button" data-act="who-plus-inc" aria-label="Un accompagnant de plus"' + (plusDraft < MAX_PLUS ? "" : " disabled") + '>+</button>' +
+      "</div></div>";
+  }
+  html += '<button type="submit" class="cta" style="margin-top:24px">Valider</button>';
+  html += "</form></div></div></div>";
+  return html;
+}
+
+function renderDone() {
+  var me = me_();
+  var name = me ? me.name.split(/\s+/)[0] : "";
+  var team = me ? (TEAMS[me.camp] || TEAMS.deux) : TEAMS.deux;
+  var isOui = me && me.status === "oui";
+  var html = '<div class="scr scr-done">';
+  html += '<div class="top"><div class="in">' + backBtnHtml("home") + "</div></div>";
+  html += '<div class="grow"><div class="in">';
+  html += '<div class="badge" style="background:' + (isOui ? "var(--terra)" : "#EFEDE7") + '">' +
+    (isOui ? STATUS_EMOJI.oui : STATUS_EMOJI.non) + "</div>";
+  html += '<h2 class="stitle a1" style="margin-top:22px">' +
+    (isOui ? "C’est noté, " + esc(name) + " ! On te garde une part de gâteau." :
+             "C’est noté, " + esc(name) + ". Tu vas nous manquer.") + "</h2>";
+  if (me) {
+    html += '<div class="donecard a2">';
+    html += '<div class="doneline"><span class="k">Réponse</span><span class="v">' +
+      STATUS_EMOJI[me.status] + " " + (me.status === "oui" ? "Je viens" : me.status === "non" ? "Je peux pas" : "Peut-être") + "</span></div>";
+    html += '<div class="doneline"><span class="k">Team</span><span class="v">' + team.label + "</span></div>";
+    if (isOui) {
+      html += '<div class="doneline"><span class="k">Accompagnant·es</span><span class="v">' +
+        (me.plus ? "+" + me.plus : "Juste moi") + "</span></div>";
+    }
+    html += "</div>";
+  }
+  html += "</div></div>";
+  html += '<div class="bottom"><div class="in a3">';
+  if (isOui) {
+    html += '<a class="cta" href="' + CAL_URL + '" target="_blank" rel="noopener">' + ICON_CAL.replace('stroke="#141413"', 'stroke="#FAF9F5"') + " Ajouter à mon agenda</a>";
+  }
+  html += '<button type="button" class="cta" style="margin-top:10px;background:#fff;color:var(--ink);border:.5px solid var(--line2)" data-act="goto" data-screen="list">Voir qui vient</button>';
+  html += '<button type="button" class="linkbtn" data-act="restart">Modifier ma réponse</button>';
+  html += "</div></div></div>";
+  return html;
+}
+
+function renderList() {
+  var c = counts();
+  var shown = state.guests.filter(function (g) {
+    return filter === "tous" || g.status === filter;
+  });
+
+  var html = '<div class="scr scr-list">';
+  html += '<div class="top"><div class="in">' + backBtnHtml("home") + "</div></div>";
+  html += '<div class="in" style="padding-top:16px;padding-bottom:44px">';
+  html += '<h2 class="stitle">Qui vient</h2>';
+  html += '<div class="filters" role="group" aria-label="Filtrer">';
+  [["tous", "Tous " + state.guests.length], ["oui", STATUS_EMOJI.oui + " Oui " + c.oui],
+   ["non", STATUS_EMOJI.non + " Non " + c.non]].forEach(function (f) {
+    html += '<button type="button" data-act="filter" data-filter="' + f[0] +
+      '" aria-pressed="' + (filter === f[0]) + '">' + f[1] + "</button>";
+  });
+  html += "</div>";
+
+  if (isAdmin) {
+    html += '<form class="addform" data-form="add" style="margin-top:16px">';
+    html += '<input type="text" class="field" id="guest-name" maxlength="60" placeholder="Ajouter quelqu’un…" autocomplete="off" value="' + esc(draftName) + '">';
+    html += teamPillsHtml("camp", draftCamp);
+    html += '<button type="submit" class="cta">Ajouter</button>';
+    html += "</form>";
+  }
+
+  html += '<div class="rows">';
+  if (!shown.length) {
+    html += '<p class="empty">' + (state.guests.length ? "Personne dans cette catégorie pour l’instant." : "Personne pour l’instant — lance le mouvement.") + "</p>";
+  } else {
+    shown.forEach(function (g) {
+      var team = TEAMS[g.camp] || TEAMS.deux;
+      html += '<div class="row">';
+      if (editingId === g.id && isAdmin) {
+        html += '<form class="editrow" data-form="rename" data-id="' + esc(g.id) + '">';
+        html += '<input type="text" maxlength="60" value="' + esc(g.name) + '" aria-label="Nouveau nom" data-edit-input>';
+        html += '<button type="submit" class="ok">OK</button>';
+        html += '<button type="button" class="no" data-act="cancel-edit">Annuler</button>';
+        html += "</form>";
+      } else {
+        html += '<span class="av" style="background:' + team.av + '">' + esc(initials(g.name)) + "</span>";
+        html += '<div class="who"><span class="nm">' + esc(g.name) + (g.id === meId ? " (toi)" : "") + "</span>" +
+          '<span class="mt">' + team.label + ' · <span class="st-' + g.status + '">' + STATUS_EMOJI[g.status] +
+          ' <span class="stw">' + STATUS_WORD[g.status] + "</span></span></span></div>";
+        if (g.plus > 0) {
+          html += '<span class="pluspill" style="background:' + team.av + '">+' + g.plus + "</span>";
+        }
+        if (isAdmin) {
+          html += '<div class="seg" role="group" aria-label="Statut de ' + esc(g.name) + '">';
+          Object.keys(SEG).forEach(function (s) {
+            html += '<button type="button" data-act="status" data-id="' + esc(g.id) +
+              '" data-status="' + s + '" aria-pressed="' + (g.status === s) + '">' + SEG[s] + "</button>";
+          });
+          html += "</div>";
+          html += '<div class="gtools">';
+          html += '<button type="button" class="cycle" data-act="plus-cycle" data-id="' + esc(g.id) +
+            '" data-plus="' + (g.plus || 0) + '" aria-label="Changer le nombre d’accompagnants">+' + (g.plus || 0) + "</button>";
+          html += '<button type="button" data-act="edit" data-id="' + esc(g.id) + '" aria-label="Renommer ' + esc(g.name) + '">✎</button>';
+          if (armedDeleteId === g.id) {
+            html += '<button type="button" class="armed" data-act="del" data-id="' + esc(g.id) + '">Supprimer ?</button>';
+          } else {
+            html += '<button type="button" data-act="del" data-id="' + esc(g.id) + '" aria-label="Supprimer ' + esc(g.name) + '">×</button>';
+          }
+          html += "</div>";
+        }
+      }
+      html += "</div>";
+    });
+  }
+  html += "</div>";
+
+  html += '<div class="total"><div class="col">' +
+    '<span class="t">' + c.total + (c.total > 1 ? " couverts" : " couvert") + "</span>" +
+    '<span class="s">' + c.oui + " invité·es + " + c.plus + " accompagnant·es</span></div></div>";
+
+  html += '<footer class="foot">';
+  if (isAdmin) {
+    html += '<form class="adminbox" data-form="code">';
+    html += '<input type="password" id="admin-newcode" minlength="4" maxlength="40" placeholder="Nouveau code" autocomplete="new-password">';
+    html += '<button type="submit">Changer le code</button>';
+    html += '<button type="button" class="quiet" data-act="admin-off">Quitter le mode orga</button>';
+    html += "</form>";
+  } else if (adminOpen) {
+    html += '<form class="adminbox" data-form="unlock">';
+    html += '<input type="password" id="admin-code" maxlength="40" placeholder="Code organisateurs" autocomplete="off">';
+    html += '<button type="submit">Entrer</button>';
+    html += '<button type="button" class="quiet" data-act="admin-close">Annuler</button>';
+    html += "</form>";
+  } else {
+    html += '<button type="button" class="linkbtn" data-act="admin-open" style="margin-top:0">Espace organisateurs</button>';
+  }
+  html += "</footer>";
+
+  html += "</div></div>";
+  return html;
+}
+
+function render() {
+  if (!loaded) return;
+  var app = document.getElementById("app");
+  document.body.style.background = SCREEN_BG[screen] || SCREEN_BG.home;
+  if (screen === "home") app.innerHTML = renderHome();
+  else if (screen === "status") app.innerHTML = renderStatus();
+  else if (screen === "who") app.innerHTML = renderWho();
+  else if (screen === "done") app.innerHTML = renderDone();
+  else app.innerHTML = renderList();
+
+  var editInput = app.querySelector("[data-edit-input]");
+  if (editInput) { editInput.focus(); editInput.select(); }
+  if (adminOpen && !isAdmin) {
+    var codeInput = document.getElementById("admin-code");
+    if (codeInput) codeInput.focus();
+  }
+  window.scrollTo(0, 0);
+}
+
+function goTo(s) {
+  screen = s;
+  render();
+}
+
+/* ----------------------------- Interactions ------------------------------ */
+
+document.getElementById("app").addEventListener("click", function (ev) {
+  var btn = ev.target.closest("[data-act]");
+  if (!btn || busy) return;
+  var actName = btn.getAttribute("data-act");
+  var id = btn.getAttribute("data-id");
+  if (actName === "goto") {
+    goTo(btn.getAttribute("data-screen"));
+  } else if (actName === "restart") {
+    goTo("status");
+  } else if (actName === "pick-status") {
+    pendingStatus = btn.getAttribute("data-status");
+    var me = me_();
+    joinName = me ? me.name : joinName;
+    joinCamp = me ? me.camp : joinCamp;
+    plusDraft = me ? (me.plus || 0) : plusDraft;
+    goTo("who");
+  } else if (actName === "pick-name") {
+    var picked = state.guests.find(function (g) { return g.id === id; });
+    if (picked) {
+      joinName = picked.name;
+      joinCamp = picked.camp;
+      plusDraft = picked.plus || 0;
+      render();
+    }
+  } else if (actName === "who-camp") {
+    joinCamp = btn.getAttribute("data-camp");
+    render();
+  } else if (actName === "who-plus-inc" || actName === "who-plus-dec") {
+    var next = plusDraft + (actName === "who-plus-inc" ? 1 : -1);
+    if (next < 0 || next > MAX_PLUS) return;
+    plusDraft = next;
+    render();
+  } else if (actName === "filter") {
+    filter = btn.getAttribute("data-filter");
+    render();
+  } else if (actName === "admin-open") {
+    adminOpen = true;
+    render();
+  } else if (actName === "admin-close") {
+    adminOpen = false;
+    render();
+  } else if (actName === "admin-off") {
+    isAdmin = false;
+    adminOpen = false;
+    adminCode = null;
+    store("anniv-admin-code", null);
+    editingId = null;
+    armedDeleteId = null;
+    render();
+  } else if (actName === "status") {
+    if (!isAdmin) return;
+    var s2 = btn.getAttribute("data-status");
+    optimistic(function (s) {
+      var g = s.guests.find(function (x) { return x.id === id; });
+      if (g) g.status = s2;
+    }, function () { return run("apiAdmin", adminCode, "status", { id: id, status: s2 }); });
+  } else if (actName === "plus-cycle") {
+    if (!isAdmin) return;
+    var cur = parseInt(btn.getAttribute("data-plus"), 10) || 0;
+    var nxt = (cur + 1) % (MAX_PLUS + 1);
+    optimistic(function (s) {
+      var g = s.guests.find(function (x) { return x.id === id; });
+      if (g) g.plus = nxt;
+    }, function () { return run("apiAdmin", adminCode, "plus", { id: id, plus: nxt }); });
+  } else if (actName === "edit") {
+    if (!isAdmin) return;
+    editingId = id;
+    armedDeleteId = null;
+    render();
+  } else if (actName === "cancel-edit") {
+    editingId = null;
+    render();
+  } else if (actName === "del") {
+    if (!isAdmin) return;
+    if (armedDeleteId === id) {
+      clearTimeout(armedTimer);
+      armedDeleteId = null;
+      editingId = null;
+      optimistic(function (s) {
+        s.guests = s.guests.filter(function (x) { return x.id !== id; });
+      }, function () { return run("apiAdmin", adminCode, "del", { id: id }); });
+    } else {
+      armedDeleteId = id;
+      render();
+      clearTimeout(armedTimer);
+      armedTimer = setTimeout(function () {
+        if (armedDeleteId === id) { armedDeleteId = null; render(); }
+      }, 4000);
+    }
+  }
+});
+
+document.getElementById("app").addEventListener("input", function (ev) {
+  var t = ev.target;
+  if (!t) return;
+  if (t.id === "guest-name") {
+    draftName = t.value;
+  } else if (t.id === "who-name") {
+    joinName = t.value;
+    var sug = document.getElementById("who-sug");
+    if (sug) sug.innerHTML = whoSugHtml();
+  }
+});
+
+document.getElementById("app").addEventListener("submit", function (ev) {
+  var form = ev.target.closest("[data-form]");
+  if (!form) return;
+  ev.preventDefault();
+  if (busy) return;
+  var kind = form.getAttribute("data-form");
+  if (kind === "who") {
+    var name = joinName.trim();
+    if (norm(name).length < 2) { toast("Écris ton prénom (au moins 2 lettres)."); return; }
+    var st = pendingStatus;
+    var camp = joinCamp;
+    var plus = pendingStatus === "oui" ? plusDraft : 0;
+    // Optimiste : si le nom existe on met à jour, sinon on l'ajoute — l'écran
+    // de confirmation s'affiche tout de suite, le serveur fait pareil derrière.
+    var snapshot = JSON.parse(JSON.stringify(state));
+    var prevMe = meId;
+    var prevScreen = screen;
+    var match = state.guests.find(function (g) { return norm(g.name) === norm(name); });
+    var targetId = match ? match.id : uid();
+    if (match) {
+      match.status = st;
+      match.camp = camp;
+      match.plus = plus;
+    } else {
+      state.guests.push({ id: targetId, name: name, camp: camp, status: st, plus: plus, updated: new Date().toISOString() });
+    }
+    setMe(targetId);
+    screen = "done";
+    render();
+    pending++;
+    run("apiRsvp", name, camp, plus, targetId, st).then(function (result) {
+      pending--;
+      if (result && result.meId) setMe(result.meId);
+      var s = result && result.state ? result.state : result;
+      if (pending === 0 && !busy) applyState(s);
+    }).catch(function (err) {
+      pending--;
+      state = snapshot;
+      setMe(prevMe);
+      screen = prevScreen;
+      render();
+      toast(errMsg(err));
+    });
+  } else if (kind === "unlock") {
+    var input = document.getElementById("admin-code");
+    var code = (input && input.value) || "";
+    if (!code) return;
+    act(function () {
+      return run("apiVerifyAdmin", code).then(function (ok) {
+        if (!ok) throw new Error("Code organisateurs incorrect.");
+        isAdmin = true;
+        adminOpen = false;
+        adminCode = code;
+        store("anniv-admin-code", code);
+        return run("apiGetState");
+      });
+    }, "Vérification…");
+  } else if (kind === "code") {
+    if (!isAdmin) return;
+    var nc = document.getElementById("admin-newcode");
+    var newCode = ((nc && nc.value) || "").trim();
+    if (newCode.length < 4) { toast("Le code doit faire au moins 4 caractères."); return; }
+    act(function () {
+      return run("apiAdmin", adminCode, "code", { code: newCode }).then(function (s) {
+        adminCode = newCode;
+        store("anniv-admin-code", newCode);
+        toast("Code organisateurs changé.");
+        return s;
+      });
+    });
+  } else if (kind === "add") {
+    if (!isAdmin) return;
+    var gname = (document.getElementById("guest-name").value || "").trim();
+    if (!gname) { toast("Il manque le prénom."); return; }
+    var acamp = draftCamp;
+    draftName = "";
+    act(function () { return run("apiAdmin", adminCode, "add", { name: gname, camp: acamp }); });
+  } else if (kind === "rename") {
+    if (!isAdmin) return;
+    var rid = form.getAttribute("data-id");
+    var rin = form.querySelector("[data-edit-input]");
+    var rname = (rin.value || "").trim();
+    if (!rname) { toast("Le nom ne peut pas être vide."); return; }
+    editingId = null;
+    act(function () { return run("apiAdmin", adminCode, "rename", { id: rid, name: rname }); });
+  }
+});
+
+/* -------------------------------- Boot ----------------------------------- */
+
+meId = read("anniv-me");
+var storedCode = read("anniv-admin-code");
+
+function bootAdmin() {
+  if (!storedCode) return;
+  run("apiVerifyAdmin", storedCode).then(function (ok) {
+    if (ok) { isAdmin = true; adminCode = storedCode; }
+    else store("anniv-admin-code", null);
+    render();
+  }).catch(function () {});
+}
+
+if (INITIAL_STATE && Array.isArray(INITIAL_STATE.guests)) {
+  applyState(INITIAL_STATE);
+  bootAdmin();
+  run("apiGetState").then(function (s) {
+    if (!busy && pending === 0 && screen !== "who") applyState(s);
+  }).catch(function () {});
+} else {
+  run("apiGetState").then(function (s) {
+    applyState(s);
+    bootAdmin();
+  }).catch(function () {
+    document.getElementById("app").innerHTML =
+      '<p class="loading">Impossible de charger la liste — recharge la page.</p>';
+  });
+}
+
+setInterval(function () {
+  if (busy || pending > 0 || document.hidden || !loaded) return;
+  if (screen === "who") return; // ne pas écraser une saisie en cours
+  run("apiGetState").then(function (s) {
+    if (!busy && pending === 0 && screen !== "who") applyState(s);
+  }).catch(function () {});
+}, 45000);
+</script>
+</body>
+</html>
