@@ -219,16 +219,18 @@ var meId = null;
 
 // —— Configuration Supabase (remplie au déploiement) ——
 var SUPABASE_URL = "https://mfkeflxuvshfgarzwfxf.supabase.co";
-var SUPABASE_ANON_KEY = "%%SUPABASE_ANON_KEY%%";
+var SUPABASE_ANON_KEY = "sb_publishable_Dc8LEFPjghFF_Gs3M7pvKg_L0pv1rIx";
 
 function rpc(name, body) {
+  var headers = { "apikey": SUPABASE_ANON_KEY, "Content-Type": "application/json" };
+  // Les anciennes clés anon (JWT) passent aussi en Authorization ; les
+  // nouvelles clés sb_publishable_ n'utilisent que l'en-tête apikey.
+  if (SUPABASE_ANON_KEY.indexOf("eyJ") === 0) {
+    headers["Authorization"] = "Bearer " + SUPABASE_ANON_KEY;
+  }
   return fetch(SUPABASE_URL + "/rest/v1/rpc/" + name, {
     method: "POST",
-    headers: {
-      "apikey": SUPABASE_ANON_KEY,
-      "Authorization": "Bearer " + SUPABASE_ANON_KEY,
-      "Content-Type": "application/json"
-    },
+    headers: headers,
     body: JSON.stringify(body)
   }).then(function (r) {
     return r.json().catch(function () { return null; }).then(function (data) {
