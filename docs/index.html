@@ -125,27 +125,27 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .opt .arrow{font-size:18px;color:var(--muted)}
 
 .field{width:100%;background:#fff;border:1px solid var(--sand);border-radius:14px;
-  padding:15px 16px;font-size:16px;margin-top:20px}
+  padding:13px 16px;font-size:16px;margin-top:14px}
 .field::placeholder{color:var(--muted)}
 .field:focus{outline:none;border-color:var(--green2)}
-.hint{margin-top:12px;font-size:14px;color:var(--muted);font-weight:300}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.hint{margin-top:9px;font-size:13.5px;color:var(--muted);font-weight:300}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:9px}
 .chips button{background:#fff;border:1px solid var(--sand);border-radius:9999px;
-  padding:10px 16px;font-size:15px;font-weight:500}
+  padding:9px 15px;font-size:14.5px;font-weight:500}
 .chips button:hover{border-color:var(--terra);color:var(--terra2)}
-.chiplabel{margin-top:18px;font-size:13px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;font-weight:500}
+.chiplabel{margin-top:14px;font-size:12.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;font-weight:500}
 
-.tpills{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tpills{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
 .tpills button{padding:9px 16px;border-radius:9999px;background:#fff;
   border:1px solid var(--sand);font-size:14px;font-weight:500}
 .tpills button[aria-pressed=true]{background:var(--green);color:var(--cream);border-color:var(--green)}
 
-.plusrow{display:flex;align-items:center;gap:12px;margin-top:24px;padding:0 2px}
+.plusrow{display:flex;align-items:center;gap:12px;margin-top:16px;padding:0 2px}
 .plusrow .col{flex:1;display:flex;flex-direction:column;gap:2px}
-.plusrow .t{font-size:17px;font-weight:500}
-.plusrow .s{font-size:13.5px;color:var(--muted);font-weight:300}
+.plusrow .t{font-size:16px;font-weight:500}
+.plusrow .s{font-size:13px;color:var(--muted);font-weight:300}
 .step{display:flex;align-items:center;gap:12px;flex:none}
-.step button{width:40px;height:40px;border-radius:50%;background:#fff;border:1px solid var(--sand);
+.step button{width:38px;height:38px;border-radius:50%;background:#fff;border:1px solid var(--sand);
   display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:500;line-height:1}
 .step .n{font-size:21px;font-weight:500;min-width:16px;text-align:center;font-variant-numeric:tabular-nums}
 
@@ -612,7 +612,7 @@ function renderWho() {
       '<button type="button" data-act="who-plus-inc" aria-label="Un accompagnant de plus"' + (plusDraft < MAX_PLUS ? "" : " disabled") + '>+</button>' +
       "</div></div>";
   }
-  html += '<button type="submit" class="cta" style="margin-top:26px">Valider</button>';
+  html += '<button type="submit" class="cta" style="margin-top:18px">Valider</button>';
   html += "</form></div></div></div>";
   return html;
 }
