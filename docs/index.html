@@ -218,10 +218,11 @@ var INITIAL_STATE = null;
 try { INITIAL_STATE = JSON.parse(localStorage.getItem("anniv-cache") || "null"); } catch (e) {}
 
 var PARTY = { y: 2026, m: 9, d: 17 };
+// Heures en UTC (17/10/2026 18h30–02h00 à Paris, UTC+2) : le format le plus
+// fiable pour Google Agenda, qui reconvertit au fuseau de l'invité.
 var CAL_URL = "https://calendar.google.com/calendar/render?action=TEMPLATE" +
   "&text=" + encodeURIComponent("PACS & 60 ans Charlotte Antoine B") +
-  "&dates=20261017T183000/20261018T020000" +
-  "&ctz=Europe/Paris" +
+  "&dates=20261017T163000Z/20261018T000000Z" +
   "&location=" + encodeURIComponent("Sterne, 36 rue de la Condamine") +
   "&details=" + encodeURIComponent("Cocktail et dîner — merci de venir partager ce moment tous ensemble !");
 var TEAMS = {
