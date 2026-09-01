@@ -149,20 +149,27 @@ button:disabled{opacity:.5;cursor:not-allowed}
   display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:500;line-height:1}
 .step .n{font-size:21px;font-weight:500;min-width:16px;text-align:center;font-variant-numeric:tabular-nums}
 
-.donecard{margin-top:26px;background:#fff;border:1px solid var(--sand);border-radius:18px;
-  padding:20px;display:flex;flex-direction:column;gap:12px}
-.doneline{display:flex;justify-content:space-between;gap:12px;font-size:15.5px}
+.donecard{margin-top:16px;background:#fff;border:1px solid var(--sand);border-radius:16px;
+  padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.doneline{display:flex;justify-content:space-between;gap:12px;font-size:14.5px}
 .doneline .k{color:var(--muted);font-weight:300}
 .doneline .v{font-weight:500;text-align:right}
-.thanks{margin-top:12px;font-size:16px;font-weight:300;line-height:1.55}
+.thanks{margin-top:10px;font-size:14.5px;font-weight:300;line-height:1.5}
+.scr-done .grow{padding:14px 0}
+.scr-done .bottom{padding-bottom:20px}
+.scr-done .cta{height:50px}
 
-.filters{display:flex;gap:6px;flex-wrap:wrap;margin-top:18px}
-.filters button{flex:none;padding:8px 15px;border-radius:9999px;background:#fff;
-  border:1px solid var(--sand);font-size:14px}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.filters button{flex:none;padding:7px 14px;border-radius:9999px;background:#fff;
+  border:1px solid var(--sand);font-size:13.5px}
 .filters button[aria-pressed=true]{background:var(--green);color:var(--cream);border-color:var(--green);font-weight:500}
-.rows{margin-top:12px}
-.row{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid var(--sand);flex-wrap:wrap}
-.av{width:40px;height:40px;border-radius:50%;font-size:13px;font-weight:500;color:var(--cream);
+/* La page liste ne défile jamais : seule la liste de noms défile à l'intérieur */
+.scr-list{height:100vh;height:100svh}
+.listwrap{flex:1;display:flex;flex-direction:column;min-height:0;padding-top:10px;padding-bottom:14px}
+.scr-list .stitle{font-size:26px}
+.rows{flex:1 1 auto;min-height:0;overflow-y:auto;margin-top:8px;-webkit-overflow-scrolling:touch}
+.row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--sand);flex-wrap:wrap}
+.av{width:36px;height:36px;border-radius:50%;font-size:12.5px;font-weight:500;color:var(--cream);
   display:flex;align-items:center;justify-content:center;flex:none;letter-spacing:.03em}
 .row .who{flex:1;min-width:120px;display:flex;flex-direction:column}
 .row .nm{font-size:16px;font-weight:500;overflow-wrap:anywhere}
@@ -173,7 +180,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .st-non .stw{color:var(--st-non)}
 .pluspill{font-size:12.5px;font-weight:500;color:var(--cream);padding:4px 9px;border-radius:9999px;flex:none}
 .empty{padding:26px 0;color:var(--muted);font-size:15px;font-weight:300}
-.total{display:flex;align-items:center;gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid var(--oncream-line)}
+.total{display:flex;align-items:center;gap:12px;margin-top:10px;padding-top:10px;border-top:1px solid var(--oncream-line);flex:none}
 .total .col{flex:1;display:flex;flex-direction:column}
 .total .t{font-size:15px;font-weight:500}
 .total .s{font-size:13px;color:var(--muted);font-weight:300}
@@ -191,14 +198,18 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .editrow button{border-radius:9999px;padding:8px 14px;font-size:14px;font-weight:500}
 .editrow .ok{background:var(--green);color:var(--cream)}
 .editrow .no{color:var(--muted)}
-.addform{padding:14px 0 18px;border-bottom:1px dashed var(--sand)}
-.addform .cta{height:48px;margin-top:12px;font-size:15px}
-.addform .field{margin-top:0}
+.addform{padding:0 0 12px;border-bottom:1px dashed var(--sand);flex:none}
+.addrow{display:flex;gap:8px;align-items:center}
+.addrow .field{margin-top:0;flex:1;min-width:0}
+.addrow button[type=submit]{width:46px;height:46px;flex:none;border-radius:50%;
+  background:var(--green);color:var(--cream);font-size:24px;line-height:1;
+  display:flex;align-items:center;justify-content:center}
+.addform .tpills button{padding:7px 13px;font-size:13px}
 
-.foot{margin-top:32px;text-align:center;color:var(--muted);font-size:13px;font-weight:300;
-  display:flex;flex-direction:column;gap:10px;align-items:center}
+.foot{margin-top:12px;text-align:center;color:var(--muted);font-size:13px;font-weight:300;
+  display:flex;flex-direction:column;gap:8px;align-items:center;flex:none}
 .adminbox{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;background:#fff;
-  border:1px solid var(--sand);border-radius:18px;padding:12px;max-width:100%}
+  border:1px solid var(--sand);border-radius:18px;padding:10px;max-width:100%}
 .adminbox input{width:190px;background:var(--cream);border:1px solid var(--sand);border-radius:12px;padding:9px 12px;font-size:14px}
 .adminbox button{background:var(--green);color:var(--cream);border-radius:9999px;padding:9px 16px;font-size:14px;font-weight:500}
 .adminbox .quiet{background:none;color:var(--muted)}
@@ -625,8 +636,8 @@ function renderDone() {
   var html = '<div class="scr scr-done">';
   html += '<div class="top"><div class="in">' + backBtnHtml("home") + "</div></div>";
   html += '<div class="grow"><div class="in">';
-  html += '<span style="color:var(--green)">' + logoHtml(72) + "</span>";
-  html += '<h2 class="stitle a1" style="margin-top:20px">Merci, ' + esc(name) + ".</h2>";
+  html += '<span style="color:var(--green)">' + logoHtml(58) + "</span>";
+  html += '<h2 class="stitle a1" style="margin-top:12px">Merci, ' + esc(name) + ".</h2>";
   if (isOui) {
     html += '<p class="thanks a2">On est très heureux que tu viennes partager ce moment avec nous. ' +
       "Rendez-vous le <b>samedi 17 octobre à 18h30</b>, à la <b>Sterne</b>, 36 rue de la Condamine. \u{1F942}</p>";
@@ -665,7 +676,7 @@ function renderList() {
 
   var html = '<div class="scr scr-list">';
   html += '<div class="top"><div class="in">' + backBtnHtml("home") + "</div></div>";
-  html += '<div class="in" style="padding-top:18px;padding-bottom:46px">';
+  html += '<div class="in listwrap">';
   html += '<h2 class="stitle">Qui sera là</h2>';
   html += '<div class="filters" role="group" aria-label="Filtrer">';
   [["tous", "Tous " + state.guests.length], ["oui", STATUS_EMOJI.oui + " Oui " + c.oui],
@@ -676,10 +687,10 @@ function renderList() {
   html += "</div>";
 
   if (isAdmin) {
-    html += '<form class="addform" data-form="add" style="margin-top:16px">';
-    html += '<input type="text" class="field" id="guest-name" maxlength="60" placeholder="Ajouter quelqu’un…" autocomplete="off" value="' + esc(draftName) + '">';
+    html += '<form class="addform" data-form="add" style="margin-top:10px">';
+    html += '<div class="addrow"><input type="text" class="field" id="guest-name" maxlength="60" placeholder="Ajouter quelqu’un…" autocomplete="off" value="' + esc(draftName) + '">';
+    html += '<button type="submit" aria-label="Ajouter">+</button></div>';
     html += teamPillsHtml("camp", draftCamp);
-    html += '<button type="submit" class="cta">Ajouter</button>';
     html += "</form>";
   }
 
