@@ -296,6 +296,9 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .st-peutetre .stw{color:var(--st-peutetre)}
 .st-non .stw{color:var(--st-non)}
 .pluspill{font-size:12.5px;font-weight:500;color:var(--cream);padding:4px 9px;border-radius:9999px;flex:none}
+.rowgo{cursor:pointer;position:relative;transition:background .15s}
+.rowgo:hover{background:rgba(255,255,255,.55)}
+.row .chev{color:var(--muted);font-size:19px;flex:none;padding-left:2px}
 .empty{padding:26px 0;color:var(--muted);font-size:15px;font-weight:300}
 .total{display:flex;align-items:center;gap:12px;margin-top:10px;padding-top:10px;border-top:1px solid var(--oncream-line);flex:none}
 .total .col{flex:1;display:flex;flex-direction:column}
@@ -990,6 +993,7 @@ function renderList() {
   html += '<div class="top"><div class="in">' + backBtnHtml("home") + "</div></div>";
   html += '<div class="in listwrap">';
   html += '<h2 class="stitle">Qui sera là</h2>';
+  if (!isAdmin) html += '<p class="hint" style="margin-top:2px">Touche ton nom pour changer ta réponse ou ton +1.</p>';
   html += '<div class="filters" role="group" aria-label="Filtrer">';
   [["tous", "Tous " + state.guests.length], ["oui", STATUS_EMOJI.oui + " Oui " + c.oui],
    ["non", STATUS_EMOJI.non + " Non " + c.non]].forEach(function (f) {
@@ -1012,7 +1016,9 @@ function renderList() {
   } else {
     shown.forEach(function (g) {
       var team = TEAMS[g.camp] || TEAMS.deux;
-      html += '<div class="row">';
+      html += isAdmin || (editingId === g.id)
+        ? '<div class="row">'
+        : '<div class="row rowgo" data-act="row-rsvp" data-id="' + esc(g.id) + '" role="button" tabindex="0" aria-label="Modifier la réponse de ' + esc(g.name) + '">';
       if (editingId === g.id && isAdmin) {
         html += '<form class="editrow" data-form="rename" data-id="' + esc(g.id) + '">';
         html += '<input type="text" maxlength="60" value="' + esc(g.name) + '" aria-label="Nouveau nom" data-edit-input>';
@@ -1026,6 +1032,9 @@ function renderList() {
           ' <span class="stw">' + STATUS_WORD[g.status] + "</span></span></span></div>";
         if (g.plus > 0) {
           html += '<span class="pluspill" style="background:' + team.av + '">+' + g.plus + "</span>";
+        }
+        if (!isAdmin) {
+          html += '<span class="chev" aria-hidden="true">›</span>';
         }
         if (isAdmin) {
           html += '<div class="seg" role="group" aria-label="Statut de ' + esc(g.name) + '">';
@@ -1148,11 +1157,21 @@ document.getElementById("app").addEventListener("click", function (ev) {
   var id = btn.getAttribute("data-id");
   if (navigator.vibrate) { try { navigator.vibrate(6); } catch (e) {} }
   spawnRipple(btn, ev);
-  if (actName === "goto" || actName === "pick-status" || actName === "restart") {
+  if (actName === "goto" || actName === "pick-status" || actName === "restart" || actName === "row-rsvp") {
     var br = btn.getBoundingClientRect();
     flyDot(ev.clientX || br.left + br.width / 2, ev.clientY || br.top + br.height / 2);
   }
-  if (actName === "goto") {
+  if (actName === "row-rsvp") {
+    var rowGuest = state.guests.find(function (g) { return g.id === id; });
+    if (rowGuest) {
+      meId = rowGuest.id;
+      joinName = rowGuest.name;
+      joinCamp = rowGuest.camp;
+      plusDraft = rowGuest.plus || 0;
+      setGuideMood("happy");
+      goTo("status");
+    }
+  } else if (actName === "goto") {
     goTo(btn.getAttribute("data-screen"));
   } else if (actName === "share") {
     var shareUrl = location.href.split("#")[0].split("?")[0];
