@@ -89,6 +89,33 @@ body{overflow-x:hidden}
 @keyframes legSwing{from{transform:rotate(32deg)}to{transform:rotate(-32deg)}}
 @keyframes legSwingB{from{transform:rotate(-32deg)}to{transform:rotate(32deg)}}
 
+/* Ses humeurs et ses facéties */
+.mouthO,.mouthF{display:none}
+.guide .armB{transform-origin:39px 47px}
+.g-point .pupils{transform:translate(-1px,.9px)}
+.g-peek .pupils{transform:translate(-1.8px,-.8px)}
+.g-peek svg{transform:rotate(-5deg)}
+.g-peek.g-point svg{animation:none}
+.g-wave .armP{animation:waveArm 1.3s ease-in-out 1}
+@keyframes waveArm{0%,100%{transform:rotate(0)}30%{transform:rotate(150deg)}50%{transform:rotate(122deg)}70%{transform:rotate(150deg)}}
+.g-dance svg{animation:danceWig .48s ease-in-out 3}
+@keyframes danceWig{0%,100%{transform:rotate(0)}25%{transform:rotate(-7deg) translateY(-3px)}75%{transform:rotate(7deg) translateY(-3px)}}
+.g-tug .balloonG{animation:tugB 1.3s ease-in-out 1}
+@keyframes tugB{0%,100%{transform:rotate(0)}35%{transform:translateY(7px) rotate(-14deg)}70%{transform:translateY(-4px) rotate(7deg)}}
+.g-party svg{animation:partyJump .55s cubic-bezier(.35,0,.4,1) infinite}
+@keyframes partyJump{0%,100%{transform:translateY(0)}40%{transform:translateY(-16px)}}
+.g-party .mouthS{display:none}
+.g-party .mouthO{display:inline}
+.g-party .armP{animation:partyPump 0.55s ease-in-out infinite}
+@keyframes partyPump{0%,100%{transform:rotate(125deg)}40%{transform:rotate(145deg)}}
+.g-party .armB{transform:rotate(-28deg)}
+.g-sad .mouthS{display:none}
+.g-sad .mouthF{display:inline}
+.g-sad .pupils{transform:translateY(1.4px)}
+.g-sad .balloonG{animation:none;transform:translateY(7px) rotate(-6deg)}
+.g-sad.g-point .armP{animation-duration:1.9s}
+.g-sad.g-point svg{animation-duration:3.4s}
+
 /* Fil du parcours : 3 étapes qui s'allument au fil du trajet */
 .steps{position:absolute;top:16px;left:50%;transform:translateX(-50%);display:flex;align-items:center;z-index:2}
 .steps .dot{width:9px;height:9px;border-radius:50%;background:var(--sand);flex:none}
@@ -573,15 +600,18 @@ var GUIDE_SVG = '<svg viewBox="0 0 72 96" fill="none">' +
   '<circle cx="32" cy="26" r="11" fill="#FAF6EE" stroke="#23281F" stroke-width="2.6"/>' +
   '<circle cx="26.5" cy="29.5" r="1.8" fill="#E8A08E" opacity=".8"/>' +
   '<circle cx="37.5" cy="29.5" r="1.8" fill="#E8A08E" opacity=".8"/>' +
-  '<circle class="eyeG" cx="28.5" cy="25" r="1.5" fill="#23281F"/>' +
-  '<circle class="eyeG" cx="35.5" cy="25" r="1.5" fill="#23281F"/>' +
-  '<path d="M 28.5 30 Q 32 33 35.5 30" stroke="#23281F" stroke-width="1.7" stroke-linecap="round"/>' +
+  '<g class="pupils"><circle class="eyeG" cx="28.5" cy="25" r="1.5" fill="#23281F"/>' +
+  '<circle class="eyeG" cx="35.5" cy="25" r="1.5" fill="#23281F"/></g>' +
+  '<path class="mouthS" d="M 28.5 30 Q 32 33 35.5 30" stroke="#23281F" stroke-width="1.7" stroke-linecap="round"/>' +
+  '<circle class="mouthO" cx="32" cy="30.8" r="2" fill="#23281F"/>' +
+  '<path class="mouthF" d="M 29.5 31 L 34.5 31" stroke="#23281F" stroke-width="1.7" stroke-linecap="round"/>' +
   '<path d="M 23 17.5 L 32 2 L 41 17.5 Z" fill="#2E5941"/>' +
   '<path d="M 23 17.5 L 41 17.5" stroke="#B08D3E" stroke-width="2.4" stroke-linecap="round"/>' +
   '<circle cx="32" cy="2.5" r="2.8" fill="#B08D3E"/>' +
   "</svg>";
 
 var guideEl = null, guidePos = null, guideTimer = null, guideAnim = null;
+var guideMood = "happy", trickTimer = null, peekTimer = null;
 
 function ensureGuide() {
   if (guideEl) return;
@@ -592,6 +622,44 @@ function ensureGuide() {
   document.body.appendChild(guideEl);
   guidePos = { x: -80, y: window.innerHeight - 210 };
   guideEl.style.transform = "translate(" + guidePos.x + "px," + guidePos.y + "px)";
+  scheduleTrick();
+}
+
+// Quand il attend, il fait des petites facéties de temps en temps.
+function scheduleTrick() {
+  clearTimeout(trickTimer);
+  trickTimer = setTimeout(doTrick, 3200 + Math.random() * 3200);
+}
+function doTrick() {
+  var busyGuide = !guideEl || !guideEl.classList.contains("g-point") ||
+    guideMood === "sad" || guideEl.classList.contains("g-party") || guideEl.classList.contains("g-peek");
+  if (!busyGuide) {
+    var tricks = ["g-wave", "g-dance", "g-tug", "hop"];
+    var pick = tricks[Math.floor(Math.random() * tricks.length)];
+    if (pick === "hop" && guideEl.firstElementChild.animate) {
+      guideEl.firstElementChild.animate(
+        [{ transform: "translateY(0)" }, { transform: "translateY(-22px)" }, { transform: "translateY(0)" },
+         { transform: "translateY(-11px)" }, { transform: "translateY(0)" }],
+        { duration: 700, easing: "ease-in-out" });
+    } else if (pick !== "hop") {
+      guideEl.classList.add(pick);
+      (function (cls) { setTimeout(function () { guideEl.classList.remove(cls); }, 1500); })(pick);
+    }
+  }
+  scheduleTrick();
+}
+
+// Il jette un œil quand on tape son prénom.
+function guidePeek() {
+  if (!guideEl) return;
+  guideEl.classList.add("g-peek");
+  clearTimeout(peekTimer);
+  peekTimer = setTimeout(function () { guideEl.classList.remove("g-peek"); }, 900);
+}
+
+function setGuideMood(mood) {
+  guideMood = mood;
+  if (guideEl) guideEl.classList.toggle("g-sad", mood === "sad");
 }
 
 // Après chaque rendu, le guide bondit jusqu'au prochain bouton et le pointe.
@@ -653,6 +721,11 @@ function walkGuide(x, y, point) {
     guideEl.classList.remove("g-walk", "face-l");
     guideEl.classList.toggle("g-point", point);
     guideAnim = null;
+    // Arrivé sur l'écran de merci après un oui : il fait la fête avant de pointer.
+    if (point && screen === "done" && guideMood !== "sad") {
+      guideEl.classList.add("g-party");
+      setTimeout(function () { if (guideEl) guideEl.classList.remove("g-party"); }, 2600);
+    }
   };
 }
 
@@ -1095,6 +1168,7 @@ document.getElementById("app").addEventListener("click", function (ev) {
     goTo("status");
   } else if (actName === "pick-status") {
     pendingStatus = btn.getAttribute("data-status");
+    setGuideMood(pendingStatus === "non" ? "sad" : "happy");
     var me = me_();
     joinName = me ? me.name : joinName;
     joinCamp = me ? me.camp : joinCamp;
@@ -1185,6 +1259,7 @@ document.getElementById("app").addEventListener("input", function (ev) {
     joinName = t.value;
     var sug = document.getElementById("who-sug");
     if (sug) sug.innerHTML = whoSugHtml();
+    guidePeek();
   }
 });
 
