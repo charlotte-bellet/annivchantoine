@@ -75,7 +75,7 @@ body{overflow-x:hidden}
 .bh-cheer{right:18px;bottom:14px;animation:bhJump .75s cubic-bezier(.35,0,.35,1) infinite}
 @keyframes bhJump{0%,100%{transform:translateY(0)}35%{transform:translateY(-16px)}55%{transform:translateY(-13px)}}
 .bh-cheer .armL{transform-origin:24px 38px;transform:rotate(105deg)}
-.bh-run{position:fixed;left:0;bottom:24px;z-index:95;
+.bh-run{position:fixed;left:0;top:0;z-index:95;
   filter:drop-shadow(0 0 4px rgba(250,246,238,.9)) drop-shadow(0 6px 8px rgba(0,0,0,.18))}
 .bh-run svg{animation:runBob .26s linear infinite alternate}
 .bh-run.flip svg{animation-name:runBobL}
@@ -575,22 +575,31 @@ function bonhommeHtml(mode) {
   return '<span class="bonhomme ' + mode + '" aria-hidden="true">' + BH_SVG + "</span>";
 }
 
-// Il traverse l'écran en courant dans le sens du voyage.
+// Il traverse l'écran en bondissant dans le sens du voyage : trois bonds
+// paraboliques, en grimpant vers le haut à l'aller, en redescendant au retour.
 function runBuddy(dir) {
   if (!document.body.animate) return;
   var s = document.createElement("span");
   s.className = "bonhomme bh-run" + (dir === "b" ? " flip" : "");
   s.innerHTML = BH_SVG;
   document.body.appendChild(s);
-  var W = window.innerWidth;
-  var from = dir === "b" ? W + 80 : -80;
-  var to = dir === "b" ? -90 : W + 90;
-  var anim = s.animate(
-    [{ transform: "translateX(" + from + "px)" }, { transform: "translateX(" + to + "px)" }],
-    { duration: 900, easing: "cubic-bezier(.45,.05,.55,.95)" }
-  );
+  var W = window.innerWidth, H = window.innerHeight;
+  var fromX = dir === "b" ? W + 80 : -80;
+  var toX = dir === "b" ? -90 : W + 90;
+  var y0 = H - 130;
+  var y1 = Math.max(80, H * 0.28);
+  if (dir === "b") { var swap = y0; y0 = y1; y1 = swap; }
+  var hops = 3, amp = 55 + Math.random() * 35;
+  var kf = [];
+  for (var i = 0; i <= 30; i++) {
+    var t = i / 30;
+    var x = fromX + (toX - fromX) * t;
+    var y = y0 + (y1 - y0) * t - amp * Math.abs(Math.sin(t * Math.PI * hops));
+    kf.push({ transform: "translate(" + x + "px," + y + "px)" });
+  }
+  var anim = s.animate(kf, { duration: 1050, easing: "linear" });
   anim.onfinish = function () { s.remove(); };
-  setTimeout(function () { if (s.parentNode) s.remove(); }, 1200);
+  setTimeout(function () { if (s.parentNode) s.remove(); }, 1350);
 }
 
 function stepsHtml(n) {
