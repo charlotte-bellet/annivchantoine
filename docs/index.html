@@ -63,31 +63,34 @@ a{color:inherit}
 .noanim .logo.draw g path{stroke-dasharray:none;stroke-dashoffset:0;animation:none}
 
 /* Compte à rebours */
-.count{display:flex;gap:10px;margin-top:24px}
-.cd{flex:1;background:rgba(250,246,238,.07);border:1px solid rgba(250,246,238,.26);border-radius:14px;padding:11px 4px 9px;text-align:center}
-.cd .n{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
-.cd .l{display:block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.7;margin-top:5px;font-weight:500}
+.count{display:flex;gap:8px;margin-top:16px}
+.cd{flex:1;background:rgba(250,246,238,.07);border:1px solid rgba(250,246,238,.26);border-radius:12px;padding:8px 4px 7px;text-align:center}
+.cd .n{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;font-size:24px;line-height:1;font-variant-numeric:tabular-nums}
+.cd .l{display:block;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;opacity:.7;margin-top:3px;font-weight:500}
 
-.madeby{margin-top:16px;text-align:center;font-size:12px;letter-spacing:.1em;opacity:.5;font-weight:300}
+.madeby{margin-top:6px;text-align:center;font-size:11px;letter-spacing:.1em;opacity:.5;font-weight:300}
+.scr-home .grow{padding:16px 0}
+.scr-home .linkbtn{margin-top:10px;font-size:13px}
+.scr-home .cta{height:52px}
 #confetti-canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:80}
 
 .serif{font-family:"Cormorant Garamond",Georgia,serif}
 .h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;
-  font-size:clamp(40px,11vw,52px);line-height:1.02;letter-spacing:.01em}
+  font-size:clamp(34px,9.5vw,46px);line-height:1.02;letter-spacing:.01em}
 .h1 .amp{font-style:italic;font-weight:500;color:var(--terra)}
-.names{margin-top:10px;font-size:15px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;opacity:.9}
+.names{margin-top:7px;font-size:13px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;opacity:.9}
 .stitle{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;
   font-size:clamp(30px,8vw,36px);line-height:1.08;overflow-wrap:anywhere}
-.lede{margin-top:12px;font-size:16px;font-weight:300;line-height:1.5}
+.lede{margin-top:9px;font-size:14.5px;font-weight:300;line-height:1.45}
 
-.facts{margin-top:28px;display:flex;flex-direction:column;gap:15px;font-size:16px;line-height:1.35;font-weight:300}
-.fact{display:flex;gap:13px;align-items:center}
-.tile{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;
+.facts{margin-top:16px;display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.3;font-weight:300}
+.fact{display:flex;gap:11px;align-items:center}
+.tile{width:33px;height:33px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;
   background:rgba(250,246,238,.1);border:1px solid rgba(250,246,238,.35)}
-.tile svg{display:block}
+.tile svg{display:block;width:16px;height:16px}
 .fact b{font-weight:500}
-.note{margin-top:22px;border:1px solid rgba(250,246,238,.3);border-radius:14px;
-  padding:13px 16px;font-size:13.5px;font-weight:300;line-height:1.5;opacity:.95}
+.note{margin-top:14px;border:1px solid rgba(250,246,238,.3);border-radius:12px;
+  padding:10px 13px;font-size:12px;font-weight:300;line-height:1.45;opacity:.95}
 .note b{font-weight:500}
 
 .backbtn{width:44px;height:44px;border-radius:9999px;background:rgba(255,255,255,.55);
@@ -462,10 +465,11 @@ function renderHome() {
   var html = '<div class="scr scr-home">';
   html += '<div class="aura" aria-hidden="true"><i class="g1"></i><i class="g2"></i><i class="g3"></i></div>';
   html += '<div class="grow"><div class="in">';
-  html += logoHtml(96, true);
-  html += '<h1 class="h1 a1" style="margin-top:24px">PACS <span class="amp">&amp;</span> 60 ans</h1>';
+  html += logoHtml(72, true);
+  html += '<h1 class="h1 a1" style="margin-top:14px">PACS <span class="amp">&amp;</span> 60 ans</h1>';
   html += '<p class="names a1">Charlotte &amp; Antoine B</p>';
   html += '<p class="lede a2">On officialise, on additionne nos bougies, et on compte sur vous pour fêter ça tous ensemble.</p>';
+  html += '<button type="button" class="cta cta-terra a2" style="margin-top:18px" data-act="goto" data-screen="status">RSVP <span aria-hidden="true">→</span></button>';
   html += countdownHtml();
   html += '<div class="facts a3">';
   html += '<div class="fact"><span class="tile">' + ICON_CAL + "</span>" +
@@ -474,16 +478,12 @@ function renderHome() {
   html += '<div class="fact"><span class="tile">' + ICON_PIN + "</span>" +
     "<span><b>Sterne</b>, 36 rue de la Condamine</span></div>";
   html += '<div class="fact"><span class="tile">' + ICON_GLASS + "</span>" +
-    "<span><b>Cocktail</b> puis <b>dîner</b></span></div>";
-  html += '<div class="fact"><span class="tile">' + ICON_USERS + "</span>" +
-    "<span>" + (c.total ? "<b>" + c.total + (c.total > 1 ? " personnes" : " personne") + "</b> " + (c.total > 1 ? "ont" : "a") + " déjà dit oui" : "<b>Sois le premier ou la première</b> à répondre") + "</span></div>";
+    "<span><b>Cocktail</b> puis <b>dîner</b>" +
+    (c.total ? ' · <b>' + c.total + "</b> oui" : "") + "</span></div>";
   html += "</div>";
   html += '<p class="note a4">Poussettes et autres véhicules bienvenus. <b>Seuls animaux domestiques acceptés :</b> les enfants de moins de 17 ans.</p>';
-  html += "</div></div>";
-  html += '<div class="bottom"><div class="in a4">';
-  html += '<button type="button" class="cta cta-terra" data-act="goto" data-screen="status">RSVP <span aria-hidden="true">→</span></button>';
-  html += '<button type="button" class="linkbtn" data-act="goto" data-screen="list">Voir qui vient (' + state.guests.length + ")</button>";
-  html += '<p class="madeby">✦ concocté avec Claude</p>';
+  html += '<button type="button" class="linkbtn a4" data-act="goto" data-screen="list">Voir qui vient (' + state.guests.length + ")</button>";
+  html += '<p class="madeby a4">✦ concocté avec Claude</p>';
   html += "</div></div></div>";
   return html;
 }
