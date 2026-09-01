@@ -993,7 +993,8 @@ function renderList() {
   html += '<div class="top"><div class="in">' + backBtnHtml("home") + "</div></div>";
   html += '<div class="in listwrap">';
   html += '<h2 class="stitle">Qui sera là</h2>';
-  if (!isAdmin) html += '<p class="hint" style="margin-top:2px">Touche ton nom pour changer ta réponse ou ton +1.</p>';
+  var mine = !isAdmin && state.guests.some(function (g) { return g.id === meId; });
+  if (mine) html += '<p class="hint" style="margin-top:2px">Touche ton nom pour changer ta réponse ou ton +1.</p>';
   html += '<div class="filters" role="group" aria-label="Filtrer">';
   [["tous", "Tous " + state.guests.length], ["oui", STATUS_EMOJI.oui + " Oui " + c.oui],
    ["non", STATUS_EMOJI.non + " Non " + c.non]].forEach(function (f) {
@@ -1016,9 +1017,10 @@ function renderList() {
   } else {
     shown.forEach(function (g) {
       var team = TEAMS[g.camp] || TEAMS.deux;
-      html += isAdmin || (editingId === g.id)
-        ? '<div class="row">'
-        : '<div class="row rowgo" data-act="row-rsvp" data-id="' + esc(g.id) + '" role="button" tabindex="0" aria-label="Modifier la réponse de ' + esc(g.name) + '">';
+      var isMine = !isAdmin && g.id === meId && editingId !== g.id;
+      html += isMine
+        ? '<div class="row rowgo" data-act="row-rsvp" data-id="' + esc(g.id) + '" role="button" tabindex="0" aria-label="Modifier ma réponse">'
+        : '<div class="row">';
       if (editingId === g.id && isAdmin) {
         html += '<form class="editrow" data-form="rename" data-id="' + esc(g.id) + '">';
         html += '<input type="text" maxlength="60" value="' + esc(g.name) + '" aria-label="Nouveau nom" data-edit-input>';
@@ -1033,7 +1035,7 @@ function renderList() {
         if (g.plus > 0) {
           html += '<span class="pluspill" style="background:' + team.av + '">+' + g.plus + "</span>";
         }
-        if (!isAdmin) {
+        if (isMine) {
           html += '<span class="chev" aria-hidden="true">›</span>';
         }
         if (isAdmin) {
@@ -1162,7 +1164,7 @@ document.getElementById("app").addEventListener("click", function (ev) {
     flyDot(ev.clientX || br.left + br.width / 2, ev.clientY || br.top + br.height / 2);
   }
   if (actName === "row-rsvp") {
-    var rowGuest = state.guests.find(function (g) { return g.id === id; });
+    var rowGuest = id === meId && state.guests.find(function (g) { return g.id === id; });
     if (rowGuest) {
       meId = rowGuest.id;
       joinName = rowGuest.name;
