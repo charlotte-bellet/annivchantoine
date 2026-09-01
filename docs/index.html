@@ -40,6 +40,7 @@ a{color:inherit}
 .a3{animation:rise .6s .3s ease both}
 .a4{animation:rise .6s .45s ease both}
 .logo{animation:pop .7s ease both;line-height:0}
+.noanim .a1,.noanim .a2,.noanim .a3,.noanim .a4,.noanim .logo{animation:none}
 
 .serif{font-family:"Cormorant Garamond",Georgia,serif}
 .h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;
@@ -642,9 +643,13 @@ function renderList() {
   return html;
 }
 
+var lastScreen = null;
 function render() {
   if (!loaded) return;
   var app = document.getElementById("app");
+  var sameScreen = screen === lastScreen;
+  lastScreen = screen;
+  app.classList.toggle("noanim", sameScreen);
   document.body.style.background = SCREEN_BG[screen] || SCREEN_BG.home;
   if (screen === "home") app.innerHTML = renderHome();
   else if (screen === "status") app.innerHTML = renderStatus();
@@ -658,7 +663,7 @@ function render() {
     var codeInput = document.getElementById("admin-code");
     if (codeInput) codeInput.focus();
   }
-  window.scrollTo(0, 0);
+  if (!sameScreen) window.scrollTo(0, 0);
 }
 
 function goTo(s) {
