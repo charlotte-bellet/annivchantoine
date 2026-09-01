@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#25412F">
 <title>PACS &amp; 60 ans — Charlotte &amp; Antoine</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500;600&display=swap">
@@ -41,6 +42,34 @@ a{color:inherit}
 .a4{animation:rise .6s .45s ease both}
 .logo{animation:pop .7s ease both;line-height:0}
 .noanim .a1,.noanim .a2,.noanim .a3,.noanim .a4,.noanim .logo{animation:none}
+@keyframes scrIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.scr{animation:scrIn .4s ease both}
+.noanim .scr{animation:none}
+
+/* Aurore de l'écran d'accueil : halos flous qui dérivent lentement */
+.aura{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.aura i{position:absolute;border-radius:50%;filter:blur(58px);will-change:transform}
+@keyframes auraDrift{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(6vw,-5vh) scale(1.14)}}
+@keyframes auraDrift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-7vw,6vh) scale(1.08)}}
+.aura .g1{width:46vmax;height:46vmax;left:-16vmax;top:-14vmax;background:radial-gradient(circle,rgba(201,106,74,.30),transparent 65%);animation:auraDrift 21s ease-in-out infinite}
+.aura .g2{width:40vmax;height:40vmax;right:-14vmax;top:16vh;background:radial-gradient(circle,rgba(176,141,62,.22),transparent 65%);animation:auraDrift2 26s ease-in-out infinite}
+.aura .g3{width:36vmax;height:36vmax;left:6vw;bottom:-18vmax;background:radial-gradient(circle,rgba(46,89,65,.55),transparent 65%);animation:auraDrift 30s 2s ease-in-out infinite}
+
+/* Le logo se dessine à l'arrivée */
+@keyframes drawStroke{to{stroke-dashoffset:0}}
+.logo.draw g path:nth-child(1){stroke-dasharray:350;stroke-dashoffset:350;animation:drawStroke .9s .35s ease forwards}
+.logo.draw g path:nth-child(2){stroke-dasharray:180;stroke-dashoffset:180;animation:drawStroke .7s .95s ease forwards}
+.logo.draw g path:nth-child(3){stroke-dasharray:44;stroke-dashoffset:44;animation:drawStroke .35s 1.5s ease forwards}
+.noanim .logo.draw g path{stroke-dasharray:none;stroke-dashoffset:0;animation:none}
+
+/* Compte à rebours */
+.count{display:flex;gap:10px;margin-top:24px}
+.cd{flex:1;background:rgba(250,246,238,.07);border:1px solid rgba(250,246,238,.26);border-radius:14px;padding:11px 4px 9px;text-align:center}
+.cd .n{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
+.cd .l{display:block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.7;margin-top:5px;font-weight:500}
+
+.madeby{margin-top:16px;text-align:center;font-size:12px;letter-spacing:.1em;opacity:.5;font-weight:300}
+#confetti-canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:80}
 
 .serif{font-family:"Cormorant Garamond",Georgia,serif}
 .h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;
@@ -68,9 +97,14 @@ a{color:inherit}
 .cta{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:56px;
   border-radius:9999px;background:var(--green);color:var(--cream);font-size:16px;font-weight:500;
   letter-spacing:.04em;text-decoration:none;transition:opacity .15s,transform .1s}
-.cta:hover{opacity:.92}
+.cta:hover{opacity:.92;transform:translateY(-1px)}
 .cta:active{transform:scale(.985)}
-.cta-terra{background:var(--terra)}
+.cta-terra{background:linear-gradient(135deg,#D67A56,#B65B3C);box-shadow:0 12px 26px rgba(0,0,0,.24);position:relative;overflow:hidden}
+.cta-terra:hover{opacity:1}
+@keyframes sheen{0%{transform:translateX(-130%)}55%,100%{transform:translateX(130%)}}
+.cta-terra::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(115deg,transparent 32%,rgba(255,255,255,.32) 50%,transparent 68%);
+  transform:translateX(-130%);animation:sheen 3.4s 1.4s ease-in-out infinite}
 .cta-ghost{background:transparent;color:var(--ink);border:1px solid var(--oncream-line)}
 button:disabled{opacity:.5;cursor:not-allowed}
 .small{margin-top:12px;text-align:center;font-size:13px;color:var(--muted)}
@@ -79,8 +113,8 @@ button:disabled{opacity:.5;cursor:not-allowed}
 
 .opts{display:flex;flex-direction:column;gap:12px;margin-top:26px}
 .opt{display:flex;align-items:center;gap:14px;padding:21px 18px;border-radius:16px;
-  background:#fff;border:1px solid var(--sand);text-align:left;width:100%;transition:transform .1s,border-color .15s}
-.opt:hover{border-color:var(--green2)}
+  background:#fff;border:1px solid var(--sand);text-align:left;width:100%;transition:transform .15s,border-color .15s,box-shadow .2s}
+.opt:hover{border-color:var(--green2);transform:translateY(-2px);box-shadow:0 10px 24px rgba(35,40,31,.08)}
 .opt:active{transform:scale(.98)}
 .opt .col{flex:1;display:flex;flex-direction:column;gap:2px}
 .opt .t{font-size:18px;font-weight:500}
@@ -391,8 +425,8 @@ function counts() {
   };
 }
 
-function logoHtml(size) {
-  return '<span class="logo" aria-label="C et A"><svg width="' + size + '" height="' + size + '" viewBox="0 0 240 240" fill="none">' +
+function logoHtml(size, draw) {
+  return '<span class="logo' + (draw ? " draw" : "") + '" aria-label="C et A"><svg width="' + size + '" height="' + size + '" viewBox="0 0 240 240" fill="none">' +
     '<circle cx="120" cy="120" r="116" fill="#C96A4A"/>' +
     '<g stroke="#FFFFFF">' +
     '<path d="M 170.5 66 A 74 74 0 1 0 170.5 174" stroke-width="14" stroke-linecap="round"/>' +
@@ -425,15 +459,17 @@ function renderHome() {
   var c = counts();
   var dl = daysLeft();
   var html = '<div class="scr scr-home">';
+  html += '<div class="aura" aria-hidden="true"><i class="g1"></i><i class="g2"></i><i class="g3"></i></div>';
   html += '<div class="grow"><div class="in">';
-  html += logoHtml(96);
+  html += logoHtml(96, true);
   html += '<h1 class="h1 a1" style="margin-top:24px">PACS <span class="amp">&amp;</span> 60 ans</h1>';
   html += '<p class="names a1">Charlotte &amp; Antoine B</p>';
   html += '<p class="lede a2">On officialise, on additionne nos bougies, et on compte sur vous pour fêter ça tous ensemble.</p>';
+  html += countdownHtml();
   html += '<div class="facts a3">';
   html += '<div class="fact"><span class="tile">' + ICON_CAL + "</span>" +
     "<span><b>Samedi 17 octobre</b> · à partir de 18h30" +
-    (dl > 0 ? ' <span style="opacity:.75">· dans ' + dl + " jours</span>" : dl === 0 ? ' <span style="opacity:.75">· c’est ce soir</span>' : "") + "</span></div>";
+    (dl === 0 ? ' <span style="opacity:.75">· c’est ce soir</span>' : "") + "</span></div>";
   html += '<div class="fact"><span class="tile">' + ICON_PIN + "</span>" +
     "<span><b>Sterne</b>, 36 rue de la Condamine</span></div>";
   html += '<div class="fact"><span class="tile">' + ICON_GLASS + "</span>" +
@@ -446,8 +482,80 @@ function renderHome() {
   html += '<div class="bottom"><div class="in a4">';
   html += '<button type="button" class="cta cta-terra" data-act="goto" data-screen="status">RSVP <span aria-hidden="true">→</span></button>';
   html += '<button type="button" class="linkbtn" data-act="goto" data-screen="list">Voir qui vient (' + state.guests.length + ")</button>";
+  html += '<p class="madeby">✦ concocté avec Claude</p>';
   html += "</div></div></div>";
   return html;
+}
+
+/* --------------------- Compte à rebours & confettis ---------------------- */
+
+function partyDate() { return new Date(PARTY.y, PARTY.m, PARTY.d, 18, 30, 0); }
+
+function countdownHtml() {
+  if (partyDate().getTime() - Date.now() <= 0) return "";
+  return '<div class="count a2" aria-label="Compte à rebours">' +
+    '<div class="cd"><span class="n" id="cd-j">&nbsp;</span><span class="l">jours</span></div>' +
+    '<div class="cd"><span class="n" id="cd-h">&nbsp;</span><span class="l">heures</span></div>' +
+    '<div class="cd"><span class="n" id="cd-m">&nbsp;</span><span class="l">min</span></div>' +
+    '<div class="cd"><span class="n" id="cd-s">&nbsp;</span><span class="l">sec</span></div></div>';
+}
+
+var cdTimer = null;
+function tickCountdown() {
+  var el = document.getElementById("cd-j");
+  if (!el) { if (cdTimer) { clearInterval(cdTimer); cdTimer = null; } return; }
+  var diff = Math.max(0, partyDate().getTime() - Date.now());
+  var s = Math.floor(diff / 1000);
+  var pad = function (n) { return n < 10 ? "0" + n : "" + n; };
+  el.textContent = Math.floor(s / 86400);
+  document.getElementById("cd-h").textContent = pad(Math.floor(s / 3600) % 24);
+  document.getElementById("cd-m").textContent = pad(Math.floor(s / 60) % 60);
+  document.getElementById("cd-s").textContent = pad(s % 60);
+}
+
+function confettiBurst() {
+  if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var old = document.getElementById("confetti-canvas");
+  if (old) old.remove();
+  var cv = document.createElement("canvas");
+  cv.id = "confetti-canvas";
+  document.body.appendChild(cv);
+  var ctx = cv.getContext("2d");
+  var W = cv.width = window.innerWidth;
+  var H = cv.height = window.innerHeight;
+  var colors = ["#C96A4A", "#B08D3E", "#2E5941", "#E9C87E", "#FAF6EE"];
+  var parts = [];
+  for (var i = 0; i < 130; i++) {
+    var left = i % 2 === 0;
+    parts.push({
+      x: left ? -12 : W + 12,
+      y: H * (0.25 + Math.random() * 0.4),
+      vx: (left ? 1 : -1) * (3.5 + Math.random() * 6),
+      vy: -(5 + Math.random() * 7),
+      g: 0.18 + Math.random() * 0.1,
+      w: 5 + Math.random() * 6,
+      h: 8 + Math.random() * 8,
+      r: Math.random() * Math.PI,
+      vr: (Math.random() - 0.5) * 0.3,
+      c: colors[i % colors.length],
+      round: i % 5 === 0
+    });
+  }
+  var t0 = performance.now();
+  function frame(t) {
+    ctx.clearRect(0, 0, W, H);
+    ctx.globalAlpha = Math.min(1, Math.max(0, 1 - (t - t0 - 1900) / 700));
+    parts.forEach(function (p) {
+      p.x += p.vx; p.y += p.vy; p.vy += p.g; p.vx *= 0.99; p.r += p.vr;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.fillStyle = p.c;
+      if (p.round) { ctx.beginPath(); ctx.arc(0, 0, p.w / 2, 0, 6.3); ctx.fill(); }
+      else { ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); }
+      ctx.restore();
+    });
+    if (t - t0 < 2600) requestAnimationFrame(frame);
+    else cv.remove();
+  }
+  requestAnimationFrame(frame);
 }
 
 function renderStatus() {
@@ -541,7 +649,8 @@ function renderDone() {
     html += '<a class="cta" href="' + CAL_URL + '" target="_blank" rel="noopener">' + ICON_CAL + "&nbsp; Ajouter à mon agenda</a>";
   }
   html += '<button type="button" class="cta cta-ghost" style="margin-top:10px" data-act="goto" data-screen="list">Voir qui vient</button>';
-  html += '<button type="button" class="linkbtn" data-act="restart">Modifier ma réponse</button>';
+  html += '<button type="button" class="linkbtn" data-act="share">Faire suivre l’invitation à un·e ami·e</button>';
+  html += '<button type="button" class="linkbtn" style="margin-top:2px" data-act="restart">Modifier ma réponse</button>';
   html += "</div></div></div>";
   return html;
 }
@@ -663,6 +772,17 @@ function render() {
     var codeInput = document.getElementById("admin-code");
     if (codeInput) codeInput.focus();
   }
+  if (screen === "home") {
+    tickCountdown();
+    if (!cdTimer) cdTimer = setInterval(tickCountdown, 1000);
+  } else if (cdTimer) {
+    clearInterval(cdTimer);
+    cdTimer = null;
+  }
+  if (screen === "done" && !sameScreen) {
+    var doneMe = me_();
+    if (doneMe && doneMe.status === "oui") confettiBurst();
+  }
   if (!sameScreen) window.scrollTo(0, 0);
 }
 
@@ -678,8 +798,19 @@ document.getElementById("app").addEventListener("click", function (ev) {
   if (!btn || busy) return;
   var actName = btn.getAttribute("data-act");
   var id = btn.getAttribute("data-id");
+  if (navigator.vibrate) { try { navigator.vibrate(6); } catch (e) {} }
   if (actName === "goto") {
     goTo(btn.getAttribute("data-screen"));
+  } else if (actName === "share") {
+    var shareUrl = location.href.split("#")[0].split("?")[0];
+    var shareData = { title: "PACS & 60 ans — Charlotte & Antoine", text: "Réponds à l’invitation pour le 17 octobre \u{1F942}", url: shareUrl };
+    if (navigator.share) {
+      navigator.share(shareData).catch(function () {});
+    } else if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(shareUrl).then(function () { toast("Lien copié — envoie-le à qui tu veux ✨"); }, function () { toast(shareUrl); });
+    } else {
+      toast(shareUrl);
+    }
   } else if (actName === "restart") {
     goTo("status");
   } else if (actName === "pick-status") {
