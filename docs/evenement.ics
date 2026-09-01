@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Charlotte et Antoine//PACS et 60 ans//FR
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:pacs-60ans-20261017@charlotte-bellet.github.io
+DTSTAMP:20260901T120000Z
+DTSTART:20261017T163000Z
+DTEND:20261018T000000Z
+SUMMARY:PACS & 60 ans Charlotte Antoine B
+LOCATION:Sterne\, 36 rue de la Condamine\, Paris
+DESCRIPTION:Cocktail et dîner — merci de venir partager ce moment tous ensemble !
+URL:https://charlotte-bellet.github.io/annivchantoine/
+END:VEVENT
+END:VCALENDAR

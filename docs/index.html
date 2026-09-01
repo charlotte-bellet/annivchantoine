@@ -646,7 +646,8 @@ function renderDone() {
   html += "</div></div>";
   html += '<div class="bottom"><div class="in a3">';
   if (isOui) {
-    html += '<a class="cta" href="' + CAL_URL + '" target="_blank" rel="noopener">' + ICON_CAL + "&nbsp; Ajouter à mon agenda</a>";
+    html += '<a class="cta" href="evenement.ics">' + ICON_CAL + "&nbsp; Ajouter à mon agenda</a>";
+    html += '<a class="linkbtn" style="margin-top:8px" href="' + CAL_URL + '" target="_blank" rel="noopener">Ou via Google Agenda</a>';
   }
   html += '<button type="button" class="cta cta-ghost" style="margin-top:10px" data-act="goto" data-screen="list">Voir qui vient</button>';
   html += '<button type="button" class="linkbtn" data-act="share">Faire suivre l’invitation à un·e ami·e</button>';
