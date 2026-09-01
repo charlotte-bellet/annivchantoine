@@ -61,30 +61,31 @@ body{overflow-x:hidden}
 .scr.leave-b{animation:voyageOutB .6s cubic-bezier(.5,0,.4,1) both}
 .scr.enter-b{animation:voyageInB .8s cubic-bezier(.16,1.08,.26,1) both}
 
-/* Le petit bonhomme */
-.bonhomme{position:absolute;width:46px;height:62px;pointer-events:none;z-index:5;color:#23281F}
-.scr-home .bonhomme{color:#FAF6EE}
-.bonhomme svg{width:100%;height:100%;overflow:visible}
-.bonhomme svg line,.bonhomme svg circle,.bonhomme svg rect,.bonhomme svg path,.bonhomme svg g{transform-box:view-box}
-.bh-idle{right:16px;bottom:12px;animation:bhBob 2.6s ease-in-out infinite}
-@keyframes bhBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-.bh-idle .armL{transform-origin:24px 38px;animation:bhWave 2.6s ease-in-out infinite}
-@keyframes bhWave{0%,100%{transform:rotate(0)}45%{transform:rotate(115deg)}60%{transform:rotate(95deg)}}
-.balloon{transform-origin:46px 34px;animation:balloonFloat 3.2s ease-in-out infinite}
-@keyframes balloonFloat{0%,100%{transform:rotate(0)}50%{transform:rotate(8deg)}}
-.bh-cheer{right:18px;bottom:14px;animation:bhJump .75s cubic-bezier(.35,0,.35,1) infinite}
-@keyframes bhJump{0%,100%{transform:translateY(0)}35%{transform:translateY(-16px)}55%{transform:translateY(-13px)}}
-.bh-cheer .armL{transform-origin:24px 38px;transform:rotate(105deg)}
-.bh-run{position:fixed;left:0;top:0;z-index:95;
-  filter:drop-shadow(0 0 4px rgba(250,246,238,.9)) drop-shadow(0 6px 8px rgba(0,0,0,.18))}
-.bh-run svg{animation:runBob .26s linear infinite alternate}
-.bh-run.flip svg{animation-name:runBobL}
+/* Le guide de la fête : un personnage persistant qui bondit d'écran en
+   écran et pointe le prochain bouton à toucher. */
+.guide{position:fixed;left:0;top:0;width:58px;height:78px;z-index:60;pointer-events:none;will-change:transform;
+  filter:drop-shadow(0 0 4px rgba(250,246,238,.85)) drop-shadow(0 8px 10px rgba(0,0,0,.16))}
+.guide svg{width:100%;height:100%;overflow:visible}
+.guide svg *{transform-box:view-box}
+.eyeG{transform-origin:center;animation:blinkG 4.2s infinite}
+@keyframes blinkG{0%,91%,100%{transform:scaleY(1)}94%{transform:scaleY(.12)}}
+.balloonG{transform-origin:51px 36px;animation:balloonFloat 3.4s ease-in-out infinite}
+@keyframes balloonFloat{0%,100%{transform:rotate(0)}50%{transform:rotate(9deg)}}
+.guide .armP{transform-origin:26px 47px}
+.guide.g-point svg{animation:guideBob 2.2s ease-in-out infinite}
+@keyframes guideBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.guide.g-point .armP{animation:pointJab 1s ease-in-out infinite}
+@keyframes pointJab{0%,100%{transform:rotate(0)}45%{transform:rotate(16deg)}}
+.guide.g-point .shadowG{animation:shadowPulse 2.2s ease-in-out infinite}
+@keyframes shadowPulse{0%,100%{transform:scaleX(1);opacity:1}50%{transform:scaleX(.85);opacity:.7}}
+.guide.g-walk .legA{transform-origin:28px 66px;animation:legSwing .2s linear infinite alternate}
+.guide.g-walk .legB{transform-origin:36px 66px;animation:legSwingB .2s linear infinite alternate}
+.guide.g-walk .armP{animation:legSwingB .2s linear infinite alternate}
+.guide.g-walk .shadowG{opacity:0}
+.guide.g-walk svg{animation:runBob .24s linear infinite alternate}
+.guide.g-walk.face-l svg{animation-name:runBobL}
 @keyframes runBob{from{transform:rotate(7deg)}to{transform:rotate(7deg) translateY(-4px)}}
 @keyframes runBobL{from{transform:scaleX(-1) rotate(7deg)}to{transform:scaleX(-1) rotate(7deg) translateY(-4px)}}
-.bh-run .legA{transform-origin:27px 54px;animation:legSwing .22s linear infinite alternate}
-.bh-run .legB{transform-origin:33px 54px;animation:legSwingB .22s linear infinite alternate}
-.bh-run .armL{transform-origin:24px 38px;animation:legSwingB .22s linear infinite alternate}
-.bh-run .armR{transform-origin:36px 38px;animation:legSwing .22s linear infinite alternate}
 @keyframes legSwing{from{transform:rotate(32deg)}to{transform:rotate(-32deg)}}
 @keyframes legSwingB{from{transform:rotate(-32deg)}to{transform:rotate(32deg)}}
 
@@ -557,49 +558,102 @@ function backBtnHtml(target) {
   return '<button type="button" class="backbtn" data-act="goto" data-screen="' + target + '" aria-label="Retour">←</button>';
 }
 
-// Le petit bonhomme de la fête : ballon doré, pull terracotta.
-var BH_SVG = '<svg viewBox="0 0 64 84" fill="none">' +
-  '<g class="balloon"><circle cx="52" cy="12" r="8" fill="#B08D3E"/>' +
-  '<path d="M 52 20 C 50 26 48 30 46 33" stroke="currentColor" stroke-width="1.5"/></g>' +
-  '<line class="armL" x1="24" y1="38" x2="13" y2="47" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>' +
-  '<line class="armR" x1="36" y1="38" x2="46" y2="33" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>' +
-  '<line class="legA" x1="27" y1="54" x2="24" y2="70" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>' +
-  '<line class="legB" x1="33" y1="54" x2="36" y2="70" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>' +
-  '<rect x="21" y="32" width="18" height="24" rx="8" fill="#C96A4A"/>' +
-  '<circle cx="30" cy="21" r="9.5" fill="#FAF6EE" stroke="currentColor" stroke-width="2.4"/>' +
-  '<circle cx="27" cy="20" r="1.3" fill="#23281F"/><circle cx="33" cy="20" r="1.3" fill="#23281F"/>' +
-  '<path d="M 27 24 Q 30 26.5 33 24" stroke="#23281F" stroke-width="1.6" stroke-linecap="round"/>' +
+// Le guide de la fête : chapeau pointu, ballon doré, joues roses.
+var GUIDE_SVG = '<svg viewBox="0 0 72 96" fill="none">' +
+  '<ellipse class="shadowG" cx="32" cy="92" rx="15" ry="3.6" fill="rgba(35,40,31,.18)"/>' +
+  '<g class="balloonG"><circle cx="60" cy="16" r="8.5" fill="#B08D3E"/>' +
+  '<path d="M 56 11 a 4 4 0 0 1 4 -3" stroke="rgba(255,255,255,.65)" stroke-width="1.4"/>' +
+  '<path d="M 60 24.5 C 58 30 55 33 51 36" stroke="#8A6E3B" stroke-width="1.5"/></g>' +
+  '<path class="legA" d="M 28 64 L 26 86 L 20 86" stroke="#23281F" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>' +
+  '<path class="legB" d="M 36 64 L 39 86 L 45 86" stroke="#23281F" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>' +
+  '<path class="armB" d="M 39 47 C 45 45 49 41 51 36" stroke="#23281F" stroke-width="3.6" stroke-linecap="round"/>' +
+  '<path d="M 24 44 C 24 39.5 27.5 38 32 38 C 36.5 38 40 39.5 40 44 L 41 61 C 41 65.5 23 65.5 23 61 Z" fill="#C96A4A"/>' +
+  '<g class="armP"><path d="M 26 47 C 21 52 17 57 13 62" stroke="#23281F" stroke-width="3.6" stroke-linecap="round"/>' +
+  '<path d="M 13 62 L 9.5 66.5" stroke="#23281F" stroke-width="2.4" stroke-linecap="round"/></g>' +
+  '<circle cx="32" cy="26" r="11" fill="#FAF6EE" stroke="#23281F" stroke-width="2.6"/>' +
+  '<circle cx="26.5" cy="29.5" r="1.8" fill="#E8A08E" opacity=".8"/>' +
+  '<circle cx="37.5" cy="29.5" r="1.8" fill="#E8A08E" opacity=".8"/>' +
+  '<circle class="eyeG" cx="28.5" cy="25" r="1.5" fill="#23281F"/>' +
+  '<circle class="eyeG" cx="35.5" cy="25" r="1.5" fill="#23281F"/>' +
+  '<path d="M 28.5 30 Q 32 33 35.5 30" stroke="#23281F" stroke-width="1.7" stroke-linecap="round"/>' +
+  '<path d="M 23 17.5 L 32 2 L 41 17.5 Z" fill="#2E5941"/>' +
+  '<path d="M 23 17.5 L 41 17.5" stroke="#B08D3E" stroke-width="2.4" stroke-linecap="round"/>' +
+  '<circle cx="32" cy="2.5" r="2.8" fill="#B08D3E"/>' +
   "</svg>";
 
-function bonhommeHtml(mode) {
-  return '<span class="bonhomme ' + mode + '" aria-hidden="true">' + BH_SVG + "</span>";
+var guideEl = null, guidePos = null, guideTimer = null, guideAnim = null;
+
+function ensureGuide() {
+  if (guideEl) return;
+  guideEl = document.createElement("span");
+  guideEl.className = "guide";
+  guideEl.setAttribute("aria-hidden", "true");
+  guideEl.innerHTML = GUIDE_SVG;
+  document.body.appendChild(guideEl);
+  guidePos = { x: -80, y: window.innerHeight - 210 };
+  guideEl.style.transform = "translate(" + guidePos.x + "px," + guidePos.y + "px)";
 }
 
-// Il traverse l'écran en bondissant dans le sens du voyage : trois bonds
-// paraboliques, en grimpant vers le haut à l'aller, en redescendant au retour.
-function runBuddy(dir) {
+// Après chaque rendu, le guide bondit jusqu'au prochain bouton et le pointe.
+function guideGo(delay) {
   if (!document.body.animate) return;
-  var s = document.createElement("span");
-  s.className = "bonhomme bh-run" + (dir === "b" ? " flip" : "");
-  s.innerHTML = BH_SVG;
-  document.body.appendChild(s);
+  ensureGuide();
+  if (guideTimer) clearTimeout(guideTimer);
+  guideTimer = setTimeout(placeGuide, delay);
+}
+
+function placeGuide() {
+  var app = document.getElementById("app");
+  var scr = app && app.lastElementChild;
+  var sels = {
+    home: ".cta-terra",
+    status: ".opts .opt",
+    who: 'form[data-form="who"] button[type="submit"]',
+    done: ".bottom .cta"
+  };
+  var t = scr && sels[screen] ? scr.querySelector(sels[screen]) : null;
   var W = window.innerWidth, H = window.innerHeight;
-  var fromX = dir === "b" ? W + 80 : -80;
-  var toX = dir === "b" ? -90 : W + 90;
-  var y0 = H - 130;
-  var y1 = Math.max(80, H * 0.28);
-  if (dir === "b") { var swap = y0; y0 = y1; y1 = swap; }
-  var hops = 3, amp = 55 + Math.random() * 35;
-  var kf = [];
-  for (var i = 0; i <= 30; i++) {
-    var t = i / 30;
-    var x = fromX + (toX - fromX) * t;
-    var y = y0 + (y1 - y0) * t - amp * Math.abs(Math.sin(t * Math.PI * hops));
-    kf.push({ transform: "translate(" + x + "px," + y + "px)" });
+  var x, y, point = true;
+  if (!t) {
+    x = -90; y = H - 210; point = false;
+  } else {
+    var r = t.getBoundingClientRect();
+    // perché sur le bord droit du bouton, l'index tendu vers lui
+    x = Math.max(8, Math.min(W - 62, r.right - 40));
+    y = r.top - 70;
+    if (y < 6) y = Math.min(H - 100, r.bottom + 8);
   }
-  var anim = s.animate(kf, { duration: 1050, easing: "linear" });
-  anim.onfinish = function () { s.remove(); };
-  setTimeout(function () { if (s.parentNode) s.remove(); }, 1350);
+  walkGuide(x, y, point);
+}
+
+function walkGuide(x, y, point) {
+  var dx = x - guidePos.x, dy = y - guidePos.y;
+  var dist = Math.sqrt(dx * dx + dy * dy);
+  if (dist < 4) { guideEl.classList.toggle("g-point", point); return; }
+  if (guideAnim) guideAnim.cancel();
+  guideEl.classList.remove("g-point");
+  guideEl.classList.add("g-walk");
+  guideEl.classList.toggle("face-l", dx < 0);
+  var hops = Math.max(1, Math.round(dist / 230));
+  var amp = Math.min(64, 26 + dist / 8);
+  var x0 = guidePos.x, y0 = guidePos.y, kf = [];
+  for (var i = 0; i <= 24; i++) {
+    var t = i / 24;
+    var px = x0 + dx * t;
+    var py = y0 + dy * t - amp * Math.abs(Math.sin(t * Math.PI * hops));
+    kf.push({ transform: "translate(" + px + "px," + py + "px)" });
+  }
+  guidePos = { x: x, y: y };
+  guideEl.style.transform = "translate(" + x + "px," + y + "px)";
+  guideAnim = guideEl.animate(kf, {
+    duration: Math.max(480, Math.min(1150, dist * 1.4)),
+    easing: "cubic-bezier(.45,.05,.4,1)"
+  });
+  guideAnim.onfinish = function () {
+    guideEl.classList.remove("g-walk", "face-l");
+    guideEl.classList.toggle("g-point", point);
+    guideAnim = null;
+  };
 }
 
 function stepsHtml(n) {
@@ -638,9 +692,7 @@ function renderHome() {
   html += '<p class="note a4">Poussettes et autres véhicules bienvenus. <b>Seuls animaux domestiques acceptés :</b> les enfants de moins de 17 ans.</p>';
   html += '<button type="button" class="linkbtn a4" data-act="goto" data-screen="list">Voir qui vient (' + state.guests.length + ")</button>";
   html += '<p class="madeby a4">✦ concocté avec Claude</p>';
-  html += "</div></div>";
-  html += bonhommeHtml("bh-idle");
-  html += "</div>";
+  html += "</div></div></div>";
   return html;
 }
 
@@ -851,9 +903,7 @@ function renderDone() {
   html += '<button type="button" class="cta cta-ghost" style="margin-top:10px" data-act="goto" data-screen="list">Voir qui vient</button>';
   html += '<button type="button" class="linkbtn" data-act="share">Faire suivre l’invitation à un·e ami·e</button>';
   html += '<button type="button" class="linkbtn" style="margin-top:2px" data-act="restart">Modifier ma réponse</button>';
-  html += "</div></div>";
-  html += bonhommeHtml("bh-cheer");
-  html += "</div>";
+  html += "</div></div></div>";
   return html;
 }
 
@@ -984,7 +1034,6 @@ function render() {
     old.style.pointerEvents = "none";
     app.insertAdjacentHTML("beforeend", html);
     app.lastElementChild.classList.add("enter-" + dir);
-    runBuddy(dir);
     setTimeout(function () { if (old.parentNode) old.remove(); }, 620);
   } else {
     app.innerHTML = html;
@@ -1009,6 +1058,7 @@ function render() {
     if (doneMe && doneMe.status === "oui") confettiBurst();
   }
   if (!sameScreen) window.scrollTo(0, 0);
+  guideGo(sameScreen ? 80 : 1300);
 }
 
 function goTo(s) {
