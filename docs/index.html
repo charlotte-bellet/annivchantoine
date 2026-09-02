@@ -352,13 +352,6 @@ var INITIAL_STATE = null;
 try { INITIAL_STATE = JSON.parse(localStorage.getItem("anniv-cache") || "null"); } catch (e) {}
 
 var PARTY = { y: 2026, m: 9, d: 17 };
-// Heures en UTC (17/10/2026 18h30–02h00 à Paris, UTC+2) : le format le plus
-// fiable pour Google Agenda, qui reconvertit au fuseau de l'invité.
-var CAL_URL = "https://calendar.google.com/calendar/render?action=TEMPLATE" +
-  "&text=" + encodeURIComponent("PACS & 60 ans Charlotte Antoine B") +
-  "&dates=20261017T163000Z/20261018T000000Z" +
-  "&location=" + encodeURIComponent("Sterne, 36 rue de la Condamine") +
-  "&details=" + encodeURIComponent("Cocktail et dîner — merci de venir partager ce moment tous ensemble !");
 var TEAMS = {
   charlotte: { label: "Team Charlotte", av: "#C96A4A" },
   antoine:   { label: "Team Antoine",   av: "#2E5941" },
@@ -752,7 +745,7 @@ function renderHome() {
   html += logoHtml(72, true);
   html += '<h1 class="h1 a1" style="margin-top:14px">PACS <span class="amp">&amp;</span> 60 ans</h1>';
   html += '<p class="names a1">Charlotte &amp; Antoine B</p>';
-  html += '<p class="lede a2">On officialise, on additionne nos bougies, et on compte sur vous pour fêter ça tous ensemble.</p>';
+  html += '<p class="lede a2">Après 2 tentatives infructueuses, la 3<sup>e</sup> fut la bonne pour le PACS — espérons qu’on arrive du premier coup à fêter nos 60 ans.</p>';
   html += '<button type="button" class="cta cta-terra a2" style="margin-top:18px" data-act="goto" data-screen="status">RSVP <span aria-hidden="true">→</span></button>';
   html += countdownHtml();
   html += '<div class="facts a3">';
@@ -762,7 +755,7 @@ function renderHome() {
   html += '<div class="fact"><span class="tile">' + ICON_PIN + "</span>" +
     "<span><b>Sterne</b>, 36 rue de la Condamine</span></div>";
   html += '<div class="fact"><span class="tile">' + ICON_GLASS + "</span>" +
-    "<span><b>Cocktail</b> puis <b>dîner</b>" +
+    "<span><b>À boire</b> et <b>à manger</b>" +
     (c.total ? ' · <b>' + c.total + "</b> oui" : "") + "</span></div>";
   html += "</div>";
   html += '<p class="note a4">Poussettes et autres véhicules bienvenus. <b>Seuls animaux domestiques acceptés :</b> les enfants de moins de 17 ans.</p>';
@@ -974,7 +967,6 @@ function renderDone() {
   html += '<div class="bottom"><div class="in a3">';
   if (isOui) {
     html += '<a class="cta" href="evenement.ics">' + ICON_CAL + "&nbsp; Ajouter à mon agenda</a>";
-    html += '<a class="linkbtn" style="margin-top:8px" href="' + CAL_URL + '" target="_blank" rel="noopener">Ou via Google Agenda</a>';
   }
   html += '<button type="button" class="cta cta-ghost" style="margin-top:10px" data-act="goto" data-screen="list">Voir qui vient</button>';
   html += '<button type="button" class="linkbtn" data-act="share">Faire suivre l’invitation à un·e ami·e</button>';
