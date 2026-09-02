@@ -789,7 +789,7 @@ function renderHome() {
     (c.total ? ' · <b>' + c.total + "</b> oui" : "") + "</span></div>";
   html += "</div>";
   html += '<p class="note a4">Poussettes et autres véhicules bienvenus. <b>Seuls animaux domestiques acceptés :</b> les enfants de moins de 17 ans.</p>';
-  html += '<button type="button" class="linkbtn a4" data-act="goto" data-screen="list">Voir qui vient (' + state.guests.length + ")</button>";
+  html += '<button type="button" class="linkbtn a4" data-act="goto" data-screen="list">Voir qui vient (' + c.total + ")</button>";
   html += '<p class="madeby a4">✦ concocté avec Claude</p>';
   html += "</div></div></div>";
   return html;
