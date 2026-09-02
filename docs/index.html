@@ -76,6 +76,9 @@ body{overflow-x:hidden}
 @keyframes guideBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 .guide.g-point .armP{animation:pointJab 1s ease-in-out infinite}
 @keyframes pointJab{0%,100%{transform:rotate(0)}45%{transform:rotate(16deg)}}
+.guide.g-up.g-point .armP{animation:pointJabUp 1s ease-in-out infinite}
+@keyframes pointJabUp{0%,100%{transform:rotate(125deg)}45%{transform:rotate(106deg)}}
+.guide.g-up .pupils{transform:translate(-1px,-1.1px)}
 .guide.g-point .shadowG{animation:shadowPulse 2.2s ease-in-out infinite}
 @keyframes shadowPulse{0%,100%{transform:scaleX(1);opacity:1}50%{transform:scaleX(.85);opacity:.7}}
 .guide.g-walk .legA{transform-origin:28px 66px;animation:legSwing .2s linear infinite alternate}
@@ -697,16 +700,23 @@ function placeGuide() {
   };
   var t = scr && sels[screen] ? scr.querySelector(sels[screen]) : null;
   var W = window.innerWidth, H = window.innerHeight;
-  var x, y, point = true;
+  var x, y, point = true, below = false;
   if (!t) {
     x = -90; y = H - 210; point = false;
   } else {
     var r = t.getBoundingClientRect();
-    // perché sur le bord droit du bouton, l'index tendu vers lui
     x = Math.max(8, Math.min(W - 62, r.right - 40));
-    y = r.top - 70;
-    if (y < 6) y = Math.min(H - 100, r.bottom + 8);
+    // Sur l'écran du nom, il se met SOUS Valider (au-dessus il cacherait
+    // le « + » des accompagnants) et pointe vers le haut.
+    below = screen === "who" && r.bottom + 88 < H;
+    if (below) {
+      y = r.bottom + 6;
+    } else {
+      y = r.top - 70;
+      if (y < 6) y = Math.min(H - 100, r.bottom + 8);
+    }
   }
+  guideEl.classList.toggle("g-up", below);
   walkGuide(x, y, point);
 }
 
