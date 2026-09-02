@@ -246,6 +246,8 @@ button:disabled{opacity:.5;cursor:not-allowed}
   padding:13px 16px;font-size:16px;margin-top:14px}
 .field::placeholder{color:var(--muted)}
 .field:focus{outline:none;border-color:var(--green2)}
+.namerow{display:flex;gap:8px}
+.namerow .field{min-width:0}
 .hint{margin-top:9px;font-size:13.5px;color:var(--muted);font-weight:300}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:9px}
 .chips button{background:#fff;border:1px solid var(--sand);border-radius:9999px;
@@ -384,7 +386,14 @@ var armedDeleteId = null;
 var armedTimer = null;
 var draftName = "";
 var draftCamp = "charlotte";
-var joinName = "";
+var joinFirst = "";
+var joinLast = "";
+function joinName() { return (joinFirst.trim() + " " + joinLast.trim()).trim(); }
+function setJoinName(full) {
+  var parts = String(full || "").trim().split(/\s+/);
+  joinFirst = parts.shift() || "";
+  joinLast = parts.join(" ");
+}
 var joinCamp = "charlotte";
 var meId = null;
 
@@ -897,7 +906,7 @@ function renderStatus() {
 // Partie du formulaire qui dépend de ce qui est tapé : mise à jour seule à
 // chaque frappe, sans reconstruire la page (sinon la saisie rame).
 function whoSugHtml() {
-  var q = norm(joinName);
+  var q = norm(joinName());
   if (q.length < 2) {
     return '<p class="hint">' + (q.length === 1
       ? "Encore une lettre ou deux."
@@ -920,7 +929,10 @@ function renderWho() {
   html += '<div class="grow"><div class="in">';
   html += '<h2 class="stitle a1">' + (pendingStatus === "oui" ? "Merveilleux. Et tu es… ?" : "Dommage… Et tu es… ?") + "</h2>";
   html += '<form data-form="who" class="a2">';
-  html += '<input type="text" class="field" id="who-name" maxlength="60" placeholder="Prénom et nom" autocomplete="off" value="' + esc(joinName) + '">';
+  html += '<div class="namerow">' +
+    '<input type="text" class="field" id="who-first" maxlength="30" placeholder="Prénom" autocomplete="off" value="' + esc(joinFirst) + '">' +
+    '<input type="text" class="field" id="who-last" maxlength="30" placeholder="Nom" autocomplete="off" value="' + esc(joinLast) + '">' +
+    "</div>";
   html += '<div id="who-sug">' + whoSugHtml() + "</div>";
   html += '<p class="chiplabel">Tu es plutôt…</p>' + teamPillsHtml("who-camp", joinCamp);
   if (pendingStatus === "oui") {
@@ -1160,7 +1172,7 @@ document.getElementById("app").addEventListener("click", function (ev) {
     var rowGuest = id === meId && state.guests.find(function (g) { return g.id === id; });
     if (rowGuest) {
       meId = rowGuest.id;
-      joinName = rowGuest.name;
+      setJoinName(rowGuest.name);
       joinCamp = rowGuest.camp;
       plusDraft = rowGuest.plus || 0;
       setGuideMood("happy");
@@ -1184,14 +1196,14 @@ document.getElementById("app").addEventListener("click", function (ev) {
     pendingStatus = btn.getAttribute("data-status");
     setGuideMood(pendingStatus === "non" ? "sad" : "happy");
     var me = me_();
-    joinName = me ? me.name : joinName;
+    if (me) setJoinName(me.name);
     joinCamp = me ? me.camp : joinCamp;
     plusDraft = me ? (me.plus || 0) : plusDraft;
     goTo("who");
   } else if (actName === "pick-name") {
     var picked = state.guests.find(function (g) { return g.id === id; });
     if (picked) {
-      joinName = picked.name;
+      setJoinName(picked.name);
       joinCamp = picked.camp;
       plusDraft = picked.plus || 0;
       render();
@@ -1269,8 +1281,9 @@ document.getElementById("app").addEventListener("input", function (ev) {
   if (!t) return;
   if (t.id === "guest-name") {
     draftName = t.value;
-  } else if (t.id === "who-name") {
-    joinName = t.value;
+  } else if (t.id === "who-first" || t.id === "who-last") {
+    if (t.id === "who-first") joinFirst = t.value;
+    else joinLast = t.value;
     var sug = document.getElementById("who-sug");
     if (sug) sug.innerHTML = whoSugHtml();
     guidePeek();
@@ -1284,9 +1297,9 @@ document.getElementById("app").addEventListener("submit", function (ev) {
   if (busy) return;
   var kind = form.getAttribute("data-form");
   if (kind === "who") {
-    var name = joinName.trim();
-    var nameWords = name.split(/\s+/).filter(function (w) { return norm(w).length >= 2; });
-    if (nameWords.length < 2) { toast("Écris ton prénom et ton nom (ex. Camille Dupont)."); return; }
+    if (norm(joinFirst).length < 2) { toast("Écris ton prénom."); return; }
+    if (norm(joinLast).length < 2) { toast("Écris aussi ton nom."); return; }
+    var name = joinName();
     var vbtn = form.querySelector('[type="submit"]');
     if (vbtn) {
       var vr = vbtn.getBoundingClientRect();
