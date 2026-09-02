@@ -920,7 +920,7 @@ function renderWho() {
   html += '<div class="grow"><div class="in">';
   html += '<h2 class="stitle a1">' + (pendingStatus === "oui" ? "Merveilleux. Et tu es… ?" : "Dommage… Et tu es… ?") + "</h2>";
   html += '<form data-form="who" class="a2">';
-  html += '<input type="text" class="field" id="who-name" maxlength="60" placeholder="Prénom (et nom)…" autocomplete="off" value="' + esc(joinName) + '">';
+  html += '<input type="text" class="field" id="who-name" maxlength="60" placeholder="Prénom et nom" autocomplete="off" value="' + esc(joinName) + '">';
   html += '<div id="who-sug">' + whoSugHtml() + "</div>";
   html += '<p class="chiplabel">Tu es plutôt…</p>' + teamPillsHtml("who-camp", joinCamp);
   if (pendingStatus === "oui") {
@@ -1285,7 +1285,8 @@ document.getElementById("app").addEventListener("submit", function (ev) {
   var kind = form.getAttribute("data-form");
   if (kind === "who") {
     var name = joinName.trim();
-    if (norm(name).length < 2) { toast("Écris ton prénom (au moins 2 lettres)."); return; }
+    var nameWords = name.split(/\s+/).filter(function (w) { return norm(w).length >= 2; });
+    if (nameWords.length < 2) { toast("Écris ton prénom et ton nom (ex. Camille Dupont)."); return; }
     var vbtn = form.querySelector('[type="submit"]');
     if (vbtn) {
       var vr = vbtn.getBoundingClientRect();
