@@ -299,6 +299,8 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .st-peutetre .stw{color:var(--st-peutetre)}
 .st-non .stw{color:var(--st-non)}
 .pluspill{font-size:12.5px;font-weight:500;color:var(--cream);padding:4px 9px;border-radius:9999px;flex:none}
+.sechead{margin:14px 0 2px;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.rows .sechead:first-child{margin-top:4px}
 .rowgo{cursor:pointer;position:relative;transition:background .15s}
 .rowgo:hover{background:rgba(255,255,255,.55)}
 .row .chev{color:var(--muted);font-size:19px;flex:none;padding-left:2px}
@@ -568,8 +570,8 @@ function logoHtml(size, draw) {
     '<circle cx="120" cy="120" r="116" fill="#C96A4A"/>' +
     '<g stroke="#FFFFFF">' +
     '<path d="M 170.5 66 A 74 74 0 1 0 170.5 174" stroke-width="14" stroke-linecap="round"/>' +
-    '<path d="M 97 158 L 128 80 L 159 158" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>' +
-    '<path d="M 110 132 L 146 132" stroke-width="11" stroke-linecap="round"/>' +
+    '<path d="M 89 158 L 120 80 L 151 158" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '<path d="M 102 132 L 138 132" stroke-width="11" stroke-linecap="round"/>' +
     "</g></svg></span>";
 }
 
@@ -628,6 +630,14 @@ function ensureGuide() {
   document.body.appendChild(guideEl);
   guidePos = { x: -80, y: window.innerHeight - 210 };
   guideEl.style.transform = "translate(" + guidePos.x + "px," + guidePos.y + "px)";
+  // S'il gêne, on le touche et il déguerpit vers un coin libre.
+  guideEl.style.pointerEvents = "auto";
+  guideEl.style.cursor = "pointer";
+  guideEl.addEventListener("click", function () {
+    if (guideTimer) clearTimeout(guideTimer);
+    var W = window.innerWidth, H = window.innerHeight;
+    walkGuide(guidePos.x > W / 2 ? 10 : W - 70, H - 130, false);
+  });
   scheduleTrick();
 }
 
@@ -990,9 +1000,6 @@ function renderDone() {
 
 function renderList() {
   var c = counts();
-  var shown = state.guests.filter(function (g) {
-    return filter === "tous" || g.status === filter;
-  });
 
   var html = '<div class="scr scr-list">';
   html += '<div class="top"><div class="in">' + backBtnHtml("home") + "</div></div>";
@@ -1000,13 +1007,6 @@ function renderList() {
   html += '<h2 class="stitle">Qui sera là</h2>';
   var mine = !isAdmin && state.guests.some(function (g) { return g.id === meId; });
   if (mine) html += '<p class="hint" style="margin-top:2px">Touche ton nom pour changer ta réponse ou ton +1.</p>';
-  html += '<div class="filters" role="group" aria-label="Filtrer">';
-  [["tous", "Tous " + state.guests.length], ["oui", STATUS_EMOJI.oui + " Oui " + c.oui],
-   ["non", STATUS_EMOJI.non + " Non " + c.non]].forEach(function (f) {
-    html += '<button type="button" data-act="filter" data-filter="' + f[0] +
-      '" aria-pressed="' + (filter === f[0]) + '">' + f[1] + "</button>";
-  });
-  html += "</div>";
 
   if (isAdmin) {
     html += '<form class="addform" data-form="add" style="margin-top:10px">';
@@ -1017,10 +1017,22 @@ function renderList() {
   }
 
   html += '<div class="rows">';
-  if (!shown.length) {
-    html += '<p class="empty">' + (state.guests.length ? "Personne dans cette catégorie pour l’instant." : "Personne pour l’instant — lance le mouvement.") + "</p>";
+  if (!state.guests.length) {
+    html += '<p class="empty">Personne pour l’instant — lance le mouvement.</p>';
   } else {
-    shown.forEach(function (g) {
+    var ouiList = state.guests.filter(function (g) { return g.status === "oui"; });
+    var nonList = state.guests.filter(function (g) { return g.status !== "oui"; });
+    if (ouiList.length) {
+      html += '<p class="sechead">' + STATUS_EMOJI.oui + " Ils seront là · " + ouiList.length + "</p>";
+      ouiList.forEach(rowHtml);
+    }
+    if (nonList.length) {
+      html += '<p class="sechead">' + STATUS_EMOJI.non + " Ils ne pourront pas · " + nonList.length + "</p>";
+      nonList.forEach(rowHtml);
+    }
+  }
+  function rowHtml(g) {
+    {
       var team = TEAMS[g.camp] || TEAMS.deux;
       var isMine = !isAdmin && g.id === meId && editingId !== g.id;
       html += isMine
@@ -1063,7 +1075,7 @@ function renderList() {
         }
       }
       html += "</div>";
-    });
+    }
   }
   html += "</div>";
 

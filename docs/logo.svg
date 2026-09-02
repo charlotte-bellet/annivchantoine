@@ -2,7 +2,7 @@
   <circle cx="120" cy="120" r="116" fill="#C96A4A"/>
   <g stroke="#FFFFFF">
     <path d="M 170.5 66 A 74 74 0 1 0 170.5 174" stroke-width="14" stroke-linecap="round"/>
-    <path d="M 97 158 L 128 80 L 159 158" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M 110 132 L 146 132" stroke-width="11" stroke-linecap="round"/>
+    <path d="M 89 158 L 120 80 L 151 158" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 102 132 L 138 132" stroke-width="11" stroke-linecap="round"/>
   </g>
 </svg>
