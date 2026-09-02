@@ -9,8 +9,12 @@ DTSTAMP:20260902T120000Z
 DTSTART:20261017T163000Z
 DTEND:20261018T000000Z
 SUMMARY:PACS & 60 ans Charlotte Antoine B
-LOCATION:Sterne\, 36 rue de la Condamine\, Paris
-DESCRIPTION:À boire et à manger — merci de venir partager ce moment tous ensemble !
+LOCATION:Sterne\, 36 rue de la Condamine\, 75017 Paris
+DESCRIPTION:Après 2 tentatives infructueuses\, la 3e fut la bonne pour le
+  PACS — espérons qu'on arrive du premier coup à fêter nos 60 ans ! 
+ 🥂 Rendez-vous dès 18h30 à la Sterne\, 36 rue de la Condamine\, Paris
+ . À boire et à manger. Poussettes et autres véhicules bienvenus. Seuls
+  animaux domestiques acceptés : les enfants de moins de 17 ans.
 URL:https://charlotte-bellet.github.io/annivchantoine/
 END:VEVENT
 END:VCALENDAR
